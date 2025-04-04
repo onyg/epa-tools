@@ -1,0 +1,51 @@
+{
+  "resourceType": "OperationDefinition",
+  "id": "get-medication-list-op",
+  "url": "https://gematik.de/fhir/epa-medication/OperationDefinition/get-medication-list-op",
+  "title": "Get Medication List",
+  "description": "Get a medication list",
+  "parameter": [
+    {
+      "name": "date",
+      "type": "date",
+      "use": "in",
+      "min": 0,
+      "max": "2",
+      "documentation": "Limit the search to this date. Can specify upper or lower limits and periods by providing an upper and a lower limit."
+    },
+    {
+      "name": "_count",
+      "type": "integer",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "documentation": "Limit the result bundle to this many entries. To get more entries request the next page."
+    },
+    {
+      "name": "_offset",
+      "type": "integer",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "documentation": "Defines the offset of the first entry in the collection."
+    },
+    {
+      "name": "return",
+      "type": "Bundle",
+      "use": "out",
+      "min": 1,
+      "max": "1",
+      "documentation": "Searchset bundle containing the requested entities."
+    }
+  ],
+  "version": "1.1.5",
+  "status": "draft",
+  "publisher": "gematik GmbH",
+  "date": "2025-03-31",
+  "kind": "query",
+  "name": "getMedicationList_MedicationSvc",
+  "code": "medication-list",
+  "system": true,
+  "type": false,
+  "instance": false
+}

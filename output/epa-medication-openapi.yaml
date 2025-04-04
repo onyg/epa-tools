@@ -1,0 +1,2002 @@
+openapi: 3.0.3
+info:
+  title: EPA CapabilityStatement für den Medication Service
+  version: 1.1.5
+  description: EPA CapabilityStatement für den Medication Service
+paths:
+  /Medication/{id}:
+    get:
+      summary: Read a specific Medication
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      responses:
+        '200':
+          description: Medication successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /Medication/{id}/_history/{vid}:
+    get:
+      summary: Read version of Medication
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      responses:
+        '200':
+          description: Medication version read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /Medication/{id}/_history:
+    get:
+      summary: History of a specific Medication
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /Medication:
+    get:
+      summary: Search for Medication
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _include
+        in: query
+        required: false
+        description: Including other resources
+        schema:
+          type: string
+      - name: _revinclude
+        in: query
+        required: false
+        description: Reverse include other resources
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Resource.id
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Medication.identifier
+      - name: code
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Medication.code
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Medication.status
+      - name: ingredient-code
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Medication.ingredient.item as CodeableConcept
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /MedicationRequest/{id}:
+    get:
+      summary: Read a specific MedicationRequest
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      responses:
+        '200':
+          description: MedicationRequest successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /MedicationRequest/{id}/_history/{vid}:
+    get:
+      summary: Read version of MedicationRequest
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      responses:
+        '200':
+          description: MedicationRequest version read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /MedicationRequest/{id}/_history:
+    get:
+      summary: History of a specific MedicationRequest
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /MedicationRequest:
+    get:
+      summary: Search for MedicationRequest
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _include
+        in: query
+        required: false
+        description: Including other resources
+        schema:
+          type: string
+      - name: _revinclude
+        in: query
+        required: false
+        description: Reverse include other resources
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Resource.id
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: MedicationRequest.identifier
+      - name: authoredon
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: MedicationRequest.authoredOn
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+        description: MedicationRequest.status
+      - name: requester
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: MedicationRequest.requester
+      - name: medication
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: MedicationRequest.medication as Reference
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /MedicationDispense/{id}:
+    get:
+      summary: Read a specific MedicationDispense
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      responses:
+        '200':
+          description: MedicationDispense successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /MedicationDispense/{id}/_history/{vid}:
+    get:
+      summary: Read version of MedicationDispense
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      responses:
+        '200':
+          description: MedicationDispense version read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /MedicationDispense/{id}/_history:
+    get:
+      summary: History of a specific MedicationDispense
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /MedicationDispense:
+    get:
+      summary: Search for MedicationDispense
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _include
+        in: query
+        required: false
+        description: Including other resources
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Resource.id
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: MedicationDispense.identifier
+      - name: whenhandedover
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: MedicationDispense.whenHandedOver
+      - name: prescription
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: MedicationDispense.authorizingPrescription
+      - name: performer
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: MedicationDispense.performer.actor
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+        description: MedicationDispense.status
+      - name: medication
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: MedicationDispense.medication as Reference
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /Organization/{id}:
+    get:
+      summary: Read a specific Organization
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      responses:
+        '200':
+          description: Organization successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /Organization/{id}/_history/{vid}:
+    get:
+      summary: Read version of Organization
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      responses:
+        '200':
+          description: Organization version read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /Organization/{id}/_history:
+    get:
+      summary: History of a specific Organization
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /Organization:
+    get:
+      summary: Search for Organization
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _revinclude
+        in: query
+        required: false
+        description: Reverse include other resources
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Resource.id
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Organization.identifier
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Organization.name | Organization.alias
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /Practitioner/{id}:
+    get:
+      summary: Read a specific Practitioner
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      responses:
+        '200':
+          description: Practitioner successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /Practitioner/{id}/_history/{vid}:
+    get:
+      summary: Read version of Practitioner
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      responses:
+        '200':
+          description: Practitioner version read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /Practitioner/{id}/_history:
+    get:
+      summary: History of a specific Practitioner
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /Practitioner:
+    get:
+      summary: Search for Practitioner
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _revinclude
+        in: query
+        required: false
+        description: Reverse include other resources
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Resource.id
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Practitioner.identifier
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Practitioner.name
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /PractitionerRole/{id}:
+    get:
+      summary: Read a specific PractitionerRole
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      responses:
+        '200':
+          description: PractitionerRole successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /PractitionerRole/{id}/_history/{vid}:
+    get:
+      summary: Read version of PractitionerRole
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      responses:
+        '200':
+          description: PractitionerRole version read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /PractitionerRole/{id}/_history:
+    get:
+      summary: History of a specific PractitionerRole
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+  /PractitionerRole:
+    get:
+      summary: Search for PractitionerRole
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _include
+        in: query
+        required: false
+        description: Including other resources
+        schema:
+          type: string
+      - name: _revinclude
+        in: query
+        required: false
+        description: Reverse include other resources
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Resource.id
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: PractitionerRole.identifier
+      - name: practitioner
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: PractitionerRole.practitioner
+      - name: organization
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: PractitionerRole.organization
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Request does not match schema
+        '403':
+          description: Requestor role is not oid_versicherter or oid_ombudsstelle
+        '404':
+          description: Resource for functionid does not exist
+        '409':
+          description: Health record is not in state ACTIVATED
+        '500':
+          description: Any other error
+components:
+  responses:
+    '400':
+      description: Request does not match schema
+    '403':
+      description: Requestor role is not oid_versicherter or oid_ombudsstelle
+    '404':
+      description: Resource for functionid does not exist
+    '409':
+      description: Health record is not in state ACTIVATED
+    '500':
+      description: Any other error
+  headers:
+    X-Request-ID:
+      description: UUID of the request message
+      required: true
+      schema:
+        type: string
+        format: uuid
+    x-insurantid:
+      description: Health Record Identifier
+      required: true
+      schema:
+        type: string
+        pattern: ^[A-Z]{1}\d{9}$
+    x-useragent:
+      description: user agent information
+      required: true
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$

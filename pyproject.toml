@@ -1,0 +1,10 @@
+[project]
+name = "epatools"
+version = "0.0.1"
+description = "ePA Tools"
+authors = [{ name = "Ronald Martins", email = "ronald.martins@gematik.de" }]
+license = { file = "LICENSE" }
+dependencies = [
+    "PyYAML==6.0.2",
+    "requests==2.32.3"
+]

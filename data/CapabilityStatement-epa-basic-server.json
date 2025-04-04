@@ -1,0 +1,198 @@
+{
+  "resourceType": "CapabilityStatement",
+  "id": "epa-basic-server",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/epa/StructureDefinition/epa-basic-server-profile"
+    ]
+  },
+  "url": "https://gematik.de/fhir/epa/CapabilityStatement/epa-basic-server",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "https://www.gematik.de"
+        }
+      ]
+    }
+  ],
+  "format": [
+    "application/fhir+json",
+    "application/fhir+xml"
+  ],
+  "extension": [
+    {
+      "extension": [
+        {
+          "url": "name",
+          "valueString": "X-Request-ID"
+        },
+        {
+          "url": "type",
+          "valueString": "string"
+        },
+        {
+          "url": "description",
+          "valueString": "UUID of the request message"
+        },
+        {
+          "url": "format",
+          "valueString": "uuid"
+        },
+        {
+          "url": "required",
+          "valueBoolean": true
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-header"
+    },
+    {
+      "extension": [
+        {
+          "url": "name",
+          "valueString": "x-insurantid"
+        },
+        {
+          "url": "type",
+          "valueString": "string"
+        },
+        {
+          "url": "description",
+          "valueString": "Health Record Identifier"
+        },
+        {
+          "url": "pattern",
+          "valueString": "^[A-Z]{1}\\d{9}$"
+        },
+        {
+          "url": "required",
+          "valueBoolean": true
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-header"
+    },
+    {
+      "extension": [
+        {
+          "url": "name",
+          "valueString": "x-useragent"
+        },
+        {
+          "url": "type",
+          "valueString": "string"
+        },
+        {
+          "url": "description",
+          "valueString": "user agent information"
+        },
+        {
+          "url": "pattern",
+          "valueString": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+        },
+        {
+          "url": "required",
+          "valueBoolean": true
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-header"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "400"
+        },
+        {
+          "url": "description",
+          "valueString": "Request does not match schema"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "403"
+        },
+        {
+          "url": "description",
+          "valueString": "Requestor has no valid entitlement"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "403"
+        },
+        {
+          "url": "description",
+          "valueString": "Requestor role is not oid_versicherter or oid_ombudsstelle"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "404"
+        },
+        {
+          "url": "description",
+          "valueString": "Health record does not exist"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "404"
+        },
+        {
+          "url": "description",
+          "valueString": "Resource for functionid does not exist"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "409"
+        },
+        {
+          "url": "description",
+          "valueString": "Health record is not in state ACTIVATED"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "500"
+        },
+        {
+          "url": "description",
+          "valueString": "Any other error"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+    }
+  ],
+  "version": "1.1.5",
+  "status": "draft",
+  "publisher": "gematik GmbH",
+  "date": "2025-03-31",
+  "kind": "requirements",
+  "fhirVersion": "4.0.1"
+}
