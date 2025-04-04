@@ -1,16 +1,12 @@
+import os
 import json
 import yaml
 from urllib.parse import urlparse
 
-# # Original-Dateipfade
-input_path = "./data/CapabilityStatement-epa-medication-service-server-merged.json"
-output_json_path = "./output/epa-medication-openapi.json"
-output_yaml_path = "./output/epa-medication-openapi.yaml"
 
-# Original-Dateipfade
-# input_path = "./data/CapabilityStatement-epa-audit-event-server.json"
-# output_json_path = "./output/epa-audit-openapi.json"
-# output_yaml_path = "./output/epa-audit-openapi.yaml"
+class NoAliasDumper(yaml.SafeDumper):
+    def ignore_aliases(self, data):
+        return True
 
 
 def fhir_to_openapi_type(fhir_type):
@@ -29,6 +25,7 @@ def fhir_to_openapi_type(fhir_type):
     }
     return mapping.get(fhir_type, ("string", None))
 
+
 def extract_http_headers(extensions):
     headers = []
     for ext in extensions:
@@ -38,6 +35,7 @@ def extract_http_headers(extensions):
                 header[sub["url"]] = sub.get("valueString") or sub.get("valueBoolean")
             headers.append(header)
     return headers
+
 
 def extract_http_errors(extensions):
     errors = {}
@@ -54,6 +52,7 @@ def extract_http_errors(extensions):
                 errors[code] = {"description": description}
     return errors
 
+
 def extract_base_url_parts(extensions):
     for ext in extensions:
         if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/base-url":
@@ -65,60 +64,66 @@ def extract_base_url_parts(extensions):
                 return host, path
     return None, ""
 
-def build_responses(global_errors, success_code="200", success_description="Successful operation"):
+
+def build_header_params(headers):
+    params = []
+    for header in headers:
+        name = header.get("name")
+        if name:
+            param = {
+                "name": name,
+                "in": "header",
+                "required": header.get("required", False),
+                "description": header.get("description", ""),
+                "schema": {
+                    "type": header.get("type", "string")
+                }
+            }
+            if "format" in header:
+                param["schema"]["format"] = header["format"]
+            if "pattern" in header:
+                param["schema"]["pattern"] = header["pattern"]
+            params.append(param)
+    return params
+
+
+def build_responses(http_errors, formats, success_code="200", success_description="Successful operation"):
+    content = {"application/fhir+json": {"schema": {"type": "object"}}}
+    for format in formats:
+        content[str(format)] = {"schema":{"type":"object"}}
     responses = {
         success_code: {
             "description": success_description,
-            "content": {
-                "application/fhir+json": {
-                    "schema": {
-                        "type": "object"
-                    }
-                }
-            }
+            "content": content
         }
     }
-    for code, info in global_errors.items():
+    for code, info in http_errors.items():
         if code != success_code:  # avoid overwriting the success code
-            responses[code] = {
-                "description": info.get("description", "")
-            }
+            append_responses_code(responses=responses, code=code, info=info)
     return responses if responses else {
         "default": {
             "description": "Default error response"
         }
     }
 
+
+def append_responses_code(responses, code, info):
+    responses[code] = {"description": info.get("description", "")}
+
+
+
 def build_request_body(resource_type: str, formats: list) -> dict:
     """
     Erstellt ein requestBody-Objekt für OpenAPI auf Basis des FHIR-Resource-Typs
     und der unterstützten Formate (application/fhir+json, application/fhir+xml).
-    request_body = {
-        "required": True,
-        "content": {
-            "application/fhir+json": {"schema": {"type": "object"}},
-            "application/fhir+xml": {"schema": {"type": "object"}}
-        }
-    }
     """
-    content = {}
-    if "application/fhir+json" in formats:
-        content["application/fhir+json"] = {
-            "schema": {
-                "type": "object"
-            }
-        }
-    if "application/fhir+xml" in formats:
-        content["application/fhir+xml"] = {
-            "schema": {
-                "type": "object"
-            }
-        }
+    content = {"application/fhir+json": {"schema": {"type": "object"}}}
+    for format in formats:
+        content[str(format)] = {"schema":{"type":"object"}}
     return {
         "required": True,
         "content": content
     } if content else None
-
 
 
 def build_format_query_param(fhir_formats):
@@ -168,7 +173,6 @@ def build_pagination_query_params():
     ]
 
 
-
 def build_include_query_param(search_include):
     if search_include:
         return {
@@ -181,6 +185,7 @@ def build_include_query_param(search_include):
             }
         }
     return None
+
 
 def build_revinclude_query_param(search_rev_include):
     if search_rev_include:
@@ -196,57 +201,42 @@ def build_revinclude_query_param(search_rev_include):
     return None
 
 
-def build_header_params(headers):
-    params = []
-    for header in headers:
-        name = header.get("name")
-        if name:
-            param = {
-                "name": name,
-                "in": "header",
-                "required": header.get("required", False),
-                "description": header.get("description", ""),
-                "schema": {
-                    "type": header.get("type", "string")
-                }
-            }
-            if "format" in header:
-                param["schema"]["format"] = header["format"]
-            if "pattern" in header:
-                param["schema"]["pattern"] = header["pattern"]
-            params.append(param)
-    return params
+# Am Ende von capabilitystatement_to_openapi hinzufügen:
+def merge_manual_operations(openapi, manual_path):
+    if not os.path.exists(manual_path):
+        print(f"⚠️ Keine manuelle OpenAPI-Datei gefunden unter {manual_path}")
+        return openapi
 
-def interaction_to_paths(resource_type, interaction_code, search_params, search_include, search_rev_include, global_errors,
-                         prefix_path="", format_query_param=None, header_params=None, fhir_formats=None):
+    with open(manual_path, "r", encoding="utf-8") as f:
+        manual = yaml.safe_load(f)
+
+    for path, methods in manual.get("paths", {}).items():
+        if path not in openapi["paths"]:
+            openapi["paths"][path] = {}
+        openapi["paths"][path].update(methods)
+
+    print("✅ Manuelle Operationen wurden hinzugefügt.")
+    return openapi
+
+
+def interaction_to_paths(resource_type, interaction_code, search_params, search_include, search_rev_include, http_errors,
+                         prefix_path="", format_query_param=None, fhir_formats=None, extension=None):
     paths = {}
 
     base_parameters = []
     if format_query_param:
         base_parameters.append(format_query_param)
-    if header_params:
-        base_parameters.extend(header_params)
+    if not http_errors:
+        http_errors = {}
+    if extension:
+        http_errors = extract_http_errors(extension)
 
-    # def build_request_body(resource_type: str, formats: list) -> dict:
-    #     content = {}
-    #     if "application/fhir+json" in formats:
-    #         content["application/fhir+json"] = {
-    #             "schema": {
-    #                 "$ref": f"https://hl7.org/fhir/R4/fhir.schema.json#/definitions/{resource_type}"
-    #             }
-    #         }
-    #     if "application/fhir+xml" in formats:
-    #         content["application/fhir+xml"] = {
-    #             "schema": {
-    #                 "$ref": f"https://hl7.org/fhir/R4/{resource_type.lower()}.xsd"
-    #             }
-    #         }
-    #     return {"required": True, "content": content} if content else None
 
     def path_obj(method, summary, parameters, responses, request_body=None):
         obj = {
             method: {
                 "summary": summary,
+                "tags": [resource_type],
                 "parameters": parameters,
                 "responses": responses
             }
@@ -254,43 +244,62 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
         if request_body:
             obj[method]["requestBody"] = request_body
         return obj
+        
 
+    ###
+    # GET /ResourceType/{rid}
+    ###
     if interaction_code == "read":
-        responses = build_responses(global_errors, success_code="200", success_description=f"{resource_type} successfully read")
+        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description=f"{resource_type} successfully read")
         path = f"{prefix_path}/{resource_type}/{{id}}"
-        params = base_parameters + [{
+        params = [{
             "name": "id", "in": "path", "required": True,
             "schema": { "type": "string" }, "description": "Resource ID"
         }]
+        params += base_parameters
         paths[path] = path_obj("get", f"Read a specific {resource_type}", params, responses)
 
-    elif interaction_code == "vread":
-        responses = build_responses(global_errors, success_code="200", success_description=f"{resource_type} version read")
-        path = f"{prefix_path}/{resource_type}/{{id}}/_history/{{vid}}"
-        params = base_parameters + [
-            {"name": "id", "in": "path", "required": True, "schema": {"type": "string"}, "description": "Resource ID"},
-            {"name": "vid", "in": "path", "required": True, "schema": {"type": "string"}, "description": "Version ID"}
-        ]
-        paths[path] = path_obj("get", f"Read version of {resource_type}", params, responses)
-
+    ###
+    # GET /ResourceType/{rid}/_history/
+    ###
     elif interaction_code == "history-instance":
-        responses = build_responses(global_errors, success_code="200", success_description="History retrieved")
+        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description="History retrieved")
         path = f"{prefix_path}/{resource_type}/{{id}}/_history"
-        params = base_parameters + [{
+        params = [{
             "name": "id", "in": "path", "required": True,
             "schema": { "type": "string" }, "description": "Resource ID"
         }]
+        params += base_parameters
         params.extend(build_pagination_query_params())
         paths[path] = path_obj("get", f"History of a specific {resource_type}", params, responses)
 
+    ###
+    # GET /ResourceType/{rid}/_history/{vid}
+    ###
+    elif interaction_code == "vread":
+        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description=f"{resource_type} version read")
+        path = f"{prefix_path}/{resource_type}/{{id}}/_history/{{vid}}"
+        params = [
+            {"name": "id", "in": "path", "required": True, "schema": {"type": "string"}, "description": "Resource ID"},
+            {"name": "vid", "in": "path", "required": True, "schema": {"type": "string"}, "description": "Version ID"}
+        ] 
+        params += base_parameters
+        paths[path] = path_obj("get", f"Read version of {resource_type}", params, responses)
+
+    ###
+    # GET /ResourceType/{rid}/_history/
+    ###
     elif interaction_code == "history-type":
-        responses = build_responses(global_errors, success_code="200", success_description="History for type retrieved")
+        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description="History for type retrieved")
         path = f"{prefix_path}/{resource_type}/_history"
         params = base_parameters + build_pagination_query_params()
         paths[path] = path_obj("get", f"History for all {resource_type}", params, responses)
 
+    ###
+    # GET /ResourceType/
+    ###
     elif interaction_code == "search-type":
-        responses = build_responses(global_errors, success_code="200", success_description="Search successful")
+        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description="Search successful")
         path = f"{prefix_path}/{resource_type}"
         params = base_parameters.copy()
         params.extend(build_pagination_query_params())
@@ -312,76 +321,66 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
             params.append(param)
         paths[path] = path_obj("get", f"Search for {resource_type}", params, responses)
 
+    ###
+    # POST /ResourceType/
+    ###
     elif interaction_code == "create":
-        responses = build_responses(global_errors, success_code="201", success_description="Resource created")
+        responses = build_responses(http_errors, formats=fhir_formats, success_code="201", success_description="Resource created")
         path = f"{prefix_path}/{resource_type}"
-        # request_body = {
-        #     "required": True,
-        #     "content": {
-        #         "application/fhir+json": {"schema": {"type": "object"}},
-        #         "application/fhir+xml": {"schema": {"type": "object"}}
-        #     }
-        # }
         request_body = build_request_body(resource_type, fhir_formats or [])
-        paths[path] = path_obj("post", f"Create a new {resource_type}", base_parameters, responses, request_body)
+        paths[path] = path_obj("post", f"Create a new {resource_type}", [], responses, request_body)
 
+    ###
+    # PUT /ResourceType/{rid}
+    ###
     elif interaction_code == "update":
-        responses = build_responses(global_errors, success_code="200", success_description="Resource updated")
+        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description="Resource updated")
         path = f"{prefix_path}/{resource_type}/{{id}}"
-        params = base_parameters + [{
+        params = [{
             "name": "id", "in": "path", "required": True,
             "schema": {"type": "string"}, "description": "Resource ID"
         }]
-        # request_body = {
-        #     "required": True,
-        #     "content": {
-        #         "application/fhir+json": {"schema": {"type": "object"}},
-        #         "application/fhir+xml": {"schema": {"type": "object"}}
-        #     }
-        # }
         request_body = build_request_body(resource_type, fhir_formats or [])
         paths[path] = path_obj("put", f"Update {resource_type} by ID", params, responses, request_body)
 
+    ###
+    # PATCH /ResourceType/{rid}
+    ###
     elif interaction_code == "patch":
-        responses = build_responses(global_errors, success_code="200", success_description="Resource patched")
+        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description="Resource patched")
         path = f"{prefix_path}/{resource_type}/{{id}}"
-        params = base_parameters + [{
+        params = [{
             "name": "id", "in": "path", "required": True,
             "schema": {"type": "string"}, "description": "Resource ID"
         }]
-        # request_body = {
-        #     "required": True,
-        #     "content": {
-        #         "application/json-patch+json": {
-        #             "schema": {
-        #                 "type": "array",
-        #                 "items": {"type": "object"}
-        #             }
-        #         }
-        #     }
-        # }
         request_body = build_request_body(resource_type, fhir_formats or [])
         paths[path] = path_obj("patch", f"Patch {resource_type} by ID", params, responses, request_body)
 
+    ###
+    # DELETE /ResourceType/{rid}
+    ###
     elif interaction_code == "delete":
-        responses = build_responses(global_errors, success_code="204", success_description="Resource deleted")
+        responses = build_responses(http_errors, formats=fhir_formats,  success_code="204", success_description="Resource deleted")
         path = f"{prefix_path}/{resource_type}/{{id}}"
-        params = base_parameters + [{
+        params = [{
             "name": "id", "in": "path", "required": True,
             "schema": {"type": "string"}, "description": "Resource ID"
         }]
+        params += base_parameters
         paths[path] = path_obj("delete", f"Delete {resource_type} by ID", params, responses)
 
+
+    print(f"✅ Added interaction {interaction_code} for {resource_type}.")
     return paths
 
 
-def capabilitystatement_to_openapi(capability_json):
+def capabilitystatement_to_openapi(capability):
     openapi = {
         "openapi": "3.0.3",
         "info": {
-            "title": capability_json.get("title"),
-            "version": capability_json.get("version"),
-            "description": capability_json.get("description")
+            "title": capability.get("title"),
+            "version": capability.get("version"),
+            "description": capability.get("description")
         },
         "paths": {},
         "components": {
@@ -390,86 +389,100 @@ def capabilitystatement_to_openapi(capability_json):
         }
     }
 
-    extensions = capability_json.get("extension", [])
+    extensions = capability.get("extension", [])
+
     host_url, path_prefix = extract_base_url_parts(extensions)
     if host_url:
         openapi["servers"] = [{
-            "url": host_url,
-            "description": "Base host as defined in FHIR Extension"
+            "url": host_url
         }]
     else:
         path_prefix = ""
-
-    fhir_formats = capability_json.get("format", [])
+    
+    fhir_formats = capability.get("format", [])
     format_query_param = build_format_query_param(fhir_formats)
 
-    headers = extract_http_headers(extensions)
-    header_params = build_header_params(headers)
 
-    for header in headers:
-        name = header.get("name")
-        if name:
-            openapi["components"]["headers"][name] = {
-                "description": header.get("description", ""),
-                "required": header.get("required", False),
-                "schema": {
-                    "type": header.get("type", "string")
-                }
-            }
-            if "format" in header:
-                openapi["components"]["headers"][name]["schema"]["format"] = header["format"]
-            if "pattern" in header:
-                openapi["components"]["headers"][name]["schema"]["pattern"] = header["pattern"]
-
-    errors = extract_http_errors(extensions)
-    for code, info in errors.items():
-        openapi["components"]["responses"][code] = {
-            "description": info.get("description", "")
-        }
-
-    for rest in capability_json.get("rest", []):
+    ###
+    # FHIR Interaction
+    ###
+    base_fhie_parameters = []
+    if format_query_param:
+        base_fhie_parameters.append(format_query_param)
+    
+    for rest in capability.get("rest", []):
         for res in rest.get("resource", []):
             resource_type = res.get("type")
             interactions = res.get("interaction", [])
             search_params = res.get("searchParam", [])
             search_include = res.get("searchInclude", [])
             search_rev_include = res.get("searchRevInclude", [])
-
             for interaction in interactions:
                 interaction_code = interaction.get("code")
+                interaction_extension = interaction.get("extension")
                 new_paths = interaction_to_paths(
                     resource_type,
                     interaction_code,
                     search_params,
                     search_include,
                     search_rev_include,
-                    errors,
+                    http_errors={},
                     prefix_path=path_prefix,
                     format_query_param=format_query_param,
-                    header_params=header_params,
-                    fhir_formats=fhir_formats
+                    fhir_formats=fhir_formats,
+                    extension=interaction_extension
                 )
                 for path, item in new_paths.items():
                     if path not in openapi["paths"]:
                         openapi["paths"][path] = {}
                     openapi["paths"][path].update(item)
 
+    ###
+    # Loads the OpenAPI with manual operations.
+    ###
+    openapi = merge_manual_operations(openapi, manual_operations_path)
+
+    ###
+    # Set the global headers
+    ###
+    base_parameters = []
+    headers = extract_http_headers(extensions)
+    base_parameters.extend(build_header_params(headers))
+    for path in openapi.get("paths", []):
+        for method in openapi["paths"][path]:
+            openapi["paths"][path][method].setdefault("parameters", [])
+            openapi["paths"][path][method]["parameters"][0:0] = base_parameters
+
+    ###
+    # Set the global errors
+    ###
+    base_http_errors = extract_http_errors(extensions)
+    for path in openapi.get("paths", []):
+        for method in openapi["paths"][path]:
+            openapi["paths"][path][method].setdefault("responses", [])
+            # openapi["paths"][path][method]["parameters"][0:0] = base_parameters
+            for code, info in base_http_errors.items():
+                    append_responses_code(responses=openapi["paths"][path][method]['responses'], code=code, info=info)
+    
+
     return openapi
 
+
 if __name__ == "__main__":
+
+    # Original-Dateipfade
+    # input_path = "./data/CapabilityStatement-epa-medication-service-server-merged.json"
+    input_path = "./data/CapabilityStatement-epa-audit-event-server-merged.json"
+    output_json_path = "./output/epa-medication-openapi.json"
+    output_yaml_path = "./output/epa-medication-openapi.yaml"
+    manual_operations_path = "./openapis/manual-operations.yaml"  # << Neue Datei mit eigenen Operationen
+
     with open(input_path, "r", encoding="utf-8") as f:
         capability = json.load(f)
-
     openapi_spec = capabilitystatement_to_openapi(capability)
 
     with open(output_json_path, "w", encoding="utf-8") as f:
         json.dump(openapi_spec, f, indent=2, ensure_ascii=False)
 
-    class NoAliasDumper(yaml.SafeDumper):
-        def ignore_aliases(self, data):
-            return True
-
     with open(output_yaml_path, "w", encoding="utf-8") as f:
         yaml.dump(openapi_spec, f, indent=2, sort_keys=False, allow_unicode=True, Dumper=NoAliasDumper)
-
-    print(f"✅ OpenAPI gespeichert als:\n- JSON: {output_json_path}\n- YAML: {output_yaml_path}")

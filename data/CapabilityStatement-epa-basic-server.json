@@ -17,6 +17,11 @@
       ]
     }
   ],
+  "rest": [
+    {
+      "mode": "server"
+    }
+  ],
   "format": [
     "application/fhir+json",
     "application/fhir+xml"
@@ -101,11 +106,19 @@
       "extension": [
         {
           "url": "statusCode",
-          "valueString": "400"
+          "valueString": "403"
         },
         {
           "url": "description",
           "valueString": "Request does not match schema"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "invalAuth"
         }
       ],
       "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
@@ -119,6 +132,14 @@
         {
           "url": "description",
           "valueString": "Requestor has no valid entitlement"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "notEntitled"
         }
       ],
       "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
@@ -131,7 +152,36 @@
         },
         {
           "url": "description",
-          "valueString": "Requestor role is not oid_versicherter or oid_ombudsstelle"
+          "valueString": "Requestor role is not in the list of allowed user groups"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "invalidOid"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "403"
+        },
+        {
+          "url": "description",
+          "valueString": "Device registration does not exist"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "unregisteredDevice"
         }
       ],
       "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
@@ -144,20 +194,15 @@
         },
         {
           "url": "description",
-          "valueString": "Health record does not exist"
-        }
-      ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
-    },
-    {
-      "extension": [
-        {
-          "url": "statusCode",
-          "valueString": "404"
+          "valueString": "Health record is in state UNKNOWN or INITIALIZED"
         },
         {
-          "url": "description",
-          "valueString": "Resource for functionid does not exist"
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "noHealthRecord"
         }
       ],
       "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
@@ -170,7 +215,15 @@
         },
         {
           "url": "description",
-          "valueString": "Health record is not in state ACTIVATED"
+          "valueString": "Health record is in state SUSPENDED"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "statusMismatch"
         }
       ],
       "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
@@ -184,6 +237,14 @@
         {
           "url": "description",
           "valueString": "Any other error"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "internalError"
         }
       ],
       "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"

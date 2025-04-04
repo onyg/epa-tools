@@ -42,9 +42,10 @@
   "status": "draft",
   "publisher": "gematik GmbH",
   "date": "2025-03-31",
-  "kind": "query",
+  "kind": "operation",
   "name": "getMedicationList_MedicationSvc",
   "code": "medication-list",
+  "affectsState": false,
   "system": true,
   "type": false,
   "instance": false

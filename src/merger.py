@@ -20,8 +20,10 @@ def merge_lists(base_list, overlay_list):
 
 # Beispiel-Pfade (kannst du ersetzen)
 base_file = "./data/CapabilityStatement-epa-basic-server.json"
-overlay_file = "./data/CapabilityStatement-epa-medication-service-server.json"
-output_file = "./data/CapabilityStatement-epa-medication-service-server-merged.json"
+# overlay_file = "./data/CapabilityStatement-epa-medication-service-server.json"
+# output_file = "./data/CapabilityStatement-epa-medication-service-server-merged.json"
+overlay_file = "./data/CapabilityStatement-epa-audit-event-server.json"
+output_file = "./data/CapabilityStatement-epa-audit-event-server-merged.json"
 
 
 

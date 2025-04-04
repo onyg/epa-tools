@@ -1,0 +1,179 @@
+openapi: 3.0.3
+paths:
+  /epa/medication/api/v1/fhir/metadata:
+    get:
+      responses:
+        '200':
+          description: This functionality ensures that a call to /metadata returns the FHIR CapabilityStatement.
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+  /epa/medication/api/v1/fhir/$medication-list:
+    get:
+      operationId: getMedicationList_MedicationSvc
+      tags:
+        - Operations
+      parameters:
+        - name: date
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date
+          description: Limit the search to this date. Can specify upper or lower limits and periods by providing an upper and a lower limit.
+        - name: _count
+          in: query
+          required: false
+          description: Limit the result bundle to this many entries. To get more entries request the next page.
+          schema:
+            type: string
+        - name: _offset
+          in: query
+          required: false
+          description: Defines the offset of the first entry in the collection.
+          schema:
+            type: integer
+        - name: _format
+          in: query
+          required: false
+          description: Specifies the return format
+          schema:
+            type: string
+            enum:
+            - application/fhir+json
+            - application/fhir+xml
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+  /epa/medication/api/v1/fhir/$provide-prescription-erp:
+    post:
+      operationId: providePrescription_MedicationSvc
+      tags:
+        - Operations
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: EPAOpRxPrescriptionERPOutputParameters
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+  /epa/medication/api/v1/fhir/$provide-dispensation-erp:
+    post:
+      operationId: provideDispensation_MedicationSvc
+      tags:
+        - Operations
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: EPAOpRxDispensationERPOutputParameters
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+  /epa/medication/api/v1/fhir/$cancel-prescription-erp:
+    post:
+      operationId: cancelPrescription_MedicationSvc
+      tags:
+        - Operations
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: EPAOpRxPrescriptionERPOutputParameters
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+  /epa/medication/api/v1/fhir/$cancel-dispensation-erp:
+    post:
+      operationId: cancelDispensation_MedicationSvc
+      tags:
+        - Operations
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: EPAOpRxDispensationERPOutputParameters
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+  /epa/medication/render/v1/eml/xhtml:
+    get:
+      operationId: renderEMLAsHTML
+      tags:
+        - Render
+      responses:
+        '200':
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: string
+  /epa/medication/render/v1/eml/pdf:
+    get:
+      operationId: renderEMLAsPDF
+      tags:
+        - Render
+      responses:
+        '200':
+          description: OK
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary

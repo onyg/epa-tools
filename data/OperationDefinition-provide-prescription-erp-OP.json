@@ -107,6 +107,7 @@
   "name": "providePrescription_MedicationSvc",
   "kind": "operation",
   "code": "provide-prescription-erp",
+  "affectsState": true,
   "system": true,
   "type": false,
   "instance": false,

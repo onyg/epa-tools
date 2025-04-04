@@ -101,6 +101,7 @@
   "name": "provideDispensation_MedicationSvc",
   "kind": "operation",
   "code": "provide-dispensation-erp",
+  "affectsState": true,
   "system": true,
   "type": false,
   "instance": false,
