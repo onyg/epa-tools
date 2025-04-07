@@ -25,6 +25,150 @@ def fhir_to_openapi_type(fhir_type):
     }
     return mapping.get(fhir_type, ("string", None))
 
+###
+# Operations
+###
+# def load_operation_definitions_from_same_folder(capability_path):
+#     folder = os.path.dirname(capability_path)
+#     operation_definitions = []
+
+#     for filename in os.listdir(folder):
+#         if filename.endswith(".json") and "OperationDefinition" in filename:
+#             with open(os.path.join(folder, filename), "r", encoding="utf-8") as f:
+#                 content = json.load(f)
+#                 if content.get("resourceType") == "OperationDefinition":
+#                     operation_definitions.append(content)
+#                 elif content.get("resourceType") == "Bundle":
+#                     for entry in content.get("entry", []):
+#                         res = entry.get("resource")
+#                         if res and res.get("resourceType") == "OperationDefinition":
+#                             operation_definitions.append(res)
+#     return operation_definitions
+
+
+# def try_download_operation_definition(url):
+#     try:
+#         with urllib.request.urlopen(url) as response:
+#             content = json.load(response)
+#             if content.get("resourceType") == "OperationDefinition":
+#                 return content
+#     except Exception as e:
+#         print(f"❌ Fehler beim Herunterladen von OperationDefinition: {e}")
+#     return None
+
+
+# def add_operations_from_capabilitystatement(openapi, capability, operation_definitions, fhir_formats, header_params, global_errors, path_prefix=""):
+#     def build_responses(success_code="200", success_description="Successful operation"):
+#         responses = {
+#             success_code: {
+#                 "description": success_description,
+#                 "content": {
+#                     "application/fhir+json": {
+#                         "schema": {
+#                             "type": "object"
+#                         }
+#                     }
+#                 }
+#             }
+#         }
+#         for code, info in global_errors.items():
+#             if code != success_code:
+#                 responses[code] = {"description": info.get("description", "")}
+#         return responses
+
+#     def build_parameters(params, location="query"):
+#         result = []
+#         for param in params:
+#             if param.get("use", "") == "in":
+#                 p = {
+#                     "name": param["name"],
+#                     "in": location,
+#                     "required": param.get("use", "") == "in" and param.get("min", 0) > 0,
+#                     "description": param.get("documentation", ""),
+#                     "schema": {
+#                         "type": fhir_to_openapi_type(param.get("type", "string"))[0]
+#                     }
+#                 }
+#                 result.append(p)
+#         return result
+
+#     for rest in capability.get("rest", []):
+#         for op in rest.get("operation", []):
+#             op_name = op["name"]
+#             definition_obj = op.get("definition")
+#             if isinstance(definition_obj, dict):
+#                 definition_ref = definition_obj.get("reference")
+#             else:
+#                 definition_ref = definition_obj
+
+#             operation_definition = None
+#             for od in operation_definitions:
+#                 if od.get("url") == definition_ref or od.get("id") == definition_ref.split("/")[-1]:
+#                     operation_definition = od
+#                     break
+
+#             if not operation_definition:
+#                 print(f"⚠️ OperationDefinition nicht gefunden für: {definition_ref}")
+#                 continue
+
+#             # http_method = operation_definition.get("code", "post").lower()
+#             if operation_definition.get("kind", "operation").lower() == "query":
+#                 http_method = "get"
+#             else:
+#                 http_method = "post"
+#             print(operation_definition.get("kind", "operation").lower())
+#             op_responses = build_responses()
+#             op_params = operation_definition.get("parameter", [])
+#             params = header_params.copy()
+#             params.extend(build_parameters(op_params))
+
+#             # system-level operation
+#             if operation_definition.get("system") is True:
+#                 path = f"{path_prefix}/${op_name}"
+#                 openapi["paths"].setdefault(path, {})[http_method] = {
+#                     "summary": f"System-level FHIR Operation ${op_name}",
+#                     # "operationId": f"system_${op_name}",
+#                     "tags": ["Operations"],
+#                     "parameters": params,
+#                     "responses": op_responses
+#                 }
+
+#             # type-level operation
+#             if operation_definition.get("type") is True:
+#                 for resource_type in operation_definition.get("resource", []):
+#                     path = f"{path_prefix}/{resource_type}/$ß{op_name}"
+#                     openapi["paths"].setdefault(path, {})[http_method] = {
+#                         "summary": f"Type-level FHIR Operation ${op_name}",
+#                         # "operationId": f"{resource_type}_${op_name}",
+#                         "tags": ["Operations"],
+#                         "parameters": params,
+#                         "responses": op_responses
+#                     }
+
+#             # instance-level operation
+#             if operation_definition.get("instance") is True:
+#                 for resource_type in operation_definition.get("resource", []):
+#                     path = f"{path_prefix}/{resource_type}/{{id}}/${op_name}"
+#                     openapi["paths"].setdefault(path, {})[http_method] = {
+#                         "summary": f"Instance-level FHIR Operation ${op_name}",
+#                         # "operationId": f"{resource_type}_instance_${op_name}",
+#                         "tags": ["Operations"],
+                        
+#                         "parameters": params + [{
+#                             "name": "id",
+#                             "in": "path",
+#                             "required": True,
+#                             "schema": {"type": "string"},
+#                             "description": "Resource ID"
+#                         }],
+#                         "responses": op_responses
+#                     }
+#     print("✅ OperationDefinition(s) wurden hinzugefügt.")
+#     return openapi
+
+####
+# END Operations
+####
 
 def extract_http_headers(extensions):
     headers = []
@@ -87,16 +231,20 @@ def build_header_params(headers):
     return params
 
 
-def build_responses(http_errors, formats, success_code="200", success_description="Successful operation"):
+# build_search_parameter()
+
+
+def build_responses(http_errors, formats, success_codes=["200"], success_description="Successful operation"):
     content = {"application/fhir+json": {"schema": {"type": "object"}}}
     for format in formats:
         content[str(format)] = {"schema":{"type":"object"}}
-    responses = {
-        success_code: {
+    responses = {}
+    for success_code in success_codes:
+        responses[success_code] = {
             "description": success_description,
             "content": content
         }
-    }
+
     for code, info in http_errors.items():
         if code != success_code:  # avoid overwriting the success code
             append_responses_code(responses=responses, code=code, info=info)
@@ -250,7 +398,7 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
     # GET /ResourceType/{rid}
     ###
     if interaction_code == "read":
-        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description=f"{resource_type} successfully read")
+        responses = build_responses(http_errors, formats=fhir_formats, success_codes=["200"], success_description=f"{resource_type} successfully read")
         path = f"{prefix_path}/{resource_type}/{{id}}"
         params = [{
             "name": "id", "in": "path", "required": True,
@@ -263,7 +411,7 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
     # GET /ResourceType/{rid}/_history/
     ###
     elif interaction_code == "history-instance":
-        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description="History retrieved")
+        responses = build_responses(http_errors, formats=fhir_formats, success_codes=["200"], success_description="History retrieved")
         path = f"{prefix_path}/{resource_type}/{{id}}/_history"
         params = [{
             "name": "id", "in": "path", "required": True,
@@ -277,7 +425,7 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
     # GET /ResourceType/{rid}/_history/{vid}
     ###
     elif interaction_code == "vread":
-        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description=f"{resource_type} version read")
+        responses = build_responses(http_errors, formats=fhir_formats, success_codes=["200"], success_description=f"{resource_type} version read")
         path = f"{prefix_path}/{resource_type}/{{id}}/_history/{{vid}}"
         params = [
             {"name": "id", "in": "path", "required": True, "schema": {"type": "string"}, "description": "Resource ID"},
@@ -290,7 +438,7 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
     # GET /ResourceType/{rid}/_history/
     ###
     elif interaction_code == "history-type":
-        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description="History for type retrieved")
+        responses = build_responses(http_errors, formats=fhir_formats, success_codes=["200"], success_description="History for type retrieved")
         path = f"{prefix_path}/{resource_type}/_history"
         params = base_parameters + build_pagination_query_params()
         paths[path] = path_obj("get", f"History for all {resource_type}", params, responses)
@@ -299,7 +447,7 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
     # GET /ResourceType/
     ###
     elif interaction_code == "search-type":
-        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description="Search successful")
+        responses = build_responses(http_errors, formats=fhir_formats, success_codes=["200"], success_description="Search successful")
         path = f"{prefix_path}/{resource_type}"
         params = base_parameters.copy()
         params.extend(build_pagination_query_params())
@@ -325,7 +473,7 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
     # POST /ResourceType/
     ###
     elif interaction_code == "create":
-        responses = build_responses(http_errors, formats=fhir_formats, success_code="201", success_description="Resource created")
+        responses = build_responses(http_errors, formats=fhir_formats, success_codes=["201"], success_description="Resource created")
         path = f"{prefix_path}/{resource_type}"
         request_body = build_request_body(resource_type, fhir_formats or [])
         paths[path] = path_obj("post", f"Create a new {resource_type}", [], responses, request_body)
@@ -334,7 +482,7 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
     # PUT /ResourceType/{rid}
     ###
     elif interaction_code == "update":
-        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description="Resource updated")
+        responses = build_responses(http_errors, formats=fhir_formats, success_codes=["200"], success_description="Resource updated")
         path = f"{prefix_path}/{resource_type}/{{id}}"
         params = [{
             "name": "id", "in": "path", "required": True,
@@ -343,11 +491,34 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
         request_body = build_request_body(resource_type, fhir_formats or [])
         paths[path] = path_obj("put", f"Update {resource_type} by ID", params, responses, request_body)
 
+    
+    ###
+    # PUT /ResourceType?searchparameter=value
+    ###
+    elif interaction_code == "conditional_update":
+        responses = build_responses(http_errors, formats=fhir_formats, success_codes=["200", "201"], success_description="Resource conditional update")
+        path = f"{prefix_path}/{resource_type}/"
+        request_body = build_request_body(resource_type, fhir_formats or [])
+        params = []
+        for sp in search_params:
+            param_type, param_format = fhir_to_openapi_type(sp.get("type", "string"))
+            param = {
+                "name": sp.get("name"),
+                "in": "query",
+                "required": False,
+                "schema": { "type": param_type },
+                "description": sp.get("documentation", "")
+            }
+            if param_format:
+                param["schema"]["format"] = param_format
+            params.append(param)
+        paths[path] = path_obj("put", f"Update or Create {resource_type} by ID", params, responses, request_body)
+
     ###
     # PATCH /ResourceType/{rid}
     ###
     elif interaction_code == "patch":
-        responses = build_responses(http_errors, formats=fhir_formats, success_code="200", success_description="Resource patched")
+        responses = build_responses(http_errors, formats=fhir_formats, success_codes=["200"], success_description="Resource patched")
         path = f"{prefix_path}/{resource_type}/{{id}}"
         params = [{
             "name": "id", "in": "path", "required": True,
@@ -360,7 +531,7 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
     # DELETE /ResourceType/{rid}
     ###
     elif interaction_code == "delete":
-        responses = build_responses(http_errors, formats=fhir_formats,  success_code="204", success_description="Resource deleted")
+        responses = build_responses(http_errors, formats=fhir_formats,  success_codes=["204"], success_description="Resource deleted")
         path = f"{prefix_path}/{resource_type}/{{id}}"
         params = [{
             "name": "id", "in": "path", "required": True,
@@ -417,6 +588,8 @@ def capabilitystatement_to_openapi(capability):
             search_params = res.get("searchParam", [])
             search_include = res.get("searchInclude", [])
             search_rev_include = res.get("searchRevInclude", [])
+            if res.get("conditionalUpdate", False):
+                interactions.append({"code":"conditional_update", "extension":[]})
             for interaction in interactions:
                 interaction_code = interaction.get("code")
                 interaction_extension = interaction.get("extension")
@@ -436,6 +609,21 @@ def capabilitystatement_to_openapi(capability):
                     if path not in openapi["paths"]:
                         openapi["paths"][path] = {}
                     openapi["paths"][path].update(item)
+
+
+    ###
+    # OperationDefinition-Dateien einlesen (hier Beispiel mit leeren Array)
+    ###
+    # operation_definitions = load_operation_definitions_from_same_folder(input_path)
+    # openapi = add_operations_from_capabilitystatement(
+    #     openapi=openapi,
+    #     capability=capability,
+    #     operation_definitions=operation_definitions,
+    #     fhir_formats=fhir_formats,
+    #     header_params=[],
+    #     global_errors={},
+    #     path_prefix=path_prefix
+    # )
 
     ###
     # Loads the OpenAPI with manual operations.
@@ -471,8 +659,8 @@ def capabilitystatement_to_openapi(capability):
 if __name__ == "__main__":
 
     # Original-Dateipfade
-    # input_path = "./data/CapabilityStatement-epa-medication-service-server-merged.json"
-    input_path = "./data/CapabilityStatement-epa-audit-event-server-merged.json"
+    input_path = "./data/CapabilityStatement-epa-medication-service-server-merged.json"
+    # input_path = "./data/CapabilityStatement-epa-audit-event-server-merged.json"
     output_json_path = "./output/epa-medication-openapi.json"
     output_yaml_path = "./output/epa-medication-openapi.yaml"
     manual_operations_path = "./openapis/manual-operations.yaml"  # << Neue Datei mit eigenen Operationen

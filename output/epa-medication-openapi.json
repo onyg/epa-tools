@@ -1,137 +1,16 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "EPA CapabilityStatement für den Patient Service",
+    "title": "EPA CapabilityStatement für den Medication Service",
     "version": "1.1.5",
-    "description": "EPA CapabilityStatement für den Patient Service"
+    "description": "EPA CapabilityStatement für den Medication Service"
   },
   "paths": {
-    "/Patient": {
+    "/Medication/{id}": {
       "get": {
-        "summary": "Search for Patient",
+        "summary": "Read a specific Medication",
         "tags": [
-          "Patient"
-        ],
-        "parameters": [
-          {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          },
-          {
-            "name": "_format",
-            "in": "query",
-            "required": false,
-            "description": "Specifies the return format",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "application/fhir+json",
-                "application/fhir+xml"
-              ]
-            }
-          },
-          {
-            "name": "_count",
-            "in": "query",
-            "required": false,
-            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "_offset",
-            "in": "query",
-            "required": false,
-            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "_total",
-            "in": "query",
-            "required": false,
-            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "identifier",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Patient.identifier"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Search successful",
-            "content": {
-              "application/fhir+json": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "application/fhir+xml": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request"
-          },
-          "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "403": {
-            "description": "Device registration does not exist"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
-          }
-        }
-      }
-    },
-    "/Patient/{id}": {
-      "get": {
-        "summary": "Read a specific Patient",
-        "tags": [
-          "Patient"
+          "Medication"
         ],
         "parameters": [
           {
@@ -189,7 +68,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Patient successfully read",
+            "description": "Medication successfully read",
             "content": {
               "application/fhir+json": {
                 "schema": {
@@ -203,129 +82,26 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid request"
-          },
-          "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "403": {
-            "description": "Device registration does not exist"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
-          }
-        }
-      },
-      "put": {
-        "summary": "Update Patient by ID",
-        "tags": [
-          "Patient"
-        ],
-        "parameters": [
-          {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Resource ID"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resource updated",
-            "content": {
-              "application/fhir+json": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "application/fhir+xml": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "201": {
-            "description": "Created, wenn eine neue Ressourceninstanz erstellt wurde"
-          },
-          "400": {
-            "description": "Bad Request, falls eine falsche ID in der Anfrage angegeben wurde"
-          },
           "403": {
             "description": "Device registration does not exist"
           },
           "404": {
             "description": "Health record is in state UNKNOWN or INITIALIZED"
           },
-          "412": {
-            "description": "Precondition Failed, wenn mehrere Ressourceninstanz gefunden wurden"
-          },
           "409": {
             "description": "Health record is in state SUSPENDED"
           },
           "500": {
             "description": "Any other error"
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/fhir+json": {
-              "schema": {
-                "type": "object"
-              }
-            },
-            "application/fhir+xml": {
-              "schema": {
-                "type": "object"
-              }
-            }
           }
         }
       }
     },
-    "/Patient/{id}/_history/{vid}": {
+    "/Medication/{id}/_history/{vid}": {
       "get": {
-        "summary": "Read version of Patient",
+        "summary": "Read version of Medication",
         "tags": [
-          "Patient"
+          "Medication"
         ],
         "parameters": [
           {
@@ -392,7 +168,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Patient version read",
+            "description": "Medication version read",
             "content": {
               "application/fhir+json": {
                 "schema": {
@@ -406,14 +182,11 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid request"
+          "403": {
+            "description": "Device registration does not exist"
           },
           "404": {
             "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "403": {
-            "description": "Device registration does not exist"
           },
           "409": {
             "description": "Health record is in state SUSPENDED"
@@ -424,11 +197,11 @@
         }
       }
     },
-    "/Patient/{id}/_history": {
+    "/Medication/{id}/_history": {
       "get": {
-        "summary": "History of a specific Patient",
+        "summary": "History of a specific Medication",
         "tags": [
-          "Patient"
+          "Medication"
         ],
         "parameters": [
           {
@@ -527,14 +300,11 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid request"
+          "403": {
+            "description": "Device registration does not exist"
           },
           "404": {
             "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "403": {
-            "description": "Device registration does not exist"
           },
           "409": {
             "description": "Health record is in state SUSPENDED"
@@ -545,11 +315,11 @@
         }
       }
     },
-    "/Patient/_history": {
+    "/Medication/_history": {
       "get": {
-        "summary": "History for all Patient",
+        "summary": "History for all Medication",
         "tags": [
-          "Patient"
+          "Medication"
         ],
         "parameters": [
           {
@@ -639,14 +409,11 @@
               }
             }
           },
-          "400": {
-            "description": "Invalid request"
+          "403": {
+            "description": "Device registration does not exist"
           },
           "404": {
             "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "403": {
-            "description": "Device registration does not exist"
           },
           "409": {
             "description": "Health record is in state SUSPENDED"
@@ -657,76 +424,11 @@
         }
       }
     },
-    "/epa/medication/api/v1/fhir/metadata": {
+    "/Medication": {
       "get": {
-        "responses": {
-          "200": {
-            "description": "This functionality ensures that a call to /metadata returns the FHIR CapabilityStatement.",
-            "content": {
-              "application/fhir+json": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "application/fhir+xml": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Device registration does not exist"
-          },
-          "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
-          }
-        },
-        "parameters": [
-          {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          }
-        ]
-      }
-    },
-    "/epa/medication/api/v1/fhir/$medication-list": {
-      "get": {
-        "operationId": "getMedicationList_MedicationSvc",
+        "summary": "Search for Medication",
         "tags": [
-          "Operations"
+          "Medication"
         ],
         "parameters": [
           {
@@ -760,20 +462,23 @@
             }
           },
           {
-            "name": "date",
+            "name": "_format",
             "in": "query",
             "required": false,
+            "description": "Specifies the return format",
             "schema": {
               "type": "string",
-              "format": "date"
-            },
-            "description": "Limit the search to this date. Can specify upper or lower limits and periods by providing an upper and a lower limit."
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
           },
           {
             "name": "_count",
             "in": "query",
             "required": false,
-            "description": "Limit the result bundle to this many entries. To get more entries request the next page.",
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
             "schema": {
               "type": "string"
             }
@@ -782,10 +487,342 @@
             "name": "_offset",
             "in": "query",
             "required": false,
-            "description": "Defines the offset of the first entry in the collection.",
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
             "schema": {
               "type": "integer"
             }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_include",
+            "in": "query",
+            "required": false,
+            "description": "Including other resources",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_revinclude",
+            "in": "query",
+            "required": false,
+            "description": "Reverse include other resources",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource.id"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Resource.meta.lastUpdated"
+          },
+          {
+            "name": "_has",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Return resources linked to by the given target"
+          },
+          {
+            "name": "identifier",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Medication.identifier"
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Medication.code"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Medication.status"
+          },
+          {
+            "name": "ingredient-code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Medication.ingredient.item as CodeableConcept"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search successful",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/Medication/": {
+      "put": {
+        "summary": "Update or Create Medication by ID",
+        "tags": [
+          "Medication"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource.id"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Resource.meta.lastUpdated"
+          },
+          {
+            "name": "_has",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Return resources linked to by the given target"
+          },
+          {
+            "name": "identifier",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Medication.identifier"
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Medication.code"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Medication.status"
+          },
+          {
+            "name": "ingredient-code",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Medication.ingredient.item as CodeableConcept"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource conditional update",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Resource conditional update",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/MedicationRequest/{id}": {
+      "get": {
+        "summary": "Read a specific MedicationRequest",
+        "tags": [
+          "MedicationRequest"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
           },
           {
             "name": "_format",
@@ -798,6 +835,315 @@
                 "application/fhir+json",
                 "application/fhir+xml"
               ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "MedicationRequest successfully read",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update MedicationRequest by ID",
+        "tags": [
+          "MedicationRequest"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource updated",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/MedicationRequest/{id}/_history/{vid}": {
+      "get": {
+        "summary": "Read version of MedicationRequest",
+        "tags": [
+          "MedicationRequest"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Version ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "MedicationRequest version read",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/MedicationRequest/{id}/_history": {
+      "get": {
+        "summary": "History of a specific MedicationRequest",
+        "tags": [
+          "MedicationRequest"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -832,30 +1178,87 @@
         }
       }
     },
-    "/epa/medication/api/v1/fhir/$provide-prescription-erp": {
-      "post": {
-        "operationId": "providePrescription_MedicationSvc",
+    "/MedicationRequest/_history": {
+      "get": {
+        "summary": "History for all MedicationRequest",
         "tags": [
-          "Operations"
+          "MedicationRequest"
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/fhir+json": {
-              "schema": {
-                "type": "object"
-              }
-            },
-            "application/fhir+xml": {
-              "schema": {
-                "type": "object"
-              }
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
-            "description": "EPAOpRxPrescriptionERPOutputParameters",
+            "description": "History for type retrieved",
             "content": {
               "application/fhir+json": {
                 "schema": {
@@ -881,7 +1284,216 @@
           "500": {
             "description": "Any other error"
           }
-        },
+        }
+      }
+    },
+    "/MedicationRequest": {
+      "get": {
+        "summary": "Search for MedicationRequest",
+        "tags": [
+          "MedicationRequest"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_include",
+            "in": "query",
+            "required": false,
+            "description": "Including other resources",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_revinclude",
+            "in": "query",
+            "required": false,
+            "description": "Reverse include other resources",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource.id"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Resource.meta.lastUpdated"
+          },
+          {
+            "name": "_has",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Return resources linked to by the given target"
+          },
+          {
+            "name": "identifier",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "MedicationRequest.identifier"
+          },
+          {
+            "name": "authoredon",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "MedicationRequest.authoredOn"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "MedicationRequest.status"
+          },
+          {
+            "name": "requester",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "MedicationRequest.requester"
+          },
+          {
+            "name": "medication",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "MedicationRequest.medication as Reference"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search successful",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new MedicationRequest",
+        "tags": [
+          "MedicationRequest"
+        ],
         "parameters": [
           {
             "name": "X-Request-ID",
@@ -913,33 +1525,10 @@
               "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
             }
           }
-        ]
-      }
-    },
-    "/epa/medication/api/v1/fhir/$provide-dispensation-erp": {
-      "post": {
-        "operationId": "provideDispensation_MedicationSvc",
-        "tags": [
-          "Operations"
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/fhir+json": {
-              "schema": {
-                "type": "object"
-              }
-            },
-            "application/fhir+xml": {
-              "schema": {
-                "type": "object"
-              }
-            }
-          }
-        },
         "responses": {
-          "200": {
-            "description": "EPAOpRxDispensationERPOutputParameters",
+          "201": {
+            "description": "Resource created",
             "content": {
               "application/fhir+json": {
                 "schema": {
@@ -966,6 +1555,29 @@
             "description": "Any other error"
           }
         },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/MedicationDispense/{id}": {
+      "get": {
+        "summary": "Read a specific MedicationDispense",
+        "tags": [
+          "MedicationDispense"
+        ],
         "parameters": [
           {
             "name": "X-Request-ID",
@@ -996,34 +1608,33 @@
               "type": "string",
               "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
             }
-          }
-        ]
-      }
-    },
-    "/epa/medication/api/v1/fhir/$cancel-prescription-erp": {
-      "post": {
-        "operationId": "cancelPrescription_MedicationSvc",
-        "tags": [
-          "Operations"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/fhir+json": {
-              "schema": {
-                "type": "object"
-              }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             },
-            "application/fhir+xml": {
-              "schema": {
-                "type": "object"
-              }
+            "description": "Resource ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
             }
           }
-        },
+        ],
         "responses": {
           "200": {
-            "description": "EPAOpRxPrescriptionERPOutputParameters",
+            "description": "MedicationDispense successfully read",
             "content": {
               "application/fhir+json": {
                 "schema": {
@@ -1049,7 +1660,15 @@
           "500": {
             "description": "Any other error"
           }
-        },
+        }
+      }
+    },
+    "/MedicationDispense/{id}/_history/{vid}": {
+      "get": {
+        "summary": "Read version of MedicationDispense",
+        "tags": [
+          "MedicationDispense"
+        ],
         "parameters": [
           {
             "name": "X-Request-ID",
@@ -1080,16 +1699,669 @@
               "type": "string",
               "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
             }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Version ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": "MedicationDispense version read",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
       }
     },
-    "/epa/medication/api/v1/fhir/$cancel-dispensation-erp": {
-      "post": {
-        "operationId": "cancelDispensation_MedicationSvc",
+    "/MedicationDispense/{id}/_history": {
+      "get": {
+        "summary": "History of a specific MedicationDispense",
         "tags": [
-          "Operations"
+          "MedicationDispense"
         ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History retrieved",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/MedicationDispense/_history": {
+      "get": {
+        "summary": "History for all MedicationDispense",
+        "tags": [
+          "MedicationDispense"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History for type retrieved",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/MedicationDispense": {
+      "get": {
+        "summary": "Search for MedicationDispense",
+        "tags": [
+          "MedicationDispense"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_include",
+            "in": "query",
+            "required": false,
+            "description": "Including other resources",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource.id"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Resource.meta.lastUpdated"
+          },
+          {
+            "name": "_has",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Return resources linked to by the given target"
+          },
+          {
+            "name": "identifier",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "MedicationDispense.identifier"
+          },
+          {
+            "name": "whenhandedover",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "MedicationDispense.whenHandedOver"
+          },
+          {
+            "name": "prescription",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "MedicationDispense.authorizingPrescription"
+          },
+          {
+            "name": "performer",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "MedicationDispense.performer.actor"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "MedicationDispense.status"
+          },
+          {
+            "name": "medication",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "MedicationDispense.medication as Reference"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search successful",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/MedicationDispense/": {
+      "put": {
+        "summary": "Update or Create MedicationDispense by ID",
+        "tags": [
+          "MedicationDispense"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource.id"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Resource.meta.lastUpdated"
+          },
+          {
+            "name": "_has",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Return resources linked to by the given target"
+          },
+          {
+            "name": "identifier",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "MedicationDispense.identifier"
+          },
+          {
+            "name": "whenhandedover",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "MedicationDispense.whenHandedOver"
+          },
+          {
+            "name": "prescription",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "MedicationDispense.authorizingPrescription"
+          },
+          {
+            "name": "performer",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "MedicationDispense.performer.actor"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "MedicationDispense.status"
+          },
+          {
+            "name": "medication",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "MedicationDispense.medication as Reference"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource conditional update",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Resource conditional update",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        },
         "requestBody": {
           "required": true,
           "content": {
@@ -1104,10 +2376,2081 @@
               }
             }
           }
-        },
+        }
+      }
+    },
+    "/Organization/{id}": {
+      "get": {
+        "summary": "Read a specific Organization",
+        "tags": [
+          "Organization"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "EPAOpRxDispensationERPOutputParameters",
+            "description": "Organization successfully read",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/Organization/{id}/_history/{vid}": {
+      "get": {
+        "summary": "Read version of Organization",
+        "tags": [
+          "Organization"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Version ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Organization version read",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/Organization/{id}/_history": {
+      "get": {
+        "summary": "History of a specific Organization",
+        "tags": [
+          "Organization"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History retrieved",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/Organization/_history": {
+      "get": {
+        "summary": "History for all Organization",
+        "tags": [
+          "Organization"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History for type retrieved",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/Organization": {
+      "get": {
+        "summary": "Search for Organization",
+        "tags": [
+          "Organization"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_revinclude",
+            "in": "query",
+            "required": false,
+            "description": "Reverse include other resources",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource.id"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Resource.meta.lastUpdated"
+          },
+          {
+            "name": "_has",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Return resources linked to by the given target"
+          },
+          {
+            "name": "identifier",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Organization.identifier"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Organization.name | Organization.alias"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search successful",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/Practitioner/{id}": {
+      "get": {
+        "summary": "Read a specific Practitioner",
+        "tags": [
+          "Practitioner"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Practitioner successfully read",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/Practitioner/{id}/_history/{vid}": {
+      "get": {
+        "summary": "Read version of Practitioner",
+        "tags": [
+          "Practitioner"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Version ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Practitioner version read",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/Practitioner/{id}/_history": {
+      "get": {
+        "summary": "History of a specific Practitioner",
+        "tags": [
+          "Practitioner"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History retrieved",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/Practitioner/_history": {
+      "get": {
+        "summary": "History for all Practitioner",
+        "tags": [
+          "Practitioner"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History for type retrieved",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/Practitioner": {
+      "get": {
+        "summary": "Search for Practitioner",
+        "tags": [
+          "Practitioner"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_revinclude",
+            "in": "query",
+            "required": false,
+            "description": "Reverse include other resources",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource.id"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Resource.meta.lastUpdated"
+          },
+          {
+            "name": "_has",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Return resources linked to by the given target"
+          },
+          {
+            "name": "identifier",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Practitioner.identifier"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Practitioner.name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search successful",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/Practitioner/": {
+      "put": {
+        "summary": "Update or Create Practitioner by ID",
+        "tags": [
+          "Practitioner"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource.id"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Resource.meta.lastUpdated"
+          },
+          {
+            "name": "_has",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Return resources linked to by the given target"
+          },
+          {
+            "name": "identifier",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Practitioner.identifier"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Practitioner.name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource conditional update",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Resource conditional update",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/PractitionerRole/{id}": {
+      "get": {
+        "summary": "Read a specific PractitionerRole",
+        "tags": [
+          "PractitionerRole"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PractitionerRole successfully read",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/PractitionerRole/{id}/_history/{vid}": {
+      "get": {
+        "summary": "Read version of PractitionerRole",
+        "tags": [
+          "PractitionerRole"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Version ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "PractitionerRole version read",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/PractitionerRole/{id}/_history": {
+      "get": {
+        "summary": "History of a specific PractitionerRole",
+        "tags": [
+          "PractitionerRole"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History retrieved",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/PractitionerRole/_history": {
+      "get": {
+        "summary": "History for all PractitionerRole",
+        "tags": [
+          "PractitionerRole"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History for type retrieved",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/PractitionerRole": {
+      "get": {
+        "summary": "Search for PractitionerRole",
+        "tags": [
+          "PractitionerRole"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specifies the return format",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_include",
+            "in": "query",
+            "required": false,
+            "description": "Including other resources",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_revinclude",
+            "in": "query",
+            "required": false,
+            "description": "Reverse include other resources",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource.id"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Resource.meta.lastUpdated"
+          },
+          {
+            "name": "_has",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Return resources linked to by the given target"
+          },
+          {
+            "name": "identifier",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "PractitionerRole.identifier"
+          },
+          {
+            "name": "practitioner",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "PractitionerRole.practitioner"
+          },
+          {
+            "name": "organization",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "PractitionerRole.organization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search successful",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/PractitionerRole/": {
+      "put": {
+        "summary": "Update or Create PractitionerRole by ID",
+        "tags": [
+          "PractitionerRole"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_id",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource.id"
+          },
+          {
+            "name": "_lastUpdated",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Resource.meta.lastUpdated"
+          },
+          {
+            "name": "_has",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Return resources linked to by the given target"
+          },
+          {
+            "name": "identifier",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "PractitionerRole.identifier"
+          },
+          {
+            "name": "practitioner",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "PractitionerRole.practitioner"
+          },
+          {
+            "name": "organization",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "PractitionerRole.organization"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource conditional update",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Resource conditional update",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/epa/medication/api/v1/fhir/metadata": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "This functionality ensures that a call to /metadata returns the FHIR CapabilityStatement.",
             "content": {
               "application/fhir+json": {
                 "schema": {

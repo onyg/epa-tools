@@ -193,9 +193,22 @@
             "MedicationDispense:medication",
             "Medication:ingredient"
           ],
+          "operation": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "$provide",
+              "definition": "https://gematik.de/fhir/epa-medication/OperationDefinition/provide-medication-OP"
+            }
+          ],
           "type": "Medication",
           "versioning": "versioned-update",
           "readHistory": true,
+          "conditionalUpdate": true,
           "profile": "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication",
           "_profile": {
             "extension": [
@@ -368,6 +381,7 @@
           "type": "MedicationRequest",
           "versioning": "versioned-update",
           "readHistory": true,
+          "conditionalUpdate": true,
           "profile": "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication-request",
           "_profile": {
             "extension": [
@@ -550,6 +564,7 @@
           "type": "MedicationDispense",
           "versioning": "versioned-update",
           "readHistory": true,
+          "conditionalUpdate": true,
           "profile": "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication-dispense",
           "_profile": {
             "extension": [
@@ -696,7 +711,8 @@
           ],
           "type": "Organization",
           "versioning": "versioned-update",
-          "readHistory": true
+          "readHistory": true,
+          "conditionalUpdate": true
         },
         {
           "extension": [
@@ -834,7 +850,8 @@
           ],
           "type": "Practitioner",
           "versioning": "versioned-update",
-          "readHistory": true
+          "readHistory": true,
+          "conditionalUpdate": true
         },
         {
           "extension": [
@@ -974,7 +991,8 @@
           ],
           "type": "PractitionerRole",
           "versioning": "versioned-update",
-          "readHistory": true
+          "readHistory": true,
+          "conditionalUpdate": true
         }
       ],
       "operation": [
@@ -1027,17 +1045,6 @@
           ],
           "name": "medication-list",
           "definition": "https://gematik.de/fhir/epa-medication/OperationDefinition/get-medication-list-op"
-        }
-      ],
-      "interaction": [
-        {
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-              "valueCode": "SHALL"
-            }
-          ],
-          "code": "capabilities"
         }
       ],
       "mode": "server"
