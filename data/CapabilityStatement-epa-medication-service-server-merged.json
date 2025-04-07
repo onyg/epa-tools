@@ -1019,6 +1019,16 @@
               "valueCode": "SHALL"
             }
           ],
+          "name": "$provide",
+          "definition": "https://gematik.de/fhir/epa-medication/OperationDefinition/provide-medication-OP"
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+              "valueCode": "SHALL"
+            }
+          ],
           "name": "provide-prescription-erp",
           "definition": "https://gematik.de/fhir/epa-medication/OperationDefinition/provide-prescription-erp-OP"
         },

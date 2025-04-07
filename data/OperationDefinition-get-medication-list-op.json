@@ -4,6 +4,9 @@
   "url": "https://gematik.de/fhir/epa-medication/OperationDefinition/get-medication-list-op",
   "title": "Get Medication List",
   "description": "Get a medication list",
+  "resource": [
+    "Medication"
+  ],
   "parameter": [
     {
       "name": "date",
@@ -47,6 +50,6 @@
   "code": "medication-list",
   "affectsState": false,
   "system": true,
-  "type": false,
-  "instance": false
+  "type": true,
+  "instance": true
 }

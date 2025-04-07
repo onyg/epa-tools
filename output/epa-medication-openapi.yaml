@@ -3045,6 +3045,504 @@ paths:
           application/fhir+xml:
             schema:
               type: object
+  /Medication/$provide:
+    post:
+      summary: Type-level FHIR Operation $provide
+      tags:
+      - Medication
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+  /$provide-prescription-erp:
+    post:
+      summary: System-level FHIR Operation $provide-prescription-erp
+      tags:
+      - System-level FHIR Operation
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+  /$cancel-prescription-erp:
+    post:
+      summary: System-level FHIR Operation $cancel-prescription-erp
+      tags:
+      - System-level FHIR Operation
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+  /$provide-dispensation-erp:
+    post:
+      summary: System-level FHIR Operation $provide-dispensation-erp
+      tags:
+      - System-level FHIR Operation
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+  /$cancel-dispensation-erp:
+    post:
+      summary: System-level FHIR Operation $cancel-dispensation-erp
+      tags:
+      - System-level FHIR Operation
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+  /$medication-list:
+    get:
+      summary: System-level FHIR Operation $medication-list
+      tags:
+      - System-level FHIR Operation
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: date
+        in: query
+        required: false
+        description: Limit the search to this date. Can specify upper or lower limits
+          and periods by providing an upper and a lower limit.
+        schema:
+          type: string
+      - name: _count
+        in: query
+        required: false
+        description: Limit the result bundle to this many entries. To get more entries
+          request the next page.
+        schema:
+          type: integer
+      - name: _offset
+        in: query
+        required: false
+        description: Defines the offset of the first entry in the collection.
+        schema:
+          type: integer
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+  /Medication/$medication-list:
+    get:
+      summary: Type-level FHIR Operation $medication-list
+      tags:
+      - Medication
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: date
+        in: query
+        required: false
+        description: Limit the search to this date. Can specify upper or lower limits
+          and periods by providing an upper and a lower limit.
+        schema:
+          type: string
+      - name: _count
+        in: query
+        required: false
+        description: Limit the result bundle to this many entries. To get more entries
+          request the next page.
+        schema:
+          type: integer
+      - name: _offset
+        in: query
+        required: false
+        description: Defines the offset of the first entry in the collection.
+        schema:
+          type: integer
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+  /Medication/{id}/$medication-list:
+    get:
+      summary: Instance-level FHIR Operation $medication-list
+      tags:
+      - Medication
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: date
+        in: query
+        required: false
+        description: Limit the search to this date. Can specify upper or lower limits
+          and periods by providing an upper and a lower limit.
+        schema:
+          type: string
+      - name: _count
+        in: query
+        required: false
+        description: Limit the result bundle to this many entries. To get more entries
+          request the next page.
+        schema:
+          type: integer
+      - name: _offset
+        in: query
+        required: false
+        description: Defines the offset of the first entry in the collection.
+        schema:
+          type: integer
+      - name: _format
+        in: query
+        required: false
+        description: Specifies the return format
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /epa/medication/api/v1/fhir/metadata:
     get:
       responses:
