@@ -1,0 +1,384 @@
+openapi: 3.0.3
+info:
+  title: EPA CapabilityStatement für den Patient Service
+  version: 1.1.5
+  description: EPA CapabilityStatement für den Patient Service
+paths:
+  /Patient:
+    get:
+      summary: Search for Patient
+      tags:
+      - Patient
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Patient.identifier
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Unknown resource type
+  /Patient/{id}:
+    get:
+      summary: Read a specific Patient
+      tags:
+      - Patient
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: Patient successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Not found
+    put:
+      summary: Update Patient by ID
+      tags:
+      - Patient
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      responses:
+        '200':
+          description: Resource updated
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '201':
+          description: Created, wenn eine neue Ressourceninstanz erstellt wurde
+        '400':
+          description: Bad Request, falls eine falsche ID in der Anfrage angegeben
+            wurde
+        '403':
+          description: ID-Token or Insurant-ID mismatch
+        '404':
+          description: Resource is not known
+        '412':
+          description: Precondition Failed, wenn mehrere Ressourceninstanz gefunden
+            wurden
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+  /Patient/{id}/_history/{vid}:
+    get:
+      summary: Read version of Patient
+      tags:
+      - Patient
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: Patient version read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Not found
+  /Patient/{id}/_history:
+    get:
+      summary: History of a specific Patient
+      tags:
+      - Patient
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Not found
+  /Patient/_history:
+    get:
+      summary: History for all Patient
+      tags:
+      - Patient
+      parameters:
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History for type retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Not found
+  /Patient/:
+    put:
+      summary: Update or Create Patient by ID
+      tags:
+      - Patient
+      parameters:
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Patient.identifier
+      responses:
+        '200':
+          description: Resource conditional update
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '201':
+          description: Resource conditional update
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+  /epa/medication/api/v1/fhir/metadata:
+    get:
+      responses:
+        '200':
+          description: This functionality ensures that a call to /metadata returns
+            the FHIR CapabilityStatement.
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+      parameters: []
+  /epa/medication/render/v1/eml/xhtml:
+    get:
+      operationId: renderEMLAsHTML
+      tags:
+      - Render
+      responses:
+        '200':
+          description: OK
+          content:
+            text/html:
+              schema:
+                type: string
+      parameters: []
+  /epa/medication/render/v1/eml/pdf:
+    get:
+      operationId: renderEMLAsPDF
+      tags:
+      - Render
+      responses:
+        '200':
+          description: OK
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+      parameters: []
+components:
+  responses: {}
+  headers: {}

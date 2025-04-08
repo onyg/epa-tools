@@ -3,6 +3,37 @@ import json
 import yaml
 from urllib.parse import urlparse
 
+from common import BaseConfig, FHIRArtifactLoader
+
+class ConvertConfig(object):
+
+    def __init__(self):
+        self.input = None
+        self.output = None
+        self.additional_openapi = None
+
+class OpenAPIConfig(BaseConfig):
+
+    def __init__(self, config):
+        super().__init__(config)
+        self.config_file = config
+        self.path_resource = "fsh-generated/resources"
+        self.path_output = "openapi"
+        self.capability_statement = []
+
+    def from_dict(self, data):
+        if 'openapi' in data:
+            params = data.get('openapi')
+            self.path_resource = params.get('path-resource', self.path_resource)
+            self.path_output = params.get('path-output', self.path_output)
+            self.capability_statement = []
+            for cs in params.get('capability-statement', []):
+                convert_config = ConvertConfig()
+                convert_config.input = cs.get('input', None)
+                convert_config.output = cs.get('output', None)
+                convert_config.additional_openapi = cs.get('additional-openapi', None)
+                self.capability_statement.append(convert_config)
+            
 
 class NoAliasDumper(yaml.SafeDumper):
     def ignore_aliases(self, data):
@@ -29,12 +60,12 @@ def fhir_to_openapi_type(fhir_type):
 # Operations
 ###
 def load_operation_definitions_from_same_folder(capability_path):
-    folder = os.path.dirname(capability_path)
+    # folder = capability_path
     operation_definitions = []
 
-    for filename in os.listdir(folder):
+    for filename in os.listdir(capability_path):
         if filename.endswith(".json") and "OperationDefinition" in filename:
-            with open(os.path.join(folder, filename), "r", encoding="utf-8") as f:
+            with open(os.path.join(capability_path, filename), "r", encoding="utf-8") as f:
                 content = json.load(f)
                 if content.get("resourceType") == "OperationDefinition":
                     operation_definitions.append(content)
@@ -359,7 +390,6 @@ def build_revinclude_query_param(search_rev_include):
     return None
 
 
-# Am Ende von capabilitystatement_to_openapi hinzufügen:
 def merge_manual_operations(openapi, manual_path):
     if not os.path.exists(manual_path):
         print(f"⚠️ Keine manuelle OpenAPI-Datei gefunden unter {manual_path}")
@@ -555,7 +585,12 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
     return paths
 
 
-def capabilitystatement_to_openapi(capability):
+def capabilitystatement_to_openapi(path_resource, resource, additional_openapi):
+    capability, filename = FHIRArtifactLoader.load_artifact(path=path_resource, resource=resource)
+
+    if capability is None:
+        return None
+
     openapi = {
         "openapi": "3.0.3",
         "info": {
@@ -624,7 +659,7 @@ def capabilitystatement_to_openapi(capability):
     ###
     # OperationDefinition-Dateien einlesen (hier Beispiel mit leeren Array)
     ###
-    operation_definitions = load_operation_definitions_from_same_folder(input_path)
+    operation_definitions = load_operation_definitions_from_same_folder(path_resource)
     openapi = add_operations_from_capabilitystatement(
         openapi=openapi,
         capability=capability,
@@ -638,7 +673,8 @@ def capabilitystatement_to_openapi(capability):
     ###
     # Loads the OpenAPI with manual operations.
     ###
-    openapi = merge_manual_operations(openapi, manual_operations_path)
+    if additional_openapi:
+        openapi = merge_manual_operations(openapi, additional_openapi)
 
     ###
     # Set the global headers
@@ -664,28 +700,55 @@ def capabilitystatement_to_openapi(capability):
     return openapi
 
 
-if __name__ == "__main__":
+class OpenApiConverter(object):
 
-    # Original-Dateipfade
-    input_path = "./data/CapabilityStatement-epa-medication-service-server-merged.json"
-    # input_path = "./data/CapabilityStatement-epa-audit-event-server-merged.json"
-    output_json_path = "./output/epa-medication-openapi.json"
-    output_yaml_path = "./output/epa-medication-openapi.yaml"
-    manual_operations_path = "./openapis/manual-operations.yaml"  # << Neue Datei mit eigenen Operationen
+    def __init__(self, config_file):
+        self.config = OpenAPIConfig(config=config_file)
+
+    def load(self):
+        self.config.load()
+        return self
+
+    def convert(self):
+        for c in self.config.capability_statement:
+            openapi_spec = capabilitystatement_to_openapi(path_resource=self.config.path_resource, resource=c.input, additional_openapi=c.additional_openapi)
+            if openapi_spec is None:
+                print(f"❌ Error: not foud {c.input} in {self.config.path_resource}")
+            output = os.path.join(self.config.path_output, c.output)
+            
+            os.makedirs(os.path.dirname(output), exist_ok=True)
+            with open(output, "w", encoding="utf-8") as f:
+                _, ext = os.path.splitext(output.lower())
+                if ext == ".json":
+                    json.dump(openapi_spec, f, indent=2, ensure_ascii=False)
+                elif ext in [".yaml", ".yml"]:
+                    yaml.dump(openapi_spec, f, indent=2, sort_keys=False, allow_unicode=True, Dumper=NoAliasDumper)
+                else:
+                    raise ValueError(f"Nicht unterstütztes Dateiformat: {ext}")
 
 
-    # input_path = "./data/CapabilityStatement-epa-patient-server-merged.json"
-    # output_json_path = "./output/epa-patient-openapi.json"
-    # output_yaml_path = "./output/epa-patient-openapi.yaml"
-    # manual_operations_path = "./openapis/manual-operations.yaml"  # << Neue Datei mit eigenen Operationen
+# if __name__ == "__main__":
+
+#     # Original-Dateipfade
+#     input_path = "./data/CapabilityStatement-epa-medication-service-server-merged.json"
+#     # input_path = "./data/CapabilityStatement-epa-audit-event-server-merged.json"
+#     output_json_path = "./output/epa-medication-openapi.json"
+#     output_yaml_path = "./output/epa-medication-openapi.yaml"
+#     manual_operations_path = "./openapis/manual-operations.yaml"  # << Neue Datei mit eigenen Operationen
 
 
-    with open(input_path, "r", encoding="utf-8") as f:
-        capability = json.load(f)
-    openapi_spec = capabilitystatement_to_openapi(capability)
+#     # input_path = "./data/CapabilityStatement-epa-patient-server-merged.json"
+#     # output_json_path = "./output/epa-patient-openapi.json"
+#     # output_yaml_path = "./output/epa-patient-openapi.yaml"
+#     # manual_operations_path = "./openapis/manual-operations.yaml"  # << Neue Datei mit eigenen Operationen
 
-    with open(output_json_path, "w", encoding="utf-8") as f:
-        json.dump(openapi_spec, f, indent=2, ensure_ascii=False)
 
-    with open(output_yaml_path, "w", encoding="utf-8") as f:
-        yaml.dump(openapi_spec, f, indent=2, sort_keys=False, allow_unicode=True, Dumper=NoAliasDumper)
+#     with open(input_path, "r", encoding="utf-8") as f:
+#         capability = json.load(f)
+#     openapi_spec = capabilitystatement_to_openapi(capability)
+
+#     with open(output_json_path, "w", encoding="utf-8") as f:
+#         json.dump(openapi_spec, f, indent=2, ensure_ascii=False)
+
+#     with open(output_yaml_path, "w", encoding="utf-8") as f:
+#         yaml.dump(openapi_spec, f, indent=2, sort_keys=False, allow_unicode=True, Dumper=NoAliasDumper)

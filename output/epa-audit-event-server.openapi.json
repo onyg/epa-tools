@@ -14,40 +14,10 @@
         ],
         "parameters": [
           {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          },
-          {
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specifies the return format",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -113,16 +83,7 @@
             "description": "Invalid request"
           },
           "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "403": {
-            "description": "Device registration does not exist"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
+            "description": "Unknown resource type"
           }
         }
       }
@@ -134,36 +95,6 @@
           "Patient"
         ],
         "parameters": [
-          {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          },
           {
             "name": "id",
             "in": "path",
@@ -177,7 +108,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specifies the return format",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -207,16 +138,7 @@
             "description": "Invalid request"
           },
           "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "403": {
-            "description": "Device registration does not exist"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
+            "description": "Not found"
           }
         }
       },
@@ -226,36 +148,6 @@
           "Patient"
         ],
         "parameters": [
-          {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          },
           {
             "name": "id",
             "in": "path",
@@ -289,19 +181,13 @@
             "description": "Bad Request, falls eine falsche ID in der Anfrage angegeben wurde"
           },
           "403": {
-            "description": "Device registration does not exist"
+            "description": "ID-Token or Insurant-ID mismatch"
           },
           "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
+            "description": "Resource is not known"
           },
           "412": {
             "description": "Precondition Failed, wenn mehrere Ressourceninstanz gefunden wurden"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
           }
         },
         "requestBody": {
@@ -329,36 +215,6 @@
         ],
         "parameters": [
           {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          },
-          {
             "name": "id",
             "in": "path",
             "required": true,
@@ -380,7 +236,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specifies the return format",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -410,16 +266,7 @@
             "description": "Invalid request"
           },
           "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "403": {
-            "description": "Device registration does not exist"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
+            "description": "Not found"
           }
         }
       }
@@ -431,36 +278,6 @@
           "Patient"
         ],
         "parameters": [
-          {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          },
           {
             "name": "id",
             "in": "path",
@@ -474,7 +291,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specifies the return format",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -531,16 +348,7 @@
             "description": "Invalid request"
           },
           "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "403": {
-            "description": "Device registration does not exist"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
+            "description": "Not found"
           }
         }
       }
@@ -553,40 +361,10 @@
         ],
         "parameters": [
           {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          },
-          {
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specifies the return format",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -643,16 +421,7 @@
             "description": "Invalid request"
           },
           "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "403": {
-            "description": "Device registration does not exist"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
+            "description": "Not found"
           }
         }
       }
@@ -664,36 +433,6 @@
           "Patient"
         ],
         "parameters": [
-          {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          },
           {
             "name": "identifier",
             "in": "query",
@@ -734,18 +473,6 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Device registration does not exist"
-          },
-          "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
           }
         },
         "requestBody": {
@@ -782,52 +509,9 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Device registration does not exist"
-          },
-          "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
           }
         },
-        "parameters": [
-          {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          }
-        ]
+        "parameters": []
       }
     },
     "/epa/medication/render/v1/eml/xhtml": {
@@ -846,52 +530,9 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Device registration does not exist"
-          },
-          "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
           }
         },
-        "parameters": [
-          {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          }
-        ]
+        "parameters": []
       }
     },
     "/epa/medication/render/v1/eml/pdf": {
@@ -911,52 +552,9 @@
                 }
               }
             }
-          },
-          "403": {
-            "description": "Device registration does not exist"
-          },
-          "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
           }
         },
-        "parameters": [
-          {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          }
-        ]
+        "parameters": []
       }
     }
   },
