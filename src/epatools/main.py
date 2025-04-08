@@ -6,7 +6,7 @@ from epatools.version import __APPNAME__, __VERSION__
 import epatools.cli as cli 
 from epatools.merger import Merger
 from epatools.oaconverter import OpenApiConverter
-
+from epatools.common import DEFAULT_CONFIG
 
 def main():
     parser = argparse.ArgumentParser(description=cli.get_version(__APPNAME__, __VERSION__))
@@ -14,12 +14,12 @@ def main():
     subparsers = parser.add_subparsers(dest="command", help="Commands")
 
     merge_parser = subparsers.add_parser("merge", help="Merge capability statements")
-    merge_parser.add_argument("--config", help="Config", default="sushi-config.yaml")
+    merge_parser.add_argument("--config", help="Config", default=DEFAULT_CONFIG)
     merge_parser.add_argument("--extra", action="store_true", help="Do not overwrite the CapabilityStatement")
 
 
     openapi_parser = subparsers.add_parser("openapi", help="Convert capability statements to openAPI")
-    openapi_parser.add_argument("--config", help="Config", default="sushi-config.yaml")
+    openapi_parser.add_argument("--config", help="Config", default=DEFAULT_CONFIG)
 
     args = parser.parse_args()
 

@@ -1,0 +1,37 @@
+
+### EPA TOOLS
+
+merger:
+  # path-resource: fsh-generated/resources
+  path-resource: data
+  base:
+    packages: de.gematik.epa
+    version: current
+    resource: CapabilityStatement/epa-basic-server
+  resource:
+    - CapabilityStatement/epa-patient-server
+    - CapabilityStatement/epa-medication-service-server
+    - CapabilityStatement/epa-audit-event-server
+
+openapi:
+  path-output: output
+  path-resource: data
+  capability-statement:
+    - input: CapabilityStatement/epa-patient-server-merged
+      output: epa-patient-server.openapi.json
+      additional-openapi: openapis/manual-operations.yaml
+    - input: CapabilityStatement/epa-patient-server-merged
+      output: epa-patient-server.openapi.yaml
+      additional-openapi: openapis/manual-operations.yaml
+    - input: CapabilityStatement/epa-medication-service-server-merged
+      output: epa-medication-service-server.openapi.json
+      additional-openapi: openapis/manual-operations.yaml
+    - input: CapabilityStatement/epa-medication-service-server-merged
+      output: epa-medication-service-server.openapi.yaml
+      additional-openapi: openapis/manual-operations.yaml
+    - input: CapabilityStatement/epa-audit-event-server-merged
+      output: epa-audit-event-server.openapi.json
+      additional-openapi: openapis/manual-operations.yaml
+    - input: CapabilityStatement/epa-audit-event-server-merged
+      output: epa-audit-event-server.openapi.yaml
+      additional-openapi: openapis/manual-operations.yaml

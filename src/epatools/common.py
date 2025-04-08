@@ -9,6 +9,8 @@ FHIR_FOLDERS = [
     os.path.join(os.getcwd(), "dependencies")
 ]
 
+DEFAULT_CONFIG = 'epatools.yaml'
+
 
 class BaseConfig(object):
 
