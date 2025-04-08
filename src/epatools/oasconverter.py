@@ -290,7 +290,7 @@ def build_format_query_param(fhir_formats):
             "name": "_format",
             "in": "query",
             "required": False,
-            "description": "Specifies the return format",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
             "schema": {
                 "type": "string",
                 "enum": fhir_formats
@@ -672,6 +672,13 @@ if __name__ == "__main__":
     output_json_path = "./output/epa-medication-openapi.json"
     output_yaml_path = "./output/epa-medication-openapi.yaml"
     manual_operations_path = "./openapis/manual-operations.yaml"  # << Neue Datei mit eigenen Operationen
+
+
+    # input_path = "./data/CapabilityStatement-epa-patient-server-merged.json"
+    # output_json_path = "./output/epa-patient-openapi.json"
+    # output_yaml_path = "./output/epa-patient-openapi.yaml"
+    # manual_operations_path = "./openapis/manual-operations.yaml"  # << Neue Datei mit eigenen Operationen
+
 
     with open(input_path, "r", encoding="utf-8") as f:
         capability = json.load(f)

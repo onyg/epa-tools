@@ -271,24 +271,6 @@
                 }
               ],
               "code": "search-type"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "code": "update"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "code": "create"
             }
           ],
           "searchParam": [
@@ -399,6 +381,7 @@
           "type": "MedicationRequest",
           "versioning": "versioned-update",
           "readHistory": true,
+          "conditionalUpdate": true,
           "profile": "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication-request",
           "_profile": {
             "extension": [
@@ -728,7 +711,8 @@
           ],
           "type": "Organization",
           "versioning": "versioned-update",
-          "readHistory": true
+          "readHistory": true,
+          "conditionalUpdate": true
         },
         {
           "extension": [
@@ -1012,16 +996,6 @@
         }
       ],
       "operation": [
-        {
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-              "valueCode": "SHALL"
-            }
-          ],
-          "name": "$provide",
-          "definition": "https://gematik.de/fhir/epa-medication/OperationDefinition/provide-medication-OP"
-        },
         {
           "extension": [
             {
