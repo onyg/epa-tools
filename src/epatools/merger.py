@@ -31,6 +31,7 @@ class Merger(object):
 
     def __init__(self, config_file):
         self.config = MergerConfig(config=config_file)
+        self.extra_merged_file = False
 
     def load(self):
         self.config.load()
@@ -71,9 +72,10 @@ class Merger(object):
             artifact, filename = FHIRArtifactLoader.load_artifact(path=self.config.path_resources, resource=overlay_resource)
             if artifact:
                 merged_artifact = self.deep_merge(base=base_artifact, overlay=artifact)
-                name, ext = filename.split('.json')
-                output_file = name + "-merged.json"
-                output = os.path.join(self.config.path_resources, output_file)
+                if self.extra_merged_file:
+                    name, ext = filename.split('.json')
+                    filename = name + "-merged.json"
+                output = os.path.join(self.config.path_resources, filename)
                 with open(output, "w", encoding="utf-8") as f:
                     json.dump(merged_artifact, f, indent=2, ensure_ascii=False)
                 print(f"✅  Merged CapabilityStatement saved to {output}")
