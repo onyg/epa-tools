@@ -10,6 +10,27 @@ paths:
       tags:
       - Medication
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -36,12 +57,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Medication/{id}/_history/{vid}:
     get:
       summary: Read version of Medication
       tags:
       - Medication
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -74,12 +124,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Medication/{id}/_history:
     get:
       summary: History of a specific Medication
       tags:
       - Medication
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -130,12 +209,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Medication/_history:
     get:
       summary: History for all Medication
       tags:
       - Medication
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _format
         in: query
         required: false
@@ -180,12 +288,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Medication:
     get:
       summary: Search for Medication
       tags:
       - Medication
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _format
         in: query
         required: false
@@ -285,12 +422,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Medication/:
     put:
       summary: Update or Create Medication by ID
       tags:
       - Medication
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _id
         in: query
         required: false
@@ -353,6 +519,14 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
       requestBody:
         required: true
         content:
@@ -368,6 +542,27 @@ paths:
       tags:
       - MedicationRequest
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -394,12 +589,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /MedicationRequest/{id}/_history/{vid}:
     get:
       summary: Read version of MedicationRequest
       tags:
       - MedicationRequest
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -432,12 +656,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /MedicationRequest/{id}/_history:
     get:
       summary: History of a specific MedicationRequest
       tags:
       - MedicationRequest
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -488,12 +741,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /MedicationRequest/_history:
     get:
       summary: History for all MedicationRequest
       tags:
       - MedicationRequest
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _format
         in: query
         required: false
@@ -538,12 +820,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /MedicationRequest:
     get:
       summary: Search for MedicationRequest
       tags:
       - MedicationRequest
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _format
         in: query
         required: false
@@ -652,12 +963,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /MedicationRequest/:
     put:
       summary: Update or Create MedicationRequest by ID
       tags:
       - MedicationRequest
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _id
         in: query
         required: false
@@ -729,6 +1069,14 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
       requestBody:
         required: true
         content:
@@ -744,6 +1092,27 @@ paths:
       tags:
       - MedicationDispense
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -770,12 +1139,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /MedicationDispense/{id}/_history/{vid}:
     get:
       summary: Read version of MedicationDispense
       tags:
       - MedicationDispense
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -808,12 +1206,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /MedicationDispense/{id}/_history:
     get:
       summary: History of a specific MedicationDispense
       tags:
       - MedicationDispense
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -864,12 +1291,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /MedicationDispense/_history:
     get:
       summary: History for all MedicationDispense
       tags:
       - MedicationDispense
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _format
         in: query
         required: false
@@ -914,12 +1370,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /MedicationDispense:
     get:
       summary: Search for MedicationDispense
       tags:
       - MedicationDispense
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _format
         in: query
         required: false
@@ -1029,12 +1514,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /MedicationDispense/:
     put:
       summary: Update or Create MedicationDispense by ID
       tags:
       - MedicationDispense
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _id
         in: query
         required: false
@@ -1113,6 +1627,14 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
       requestBody:
         required: true
         content:
@@ -1128,6 +1650,27 @@ paths:
       tags:
       - Organization
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -1154,12 +1697,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Organization/{id}/_history/{vid}:
     get:
       summary: Read version of Organization
       tags:
       - Organization
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -1192,12 +1764,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Organization/{id}/_history:
     get:
       summary: History of a specific Organization
       tags:
       - Organization
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -1248,12 +1849,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Organization/_history:
     get:
       summary: History for all Organization
       tags:
       - Organization
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _format
         in: query
         required: false
@@ -1298,12 +1928,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Organization:
     get:
       summary: Search for Organization
       tags:
       - Organization
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _format
         in: query
         required: false
@@ -1385,12 +2044,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Organization/:
     put:
       summary: Update or Create Organization by ID
       tags:
       - Organization
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _id
         in: query
         required: false
@@ -1441,6 +2129,14 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
       requestBody:
         required: true
         content:
@@ -1456,6 +2152,27 @@ paths:
       tags:
       - Practitioner
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -1482,12 +2199,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Practitioner/{id}/_history/{vid}:
     get:
       summary: Read version of Practitioner
       tags:
       - Practitioner
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -1520,12 +2266,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Practitioner/{id}/_history:
     get:
       summary: History of a specific Practitioner
       tags:
       - Practitioner
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -1576,12 +2351,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Practitioner/_history:
     get:
       summary: History for all Practitioner
       tags:
       - Practitioner
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _format
         in: query
         required: false
@@ -1626,12 +2430,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Practitioner:
     get:
       summary: Search for Practitioner
       tags:
       - Practitioner
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _format
         in: query
         required: false
@@ -1713,12 +2546,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Practitioner/:
     put:
       summary: Update or Create Practitioner by ID
       tags:
       - Practitioner
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _id
         in: query
         required: false
@@ -1769,6 +2631,14 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
       requestBody:
         required: true
         content:
@@ -1784,6 +2654,27 @@ paths:
       tags:
       - PractitionerRole
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -1810,12 +2701,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /PractitionerRole/{id}/_history/{vid}:
     get:
       summary: Read version of PractitionerRole
       tags:
       - PractitionerRole
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -1848,12 +2768,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /PractitionerRole/{id}/_history:
     get:
       summary: History of a specific PractitionerRole
       tags:
       - PractitionerRole
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
@@ -1904,12 +2853,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /PractitionerRole/_history:
     get:
       summary: History for all PractitionerRole
       tags:
       - PractitionerRole
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _format
         in: query
         required: false
@@ -1954,12 +2932,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /PractitionerRole:
     get:
       summary: Search for PractitionerRole
       tags:
       - PractitionerRole
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _format
         in: query
         required: false
@@ -2055,12 +3062,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /PractitionerRole/:
     put:
       summary: Update or Create PractitionerRole by ID
       tags:
       - PractitionerRole
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _id
         in: query
         required: false
@@ -2119,6 +3155,14 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
       requestBody:
         required: true
         content:
@@ -2133,7 +3177,28 @@ paths:
       summary: System-level FHIR Operation $provide-prescription-erp
       tags:
       - System-level FHIR Operation
-      parameters: []
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       responses:
         '200':
           description: Successful operation
@@ -2144,6 +3209,14 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
       requestBody:
         required: true
         content:
@@ -2158,7 +3231,28 @@ paths:
       summary: System-level FHIR Operation $cancel-prescription-erp
       tags:
       - System-level FHIR Operation
-      parameters: []
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       responses:
         '200':
           description: Successful operation
@@ -2169,6 +3263,14 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
       requestBody:
         required: true
         content:
@@ -2183,7 +3285,28 @@ paths:
       summary: System-level FHIR Operation $provide-dispensation-erp
       tags:
       - System-level FHIR Operation
-      parameters: []
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       responses:
         '200':
           description: Successful operation
@@ -2194,6 +3317,14 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
       requestBody:
         required: true
         content:
@@ -2208,7 +3339,35 @@ paths:
       summary: System-level FHIR Operation $cancel-dispensation-erp
       tags:
       - System-level FHIR Operation
-      parameters: []
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: X-Test-ID
+        in: header
+        required: true
+        description: test id
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       responses:
         '200':
           description: Successful operation
@@ -2219,6 +3378,16 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '512':
+          description: Requestor has no valid entitlement
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
       requestBody:
         required: true
         content:
@@ -2234,6 +3403,27 @@ paths:
       tags:
       - System-level FHIR Operation
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: date
         in: query
         required: false
@@ -2274,12 +3464,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Medication/$medication-list:
     get:
       summary: Type-level FHIR Operation $medication-list
       tags:
       - Medication
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: date
         in: query
         required: false
@@ -2320,12 +3539,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Medication/{id}/$medication-list:
     get:
       summary: Instance-level FHIR Operation $medication-list
       tags:
       - Medication
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: date
         in: query
         required: false
@@ -2372,12 +3620,41 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Medication/$provide:
     post:
       summary: Type-level FHIR Operation $provide
       tags:
       - Medication
-      parameters: []
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       responses:
         '200':
           description: Successful operation
@@ -2388,6 +3665,14 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
       requestBody:
         required: true
         content:
@@ -2410,7 +3695,36 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
-      parameters: []
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
   /epa/medication/render/v1/eml/xhtml:
     get:
       operationId: renderEMLAsHTML
@@ -2423,7 +3737,36 @@ paths:
             text/html:
               schema:
                 type: string
-      parameters: []
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
   /epa/medication/render/v1/eml/pdf:
     get:
       operationId: renderEMLAsPDF
@@ -2437,7 +3780,36 @@ paths:
               schema:
                 type: string
                 format: binary
-      parameters: []
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
 components:
   responses: {}
   headers: {}

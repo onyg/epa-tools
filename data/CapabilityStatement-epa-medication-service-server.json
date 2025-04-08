@@ -1031,6 +1031,52 @@
             {
               "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
               "valueCode": "SHALL"
+            },
+            {
+              "extension": [
+                {
+                  "url": "statusCode",
+                  "valueString": "512"
+                },
+                {
+                  "url": "description",
+                  "valueString": "Requestor has no valid entitlement"
+                },
+                {
+                  "url": "responseType",
+                  "valueString": "application/json"
+                },
+                {
+                  "url": "errorCode",
+                  "valueString": "notEntitled"
+                }
+              ],
+              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
+            },
+            {
+              "extension": [
+                {
+                  "url": "name",
+                  "valueString": "X-Test-ID"
+                },
+                {
+                  "url": "type",
+                  "valueString": "string"
+                },
+                {
+                  "url": "description",
+                  "valueString": "test id"
+                },
+                {
+                  "url": "pattern",
+                  "valueString": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+                },
+                {
+                  "url": "required",
+                  "valueBoolean": true
+                }
+              ],
+              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-header-extenstion"
             }
           ],
           "name": "cancel-dispensation-erp",

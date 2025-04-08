@@ -18,7 +18,7 @@ class BaseConfig(object):
 
     def load(self):
         if not os.path.exists(self.config_file):
-            raise ConfigPathNotExists(f"The config filepath {self.config_file} does not exists")
+            raise Exception(f"The config filepath {self.config_file} does not exists")
         with open(self.config_file, 'r', encoding='utf-8') as file:
             _data = yaml.safe_load(file)
             self.from_dict(data=_data)

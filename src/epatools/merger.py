@@ -2,7 +2,7 @@ import os
 import copy
 import json
 import yaml
-from common import BaseConfig, FHIRArtifactLoader
+from epatools.common import BaseConfig, FHIRArtifactLoader
 
 
 class MergerConfig(BaseConfig):

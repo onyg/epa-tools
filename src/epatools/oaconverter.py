@@ -3,7 +3,7 @@ import json
 import yaml
 from urllib.parse import urlparse
 
-from common import BaseConfig, FHIRArtifactLoader
+from epatools.common import BaseConfig, FHIRArtifactLoader
 
 class ConvertConfig(object):
 
@@ -93,6 +93,16 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
 
     def add_operation(openapi, op):
         op_name = op["name"].lstrip("$")
+        op_http_errors = http_errors
+        op_header_params = header_params
+        if not op_header_params:
+            op_header_params = []
+        if not op_http_errors:
+            op_http_errors = {}
+        if op.get('extension', None):
+            extension = op.get('extension')
+            op_http_errors = {**extract_http_errors(extension), **op_http_errors}
+            op_header_params.extend(extract_http_headers(extension))
         
         definition_obj = op.get("definition")
         if isinstance(definition_obj, dict):
@@ -117,21 +127,21 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
         else:
             http_method = "post"
         op_responses = build_responses(
-                            http_errors,
+                            op_http_errors,
                             formats, 
                             success_codes=["200"],
                             success_description="Successful operation"
         )
         op_params = operation_definition.get("parameter", [])
-        # params = header_params.copy()
         oas_params = []
         request_body = None
         if http_method == "get":
-            oas_params.extend(build_parameters(op_params))
+            oas_params.extend(build_header_params(op_header_params) + build_parameters(op_params))
             format_param = build_format_query_param(formats)
             if format_param:
                 oas_params.append(format_param)
         else:
+            oas_params.extend(build_header_params(op_header_params))
             request_body = build_request_body(formats)
 
         # system-level operation
@@ -217,7 +227,7 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
 def extract_http_headers(extensions):
     headers = []
     for ext in extensions:
-        if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/http-header":
+        if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/http-header-extenstion":
             header = {}
             for sub in ext.get("extension", []):
                 header[sub["url"]] = sub.get("valueString") or sub.get("valueBoolean")
@@ -228,7 +238,7 @@ def extract_http_headers(extensions):
 def extract_http_errors(extensions):
     errors = {}
     for ext in extensions:
-        if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/http-error":
+        if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion":
             code = None
             description = None
             for sub in ext.get("extension", []):
@@ -243,7 +253,7 @@ def extract_http_errors(extensions):
 
 def extract_base_url_parts(extensions):
     for ext in extensions:
-        if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/base-url":
+        if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/base-url-extenstion":
             full_url = ext.get("valueString")
             if full_url:
                 parsed = urlparse(full_url)
@@ -418,6 +428,8 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
         http_errors = {}
     if extension:
         http_errors = extract_http_errors(extension)
+        _headers = extract_http_headers(extension)
+        base_parameters.extend(build_header_params(_headers))
 
 
     def path_obj(method, summary, parameters, responses, request_body=None):

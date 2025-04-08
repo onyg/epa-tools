@@ -50,7 +50,7 @@
           "valueBoolean": true
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-header"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-header-extenstion"
     },
     {
       "extension": [
@@ -75,7 +75,7 @@
           "valueBoolean": true
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-header"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-header-extenstion"
     },
     {
       "extension": [
@@ -100,7 +100,7 @@
           "valueBoolean": true
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-header"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-header-extenstion"
     },
     {
       "extension": [
@@ -121,7 +121,7 @@
           "valueString": "invalAuth"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
     },
     {
       "extension": [
@@ -142,7 +142,7 @@
           "valueString": "notEntitled"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
     },
     {
       "extension": [
@@ -163,7 +163,7 @@
           "valueString": "invalidOid"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
     },
     {
       "extension": [
@@ -184,7 +184,7 @@
           "valueString": "unregisteredDevice"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
     },
     {
       "extension": [
@@ -205,7 +205,7 @@
           "valueString": "noHealthRecord"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
     },
     {
       "extension": [
@@ -226,7 +226,7 @@
           "valueString": "statusMismatch"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
     },
     {
       "extension": [
@@ -247,13 +247,16 @@
           "valueString": "internalError"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
     }
   ],
   "version": "1.1.5",
   "status": "draft",
   "publisher": "gematik GmbH",
   "date": "2025-03-31",
+  "name": "EPABasicServer",
+  "title": "EPA Basic Server",
+  "description": "Das Basis CapabilityStatement für RESTful FHIR-Datenservices in der ePA. Es beschreibt globale Header-Anforderungen und einheitliche HTTP-Fehlercodes.",
   "kind": "requirements",
   "fhirVersion": "4.0.1"
 }

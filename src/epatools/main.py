@@ -2,10 +2,10 @@ import os
 import sys
 import argparse
 
-from version import __APPNAME__, __VERSION__
-import cli
-from merger import Merger
-from oaconverter import OpenApiConverter
+from epatools.version import __APPNAME__, __VERSION__
+import epatools.cli as cli 
+from epatools.merger import Merger
+from epatools.oaconverter import OpenApiConverter
 
 
 def main():
@@ -21,13 +21,16 @@ def main():
 
     args = parser.parse_args()
 
-    if args.command == "merge":
-        _merger = Merger(config_file=args.config).load()
-        _merger.merge()
+    try:
+        if args.command == "merge":
+            _merger = Merger(config_file=args.config).load()
+            _merger.merge()
 
-    if args.command == "openapi":
-        _oaconverter = OpenApiConverter(config_file=args.config).load()
-        _oaconverter.convert()
+        if args.command == "openapi":
+            _oaconverter = OpenApiConverter(config_file=args.config).load()
+            _oaconverter.convert()
+    except Exception as e:
+        print(f"❌ Error: {e}")
 
 
 if __name__ == "__main__":
