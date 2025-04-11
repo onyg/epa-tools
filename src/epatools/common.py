@@ -71,7 +71,7 @@ class FHIRArtifactLoader(object):
 
     @classmethod
     def resolve_package_path(cls, package_name: str, version: str) -> str:
-        path = os.path.join(FHIR_CACHE_DIR, package_name, version, "package")
+        path = os.path.join(FHIR_CACHE_DIR, f"{package_name}#{version}", "package")
         if not os.path.isdir(path):
             raise FileNotFoundError(f"Package not found: {path}")
         return path
