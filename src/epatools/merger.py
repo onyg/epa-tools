@@ -2,7 +2,7 @@ import os
 import copy
 import json
 import yaml
-from epatools.common import BaseConfig, FHIRArtifactLoader
+from epatools.common import BaseConfig, FHIRArtifactLoader, DEFAULT_DEPENDENCIES_CONFIG
 
 
 class MergerConfig(BaseConfig):
@@ -32,6 +32,7 @@ class Merger(object):
     def __init__(self, config_file):
         self.config = MergerConfig(config=config_file)
         self.extra_merged_file = False
+        self.dependencies_config = DEFAULT_DEPENDENCIES_CONFIG
 
     def load(self):
         self.config.load()
@@ -52,31 +53,23 @@ class Merger(object):
         return base_list + [item for item in overlay_list if item not in base_list]
 
     def merge(self):
-        base_artifact = None
-        if self.config.version == "current":
-            try:
-                _base_resource = os.path.join(self.config.path_resources, self.config.base_resource)
-                base_artifact, base_filename = FHIRArtifactLoader.load_artifact(self.config.path_resources, self.config.base_resource)
-            except TypeError:
-                return
-        elif self.config.version is not None:
-            try:
-                base_artifact, base_filename = FHIRArtifactLoader.load_package_artifact(package=self.config.package, 
-                                                                                        version=self.config.version, 
-                                                                                        resource=self.config.base_resource)
-            except TypeError:
-                return
-        if base_artifact is None:
-            return
         for overlay_resource in self.config.overlay_resources:
+            merged = False
             artifact, filename = FHIRArtifactLoader.load_artifact(path=self.config.path_resources, resource=overlay_resource)
             if artifact:
-                merged_artifact = self.deep_merge(base=base_artifact, overlay=artifact)
-                if self.extra_merged_file:
-                    name, ext = filename.split('.json')
-                    filename = name + "-merged.json"
-                output = os.path.join(self.config.path_resources, filename)
-                with open(output, "w", encoding="utf-8") as f:
-                    json.dump(merged_artifact, f, indent=2, ensure_ascii=False)
-                print(f"✅  Merged CapabilityStatement saved to {output}")
+                for canonical_url in artifact.get("imports", []):
+                    base_artifact, _ = FHIRArtifactLoader.load_capabilitystatement_by_canonical(package_path=self.config.path_resources, canonical_url=canonical_url)
+                    if base_artifact is None:
+                        base_artifact, _ = FHIRArtifactLoader.load_capability_from_dependencies(dependencies_config_path=self.dependencies_config, canonical_url=canonical_url)                    
+                    if base_artifact:
+                        artifact = self.deep_merge(base=base_artifact, overlay=artifact)
+                        merged = True
+                if merged:
+                    if self.extra_merged_file:
+                        name, ext = filename.split('.json')
+                        filename = name + "-merged.json"
+                    output = os.path.join(self.config.path_resources, filename)
+                    with open(output, "w", encoding="utf-8") as f:
+                        json.dump(artifact, f, indent=2, ensure_ascii=False)
+                    print(f"✅  Merged CapabilityStatement saved to {output}")
 

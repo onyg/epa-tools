@@ -2,12 +2,7 @@
 ### EPA TOOLS
 
 merger:
-  # path-resource: fsh-generated/resources
   path-resource: data
-  base:
-    packages: de.gematik.epa
-    version: current
-    resource: CapabilityStatement/epa-basic-server
   resource:
     - CapabilityStatement/epa-patient-server
     - CapabilityStatement/epa-medication-service-server
