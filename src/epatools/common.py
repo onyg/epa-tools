@@ -88,7 +88,7 @@ class FHIRArtifactLoader(object):
                                 if artifact.get("url") == canonical_url:
                                     return artifact, filename
                         except Exception as e:
-                            raise Exception(f"Fehler beim Laden von {filename}: {e}")
+                            raise Exception(f"Error loading {filename}: {e}")
 
         return None, None
 
@@ -101,16 +101,12 @@ class FHIRArtifactLoader(object):
 
         for package_name, version in dependencies.items():
             try:
-                print(f"🔍 Prüfe Paket: {package_name}@{version}")
-                pkg_path = resolve_package_path(package_name, version)
-                cap, filename = load_capabilitystatement_by_canonical(pkg_path, canonical_url)
+                pkg_path = cls.resolve_package_path(package_name, version)
+                cap, filename = cls.load_capabilitystatement_by_canonical(pkg_path, canonical_url)
                 if cap:
-                    print(f"✅ Gefunden in {package_name}: {filename}")
                     return cap, filename
             except FileNotFoundError as e:
                 print(f"⚠️  {e}")
             except Exception as e:
-                print(f"❌ Fehler beim Laden von {package_name}: {e}")
-
-        print("❌ Kein passendes CapabilityStatement gefunden.")
+                raise Exception(f"Error loading {filename}: {e}")
         return None, None
