@@ -201,7 +201,7 @@
                   "valueCode": "SHALL"
                 }
               ],
-              "name": "$provide",
+              "name": "provide",
               "definition": "https://gematik.de/fhir/epa-medication/OperationDefinition/provide-medication-OP"
             }
           ],
@@ -1051,7 +1051,7 @@
                   "valueString": "notEntitled"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
+              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [

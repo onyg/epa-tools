@@ -1051,7 +1051,7 @@
                   "valueString": "notEntitled"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
+              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -1195,7 +1195,7 @@
           "valueString": "invalAuth"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
     },
     {
       "extension": [
@@ -1216,7 +1216,7 @@
           "valueString": "notEntitled"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
     },
     {
       "extension": [
@@ -1237,7 +1237,7 @@
           "valueString": "invalidOid"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
     },
     {
       "extension": [
@@ -1258,7 +1258,7 @@
           "valueString": "unregisteredDevice"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
     },
     {
       "extension": [
@@ -1279,7 +1279,7 @@
           "valueString": "noHealthRecord"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
     },
     {
       "extension": [
@@ -1300,7 +1300,7 @@
           "valueString": "statusMismatch"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
     },
     {
       "extension": [
@@ -1321,7 +1321,7 @@
           "valueString": "internalError"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
     }
   ],
   "version": "1.1.5",

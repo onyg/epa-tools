@@ -1,7 +1,4 @@
 openapi: 3.0.3
-info:
-  description: Das ist ein Test
-
 paths:
   /epa/medication/api/v1/fhir/metadata:
     get:

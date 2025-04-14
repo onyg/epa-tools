@@ -101,7 +101,7 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
             op_http_errors = {}
         if op.get('extension', None):
             extension = op.get('extension')
-            op_http_errors = {**extract_http_errors(extension), **op_http_errors}
+            op_http_errors = {**extract_http_response_info(extension), **op_http_errors}
             op_header_params.extend(extract_http_headers(extension))
         
         definition_obj = op.get("definition")
@@ -213,11 +213,12 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
     for rest in capability.get("rest", []):
         for op in rest.get("operation", []):
             openapi = add_operation(openapi, op)
+            print(f"✅ Added OperationDefinition ${op.get("name", "")}.")
         for resource in rest.get("resource", []):
             for op in resource.get("operation", []):
                 openapi = add_operation(openapi, op)
+                print(f"✅ Added OperationDefinition {resource.get("type", "")}/${op.get("name", "")}.")
 
-    print("✅ OperationDefinition(s) wurden hinzugefügt.")
     return openapi
 
 ####
@@ -235,10 +236,10 @@ def extract_http_headers(extensions):
     return headers
 
 
-def extract_http_errors(extensions):
+def extract_http_response_info(extensions):
     errors = {}
     for ext in extensions:
-        if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion":
+        if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion" or ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion":
             code = None
             description = None
             for sub in ext.get("extension", []):
@@ -400,12 +401,12 @@ def build_revinclude_query_param(search_rev_include):
     return None
 
 
-def merge_manual_operations(openapi, manual_path):
-    if not os.path.exists(manual_path):
-        print(f"⚠️ Keine manuelle OpenAPI-Datei gefunden unter {manual_path}")
+def merge_custom_openapi(openapi, openapi_path):
+    if not os.path.exists(openapi_path):
+        print(f"⚠️ Keine manuelle OpenAPI-Datei gefunden unter {openapi_path}")
         return openapi
 
-    with open(manual_path, "r", encoding="utf-8") as f:
+    with open(openapi_path, "r", encoding="utf-8") as f:
         manual = yaml.safe_load(f)
 
     for path, methods in manual.get("paths", {}).items():
@@ -413,7 +414,7 @@ def merge_manual_operations(openapi, manual_path):
             openapi["paths"][path] = {}
         openapi["paths"][path].update(methods)
 
-    print("✅ Manuelle Operationen wurden hinzugefügt.")
+    print(f"✅ Added custom OpenAPI {openapi_path}.")
     return openapi
 
 
@@ -427,7 +428,7 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
     if not http_errors:
         http_errors = {}
     if extension:
-        http_errors = extract_http_errors(extension)
+        http_errors = extract_http_response_info(extension)
         _headers = extract_http_headers(extension)
         base_parameters.extend(build_header_params(_headers))
 
@@ -686,7 +687,7 @@ def capabilitystatement_to_openapi(path_resource, resource, additional_openapi):
     # Loads the OpenAPI with manual operations.
     ###
     if additional_openapi:
-        openapi = merge_manual_operations(openapi, additional_openapi)
+        openapi = merge_custom_openapi(openapi, additional_openapi)
 
     ###
     # Set the global headers
@@ -701,7 +702,7 @@ def capabilitystatement_to_openapi(path_resource, resource, additional_openapi):
     ###
     # Set the global errors
     ###
-    base_http_errors = extract_http_errors(extensions)
+    base_http_errors = extract_http_response_info(extensions)
     for path in openapi.get("paths", []):
         for method in openapi["paths"][path]:
             openapi["paths"][path][method].setdefault("responses", [])
