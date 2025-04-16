@@ -587,7 +587,7 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
             if param_format:
                 param["schema"]["format"] = param_format
             params.append(param)
-        paths[path] = path_obj("put", f"Update or Create {resource_type} by ID", params, responses, request_body)
+        paths[path] = path_obj("put", f"Conditional update: Create or Update a {resource_type} depending on search criteria", params, responses, request_body)
 
     ###
     # PATCH /ResourceType/{rid}
