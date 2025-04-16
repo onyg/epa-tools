@@ -4,6 +4,61 @@ info:
   version: 1.1.5
   description: EPA CapabilityStatement für den Medication Service
 paths:
+  /metadata:
+    get:
+      summary: Get CapabilityStatement
+      tags:
+      - metadata
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: OK
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /Medication/{id}:
     get:
       summary: Read a specific Medication
@@ -3682,7 +3737,7 @@ paths:
           application/fhir+xml:
             schema:
               type: object
-  /epa/medication/api/v1/fhir/metadata:
+  /epa/medication/api/v1/fhir/metadawwwta:
     get:
       responses:
         '200':

@@ -19,6 +19,8 @@ class OpenAPIConfig(BaseConfig):
         self.config_file = config
         self.path_resource = "fsh-generated/resources"
         self.path_output = "openapi"
+        self.with_metadata = False
+        self.with_format_parameter = False
         self.capability_statement = []
 
     def from_dict(self, data):
@@ -26,6 +28,8 @@ class OpenAPIConfig(BaseConfig):
             params = data.get('openapi')
             self.path_resource = params.get('path-resource', self.path_resource)
             self.path_output = params.get('path-output', self.path_output)
+            self.with_metadata = params.get('with-metadata', self.with_metadata)
+            self.with_format_parameter = params.get('with-format-parameter', self.with_format_parameter)
             self.capability_statement = []
             for cs in params.get('capability-statement', []):
                 convert_config = ConvertConfig()
@@ -84,7 +88,7 @@ def try_download_operation_definition(url):
             if content.get("resourceType") == "OperationDefinition":
                 return content
     except Exception as e:
-        print(f"❌ Fehler beim Herunterladen von OperationDefinition: {e}")
+        print(f"❌ Error while downloading OperationDefinition: {e}")
     return None
 
 
@@ -117,7 +121,7 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
                 break
 
         if not operation_definition:
-            print(f"⚠️ OperationDefinition nicht gefunden für: {definition_ref}")
+            print(f"⚠️ OperationDefinition not found for: {definition_ref}")
             return openapi
 
         op_name = operation_definition["code"]
@@ -401,9 +405,27 @@ def build_revinclude_query_param(search_rev_include):
     return None
 
 
+def build_metadata_interaction(prefix_path, fhir_formats, parameters):
+    paths = {}
+    path = f"{prefix_path}/metadata"
+    method = "get"
+    responses = build_responses(http_errors={}, formats=fhir_formats, success_codes=["200"], success_description="OK")
+    paths[path] = {
+        method: {
+            "summary": "Get CapabilityStatement",
+            "tags": ["metadata"],
+            "parameters": parameters,
+            "responses": responses
+        }
+    }
+    print(f"✅ Added metadata interaction.")
+    return paths
+
+
+
 def merge_custom_openapi(openapi, openapi_path):
     if not os.path.exists(openapi_path):
-        print(f"⚠️ Keine manuelle OpenAPI-Datei gefunden unter {openapi_path}")
+        print(f"⚠️ No custom OpenAPI file found at {openapi_path}")
         return openapi
 
     with open(openapi_path, "r", encoding="utf-8") as f:
@@ -598,7 +620,15 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
     return paths
 
 
-def capabilitystatement_to_openapi(path_resource, resource, additional_openapi):
+def capabilitystatement_to_openapi(path_resource, resource, additional_openapi, config):
+    
+    def update_openapi(openapi, new_paths):
+        for path, item in new_paths.items():
+            if path not in openapi["paths"]:
+                openapi["paths"][path] = {}
+            openapi["paths"][path].update(item)
+        return openapi
+    
     capability, filename = FHIRArtifactLoader.load_artifact(path=path_resource, resource=resource)
 
     if capability is None:
@@ -629,15 +659,22 @@ def capabilitystatement_to_openapi(path_resource, resource, additional_openapi):
         path_prefix = ""
     
     fhir_formats = capability.get("format", [])
-    format_query_param = build_format_query_param(fhir_formats)
+    base_fhir_parameters = []
+    format_query_param = None
+    if config.with_format_parameter:
+        format_query_param = build_format_query_param(fhir_formats)
+        base_fhir_parameters.append(format_query_param)
 
+    ###
+    # Add /metadata
+    ###
+    if config.with_metadata:
+        new_path = build_metadata_interaction(prefix_path=path_prefix, fhir_formats=fhir_formats, parameters=base_fhir_parameters)
+        openapi = update_openapi(openapi, new_path)
 
     ###
     # FHIR Interaction
     ###
-    base_fhir_parameters = []
-    if format_query_param:
-        base_fhir_parameters.append(format_query_param)
     
     for rest in capability.get("rest", []):
         for res in rest.get("resource", []):
@@ -663,10 +700,11 @@ def capabilitystatement_to_openapi(path_resource, resource, additional_openapi):
                     fhir_formats=fhir_formats,
                     extension=interaction_extension
                 )
-                for path, item in new_paths.items():
-                    if path not in openapi["paths"]:
-                        openapi["paths"][path] = {}
-                    openapi["paths"][path].update(item)
+                openapi = update_openapi(openapi, new_paths)
+                # for path, item in new_paths.items():
+                #     if path not in openapi["paths"]:
+                #         openapi["paths"][path] = {}
+                #     openapi["paths"][path].update(item)
 
 
     ###
@@ -724,7 +762,7 @@ class OpenApiConverter(object):
 
     def convert(self):
         for c in self.config.capability_statement:
-            openapi_spec = capabilitystatement_to_openapi(path_resource=self.config.path_resource, resource=c.input, additional_openapi=c.additional_openapi)
+            openapi_spec = capabilitystatement_to_openapi(path_resource=self.config.path_resource, resource=c.input, additional_openapi=c.additional_openapi, config=self.config)
             if openapi_spec is None:
                 print(f"❌ Error: not foud {c.input} in {self.config.path_resource}")
             output = os.path.join(self.config.path_output, c.output)
@@ -737,31 +775,5 @@ class OpenApiConverter(object):
                 elif ext in [".yaml", ".yml"]:
                     yaml.dump(openapi_spec, f, indent=2, sort_keys=False, allow_unicode=True, Dumper=NoAliasDumper)
                 else:
-                    raise ValueError(f"Nicht unterstütztes Dateiformat: {ext}")
+                    raise ValueError(f"Unsupported file format: {ext}")
 
-
-# if __name__ == "__main__":
-
-#     # Original-Dateipfade
-#     input_path = "./data/CapabilityStatement-epa-medication-service-server-merged.json"
-#     # input_path = "./data/CapabilityStatement-epa-audit-event-server-merged.json"
-#     output_json_path = "./output/epa-medication-openapi.json"
-#     output_yaml_path = "./output/epa-medication-openapi.yaml"
-#     manual_operations_path = "./openapis/manual-operations.yaml"  # << Neue Datei mit eigenen Operationen
-
-
-#     # input_path = "./data/CapabilityStatement-epa-patient-server-merged.json"
-#     # output_json_path = "./output/epa-patient-openapi.json"
-#     # output_yaml_path = "./output/epa-patient-openapi.yaml"
-#     # manual_operations_path = "./openapis/manual-operations.yaml"  # << Neue Datei mit eigenen Operationen
-
-
-#     with open(input_path, "r", encoding="utf-8") as f:
-#         capability = json.load(f)
-#     openapi_spec = capabilitystatement_to_openapi(capability)
-
-#     with open(output_json_path, "w", encoding="utf-8") as f:
-#         json.dump(openapi_spec, f, indent=2, ensure_ascii=False)
-
-#     with open(output_yaml_path, "w", encoding="utf-8") as f:
-#         yaml.dump(openapi_spec, f, indent=2, sort_keys=False, allow_unicode=True, Dumper=NoAliasDumper)

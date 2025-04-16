@@ -9,6 +9,8 @@ merger:
     - CapabilityStatement/epa-audit-event-server
 
 openapi:
+  with-metadata: true
+  with-format-parameter: true
   path-output: output
   path-resource: data
   capability-statement:

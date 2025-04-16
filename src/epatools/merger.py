@@ -11,18 +11,12 @@ class MergerConfig(BaseConfig):
         super().__init__(config)
         self.config_file = config
         self.path_resources = "fsh-generated/resources"
-        self.version = "current"
-        self.package = None
-        self.base_resource = None
         self.overlay_resources = []
 
     def from_dict(self, data):
         if 'merger' in data:
             params = data.get('merger')
             self.path_resources = params.get('path-resource', self.path_resources)
-            self.version = params.get('base', {}).get('version', self.version)
-            self.package = params.get('base', {}).get('package', None)
-            self.base_resource = params.get('base', {}).get('resource', None)
             self.overlay_resources = params.get('resource', [])
 
 
