@@ -684,10 +684,15 @@ def capabilitystatement_to_openapi(path_resource, resource, additional_openapi, 
             search_include = res.get("searchInclude", [])
             search_rev_include = res.get("searchRevInclude", [])
             if res.get("conditionalUpdate", False):
-                interactions.append({"code":"conditional_update", "extension":[]})
+                conditional_update = {"code":"conditional_update", "extension":[]}
+                # Check for update interaction extension
+                for interaction in interactions:
+                    if interaction.get("code", "") == "update":
+                        conditional_update["extension"].extend(interaction.get("extension", []))
+                interactions.append(conditional_update)
             for interaction in interactions:
                 interaction_code = interaction.get("code")
-                interaction_extension = interaction.get("extension")
+                interaction_extension = interaction.get("extension", [])
                 new_paths = interaction_to_paths(
                     resource_type,
                     interaction_code,
