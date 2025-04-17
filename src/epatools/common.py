@@ -96,6 +96,8 @@ class FHIRArtifactLoader(object):
     def load_capability_from_dependencies(cls, dependencies_config_path, canonical_url):
         with open(dependencies_config_path, encoding="utf-8") as f:
             config = yaml.safe_load(f)
+        if config is None:
+            return None, None
 
         dependencies = config.get("dependencies", {})
 

@@ -1,0 +1,655 @@
+{
+  "resourceType": "CapabilityStatement",
+  "id": "epa-mhd-document-responder",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/epa/StructureDefinition/epa-basic-server-profile"
+    ]
+  },
+  "url": "https://gematik.de/fhir/epa-mhd/CapabilityStatement/epa-mhd-document-responder",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "https://www.gematik.de"
+        }
+      ]
+    }
+  ],
+  "rest": [
+    {
+      "mode": "server"
+    },
+    {
+      "interaction": [
+        {
+          "code": "search-system"
+        }
+      ],
+      "resource": [
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+              "valueCode": "SHALL"
+            }
+          ],
+          "supportedProfile": [
+            "https://gematik.de/fhir/epa-mhd/StructureDefinition/epa-mhd-document-reference"
+          ],
+          "_supportedProfile": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ]
+            }
+          ],
+          "interaction": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "code": "read"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "code": "search-type"
+            }
+          ],
+          "searchParam": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "_id",
+              "definition": "http://hl7.org/fhir/SearchParameter/Resource-id",
+              "type": "token",
+              "documentation": "Aktenweit eindeutige Kennung des Dokuments auf Basis von DocumentReference.entryUUID"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "_content",
+              "definition": "http://hl7.org/fhir/SearchParameter/Resource-content",
+              "type": "string",
+              "documentation": "Angaben für inhaltsbasierte Volltextsuche in von DocumentReference referenzierten Dokumenten"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "_lastUpdated",
+              "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+              "type": "date",
+              "documentation": "Änderungszeitpunkt der DocumentReference"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "author.given",
+              "type": "string",
+              "documentation": "Vorname der dokumenterstellenden Person auf Basis von DocumentReference.author, welcher dem authorPerson-Slot der DocumentEntry.author-Classification entspricht"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "author.family",
+              "type": "string",
+              "documentation": "Nachname der dokumenterstellenden Person auf Basis von DocumentReference.author, welcher dem authorPerson-Slot der DocumentEntry.author-Classification entspricht"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "author.organization.name",
+              "type": "string",
+              "documentation": "Name der dokumenterstellenden Leistungserbringerinstitution auf Basis von DocumentReference.author, welcher dem authorInstitution-Slot der DocumentEntry.author-Classification entspricht"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "category",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-category",
+              "type": "token",
+              "documentation": "Grobe Klassifizierung des Dokuments auf Basis von DocumentReference.category"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "contenttype",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-contenttype",
+              "type": "token",
+              "documentation": "MimeType des Dokuments auf Basis von DocumentReference.content.attachment.contentType"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "creation",
+              "definition": "https://profiles.ihe.net/ITI/MHD/SearchParameter/DocumentReference-Creation",
+              "type": "date",
+              "documentation": "Erstellungszeitpunkt des Dokuments auf Basis von DocumentReference.content.attachment.creation"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "date",
+              "definition": "https://profiles.ihe.net/ITI/MHD/SearchParameter/DocumentReference-date",
+              "type": "date",
+              "documentation": "Erstellungszeitpunkt der DocumentReference"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "description",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-description",
+              "type": "string",
+              "documentation": "Ergänzende Hinweise in Freitext auf Basis von DocumentReference.description"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "event",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-event",
+              "type": "token",
+              "documentation": "Die zur Erstellung des Dokuments geführten Ereignisse auf Basis von DocumentReference.context.event"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "facility",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-facility",
+              "type": "token",
+              "documentation": "Die auf Basis von DocumentReference.context.facilityTypeArt benannte Art der Einrichtung des dokumentierenden Ereignisses"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "format",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-format",
+              "type": "token",
+              "documentation": "Global eindeutiger Code für das Dokumentenformat  auf Basis von DocumentReference.content.format"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "identifier",
+              "definition": "http://hl7.org/fhir/SearchParameter/clinical-identifier",
+              "type": "token",
+              "documentation": "Aktenweit eindeutige Kennung des Dokuments auf Basis von DocumentReference.entryUUID"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "language",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-contenttype",
+              "type": "token",
+              "documentation": "Sprache in der ein Dokument verfasst ist"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "patient",
+              "definition": "http://hl7.org/fhir/SearchParameter/clinical-patient",
+              "type": "reference",
+              "documentation": "Aktenkontoinhaber"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "patient.identifier",
+              "type": "token",
+              "documentation": "Identifikator des Aktenkontoinhabers"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "period",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-period",
+              "type": "date",
+              "documentation": "Zeitraum des dokumentierenden Ereignisses auf Basis von DocumentReference.context.period"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "related",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-related",
+              "type": "reference",
+              "documentation": "ID-Liste mit assoziierten Dokumenten auf Basis von DocumentReference.context.related"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "security-label",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-security-label",
+              "type": "token",
+              "documentation": "Vertraulichkeitskennzeichnung/Datenkategorie des Dokuments auf Basis von DocumentReference.securityLabel"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "setting",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-setting",
+              "type": "token",
+              "documentation": "Art der Fachrichtung der erstellenden Einrichtung auf Basis von DocumentReference.context.practiceSetting"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "status",
+              "definition": "http://hl7.org/fhir/SearchParameter/DocumentReference-status",
+              "type": "token",
+              "documentation": "Status des Dokuments auf Basis von DocumentReference.status"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "title",
+              "definition": "https://gematik.de/fhir/epa-mhd/SearchParameter/epa-mhd-documentreference-title",
+              "type": "string",
+              "documentation": "Titel des Dokuments auf Basis von DocumentReference.content.attachment.title"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "type",
+              "definition": "http://hl7.org/fhir/SearchParameter/clinical-type",
+              "type": "token",
+              "documentation": "Art des Dokuments auf Basis von DocumentReference.type"
+            }
+          ],
+          "type": "DocumentReference",
+          "versioning": "versioned-update",
+          "readHistory": true
+        },
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+              "valueCode": "SHALL"
+            }
+          ],
+          "supportedProfile": [
+            "https://gematik.de/fhir/epa-mhd/StructureDefinition/epa-document-search-result-bundle"
+          ],
+          "_supportedProfile": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ]
+            }
+          ],
+          "type": "Bundle",
+          "versioning": "versioned-update",
+          "readHistory": true
+        }
+      ],
+      "mode": "server"
+    }
+  ],
+  "format": [
+    "application/fhir+json",
+    "application/fhir+xml"
+  ],
+  "extension": [
+    {
+      "extension": [
+        {
+          "url": "name",
+          "valueString": "X-Request-ID"
+        },
+        {
+          "url": "type",
+          "valueString": "string"
+        },
+        {
+          "url": "description",
+          "valueString": "UUID of the request message"
+        },
+        {
+          "url": "format",
+          "valueString": "uuid"
+        },
+        {
+          "url": "required",
+          "valueBoolean": true
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-header-extenstion"
+    },
+    {
+      "extension": [
+        {
+          "url": "name",
+          "valueString": "x-insurantid"
+        },
+        {
+          "url": "type",
+          "valueString": "string"
+        },
+        {
+          "url": "description",
+          "valueString": "Health Record Identifier"
+        },
+        {
+          "url": "pattern",
+          "valueString": "^[A-Z]{1}\\d{9}$"
+        },
+        {
+          "url": "required",
+          "valueBoolean": true
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-header-extenstion"
+    },
+    {
+      "extension": [
+        {
+          "url": "name",
+          "valueString": "x-useragent"
+        },
+        {
+          "url": "type",
+          "valueString": "string"
+        },
+        {
+          "url": "description",
+          "valueString": "user agent information"
+        },
+        {
+          "url": "pattern",
+          "valueString": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+        },
+        {
+          "url": "required",
+          "valueBoolean": true
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-header-extenstion"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "403"
+        },
+        {
+          "url": "description",
+          "valueString": "Request does not match schema"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "invalAuth"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "403"
+        },
+        {
+          "url": "description",
+          "valueString": "Requestor has no valid entitlement"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "notEntitled"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "403"
+        },
+        {
+          "url": "description",
+          "valueString": "Requestor role is not in the list of allowed user groups"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "invalidOid"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "403"
+        },
+        {
+          "url": "description",
+          "valueString": "Device registration does not exist"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "unregisteredDevice"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "404"
+        },
+        {
+          "url": "description",
+          "valueString": "Health record is in state UNKNOWN or INITIALIZED"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "noHealthRecord"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "409"
+        },
+        {
+          "url": "description",
+          "valueString": "Health record is in state SUSPENDED"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "statusMismatch"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "500"
+        },
+        {
+          "url": "description",
+          "valueString": "Any other error"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "internalError"
+        }
+      ],
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+    }
+  ],
+  "version": "1.0.0",
+  "status": "draft",
+  "publisher": "gematik GmbH",
+  "date": "2025-03-31",
+  "name": "EPAMHDDocumentResponder",
+  "title": "ePA MHD Service (Document Responder)",
+  "description": "CapabilityStatement für den ePA MHD Service (Document Responder)",
+  "kind": "capability",
+  "fhirVersion": "4.0.1",
+  "software": {
+    "name": "[Provider Software Name]",
+    "version": "[Provider Software Verson]"
+  },
+  "imports": [
+    "https://gematik.de/fhir/epa/CapabilityStatement/epa-basic-server"
+  ],
+  "_imports": [
+    {
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+          "valueCode": "SHALL"
+        }
+      ]
+    }
+  ]
+}

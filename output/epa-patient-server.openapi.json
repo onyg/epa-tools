@@ -6,7 +6,7 @@
     "description": "EPA CapabilityStatement für den Patient Service"
   },
   "paths": {
-    "/metadata": {
+    "/epa/patient/api/v1/fhir/metadata": {
       "get": {
         "summary": "Get CapabilityStatement",
         "tags": [
@@ -88,7 +88,7 @@
         }
       }
     },
-    "/Patient": {
+    "/epa/patient/api/v1/fhir/Patient": {
       "get": {
         "summary": "Search for Patient",
         "tags": [
@@ -191,11 +191,14 @@
               }
             }
           },
-          "403": {
-            "description": "Device registration does not exist"
+          "400": {
+            "description": "Invalid request"
           },
           "404": {
             "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "403": {
+            "description": "Device registration does not exist"
           },
           "409": {
             "description": "Health record is in state SUSPENDED"
@@ -206,7 +209,119 @@
         }
       }
     },
-    "/Patient/{id}": {
+    "/epa/patient/api/v1/fhir/Patient/_history": {
+      "get": {
+        "summary": "History for all Patient",
+        "tags": [
+          "Patient"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_count",
+            "in": "query",
+            "required": false,
+            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_offset",
+            "in": "query",
+            "required": false,
+            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "_total",
+            "in": "query",
+            "required": false,
+            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "History for type retrieved",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "403": {
+            "description": "Device registration does not exist"
+          },
+          "409": {
+            "description": "Health record is in state SUSPENDED"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/epa/patient/api/v1/fhir/Patient/{id}": {
       "get": {
         "summary": "Read a specific Patient",
         "tags": [
@@ -282,11 +397,14 @@
               }
             }
           },
-          "403": {
-            "description": "Device registration does not exist"
+          "400": {
+            "description": "Invalid request"
           },
           "404": {
             "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "403": {
+            "description": "Device registration does not exist"
           },
           "409": {
             "description": "Health record is in state SUSPENDED"
@@ -358,11 +476,20 @@
               }
             }
           },
+          "201": {
+            "description": "Created, wenn eine neue Ressourceninstanz erstellt wurde"
+          },
+          "400": {
+            "description": "Bad Request, falls eine falsche ID in der Anfrage angegeben wurde"
+          },
           "403": {
             "description": "Device registration does not exist"
           },
           "404": {
             "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "412": {
+            "description": "Precondition Failed, wenn mehrere Ressourceninstanz gefunden wurden"
           },
           "409": {
             "description": "Health record is in state SUSPENDED"
@@ -388,107 +515,7 @@
         }
       }
     },
-    "/Patient/{id}/_history/{vid}": {
-      "get": {
-        "summary": "Read version of Patient",
-        "tags": [
-          "Patient"
-        ],
-        "parameters": [
-          {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          },
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Resource ID"
-          },
-          {
-            "name": "vid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Version ID"
-          },
-          {
-            "name": "_format",
-            "in": "query",
-            "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "application/fhir+json",
-                "application/fhir+xml"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Patient version read",
-            "content": {
-              "application/fhir+json": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "application/fhir+xml": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Device registration does not exist"
-          },
-          "404": {
-            "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "409": {
-            "description": "Health record is in state SUSPENDED"
-          },
-          "500": {
-            "description": "Any other error"
-          }
-        }
-      }
-    },
-    "/Patient/{id}/_history": {
+    "/epa/patient/api/v1/fhir/Patient/{id}/_history": {
       "get": {
         "summary": "History of a specific Patient",
         "tags": [
@@ -591,11 +618,14 @@
               }
             }
           },
-          "403": {
-            "description": "Device registration does not exist"
+          "400": {
+            "description": "Invalid request"
           },
           "404": {
             "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "403": {
+            "description": "Device registration does not exist"
           },
           "409": {
             "description": "Health record is in state SUSPENDED"
@@ -606,9 +636,9 @@
         }
       }
     },
-    "/Patient/_history": {
+    "/epa/patient/api/v1/fhir/Patient/{id}/_history/{vid}": {
       "get": {
-        "summary": "History for all Patient",
+        "summary": "Read version of Patient",
         "tags": [
           "Patient"
         ],
@@ -644,6 +674,24 @@
             }
           },
           {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "vid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Version ID"
+          },
+          {
             "name": "_format",
             "in": "query",
             "required": false,
@@ -655,38 +703,11 @@
                 "application/fhir+xml"
               ]
             }
-          },
-          {
-            "name": "_count",
-            "in": "query",
-            "required": false,
-            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the Medication Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "_offset",
-            "in": "query",
-            "required": false,
-            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "_total",
-            "in": "query",
-            "required": false,
-            "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
-            "schema": {
-              "type": "string"
-            }
           }
         ],
         "responses": {
           "200": {
-            "description": "History for type retrieved",
+            "description": "Patient version read",
             "content": {
               "application/fhir+json": {
                 "schema": {
@@ -700,11 +721,14 @@
               }
             }
           },
-          "403": {
-            "description": "Device registration does not exist"
+          "400": {
+            "description": "Invalid request"
           },
           "404": {
             "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "403": {
+            "description": "Device registration does not exist"
           },
           "409": {
             "description": "Health record is in state SUSPENDED"
@@ -715,9 +739,9 @@
         }
       }
     },
-    "/Patient/": {
+    "/epa/patient/api/v1/fhir/Patient/": {
       "put": {
-        "summary": "Update or Create Patient by ID",
+        "summary": "Conditional update: Create or Update a Patient depending on search criteria",
         "tags": [
           "Patient"
         ],
@@ -764,19 +788,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Resource conditional update",
-            "content": {
-              "application/fhir+json": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "application/fhir+xml": {
-                "schema": {
-                  "type": "object"
-                }
-              }
-            }
+            "description": "OK, wenn eine bestehende FHIR-Ressourceninstanz aktualisiert wurde"
           },
           "201": {
             "description": "Resource conditional update",
@@ -793,11 +805,17 @@
               }
             }
           },
+          "400": {
+            "description": "Bad Request, falls eine falsche ID in der Anfrage angegeben wurde"
+          },
           "403": {
             "description": "Device registration does not exist"
           },
           "404": {
             "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "412": {
+            "description": "Precondition Failed, wenn mehrere Ressourceninstanz gefunden wurden"
           },
           "409": {
             "description": "Health record is in state SUSPENDED"
@@ -1021,5 +1039,10 @@
   "components": {
     "responses": {},
     "headers": {}
-  }
+  },
+  "servers": [
+    {
+      "url": "http://epa4all"
+    }
+  ]
 }

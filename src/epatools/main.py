@@ -36,6 +36,7 @@ def main():
             _oaconverter.convert()
     except Exception as e:
         print(f"❌ Error: {e}")
+        # raise e
         sys.exit(os.EX_DATAERR)
 
 

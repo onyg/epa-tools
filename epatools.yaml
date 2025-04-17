@@ -7,6 +7,7 @@ merger:
     - CapabilityStatement/epa-patient-server
     - CapabilityStatement/epa-medication-service-server
     - CapabilityStatement/epa-audit-event-server
+    - CapabilityStatement/epa-mhd-document-responder
 
 openapi:
   with-metadata: true
