@@ -259,6 +259,143 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+  /epa/audit/api/v1/fhir/AuditEvent/_search:
+    post:
+      summary: Search for AuditEvent
+      tags:
+      - AuditEvent
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Resource.id
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Resource.meta.lastUpdated
+      - name: action
+        in: query
+        required: false
+        schema:
+          type: string
+        description: AuditEvent.action
+      - name: altid
+        in: query
+        required: false
+        schema:
+          type: string
+        description: AuditEvent.agent.altId
+      - name: date
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: AuditEvent.recorded
+      - name: outcome
+        in: query
+        required: false
+        schema:
+          type: string
+        description: AuditEvent.outcome
+      - name: entity-name
+        in: query
+        required: false
+        schema:
+          type: string
+        description: AuditEvent.entity.name
+      - name: agent-name
+        in: query
+        required: false
+        schema:
+          type: string
+        description: AuditEvent.agent.name
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+        description: AuditEvent.type
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
   /epa/medication/api/v1/fhir/metadawwwta:
     get:
       responses:

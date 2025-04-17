@@ -11,6 +11,7 @@ class ConvertConfig(object):
         self.input = None
         self.output = None
         self.additional_openapi = None
+        self.search_with_post = False
 
 class OpenAPIConfig(BaseConfig):
 
@@ -36,6 +37,7 @@ class OpenAPIConfig(BaseConfig):
                 convert_config.input = cs.get('input', None)
                 convert_config.output = cs.get('output', None)
                 convert_config.additional_openapi = cs.get('additional-openapi', None)
+                convert_config.search_with_post = cs.get('post-search', False)
                 self.capability_statement.append(convert_config)
             
 
@@ -545,6 +547,32 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
         paths[path] = path_obj("get", f"Search for {resource_type}", params, responses)
 
     ###
+    # POST /ResourceType/_search
+    ###
+    elif interaction_code == "search-type-post":
+        responses = build_responses(http_errors, formats=fhir_formats, success_codes=["200"], success_description="Search successful")
+        path = f"{prefix_path}/{resource_type}/_search"
+        params = base_parameters.copy()
+        params.extend(build_pagination_query_params())
+        if search_include:
+            params.append(build_include_query_param(search_include))
+        if search_rev_include:
+            params.append(build_revinclude_query_param(search_rev_include))
+        for sp in search_params:
+            param_type, param_format = fhir_to_openapi_type(sp.get("type", "string"))
+            param = {
+                "name": sp.get("name"),
+                "in": "query",
+                "required": False,
+                "schema": { "type": param_type },
+                "description": sp.get("documentation", "")
+            }
+            if param_format:
+                param["schema"]["format"] = param_format
+            params.append(param)
+        paths[path] = path_obj("post", f"Search for {resource_type}", params, responses)
+
+    ###
     # POST /ResourceType/
     ###
     elif interaction_code == "create":
@@ -620,7 +648,7 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
     return paths
 
 
-def capabilitystatement_to_openapi(path_resource, resource, additional_openapi, config):
+def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
     
     def update_openapi(openapi, new_paths):
         for path, item in new_paths.items():
@@ -690,6 +718,14 @@ def capabilitystatement_to_openapi(path_resource, resource, additional_openapi, 
                     if interaction.get("code", "") == "update":
                         conditional_update["extension"].extend(interaction.get("extension", []))
                 interactions.append(conditional_update)
+            if cs_config.search_with_post:
+                post_search = {"code":"post_search", "extension":[]}
+                for interaction in interactions:
+                    if interaction.get("code", "") == "search-type":
+                        post_search = {"code":"search-type-post", "extension":[]}
+                        post_search["extension"].extend(interaction.get("extension", []))
+                        interactions.append(post_search)
+                        break
             for interaction in interactions:
                 interaction_code = interaction.get("code")
                 interaction_extension = interaction.get("extension", [])
@@ -729,8 +765,8 @@ def capabilitystatement_to_openapi(path_resource, resource, additional_openapi, 
     ###
     # Loads the OpenAPI with manual operations.
     ###
-    if additional_openapi:
-        openapi = merge_custom_openapi(openapi, additional_openapi)
+    if cs_config.additional_openapi:
+        openapi = merge_custom_openapi(openapi, cs_config.additional_openapi)
 
     ###
     # Set the global headers
@@ -767,7 +803,7 @@ class OpenApiConverter(object):
 
     def convert(self):
         for c in self.config.capability_statement:
-            openapi_spec = capabilitystatement_to_openapi(path_resource=self.config.path_resource, resource=c.input, additional_openapi=c.additional_openapi, config=self.config)
+            openapi_spec = capabilitystatement_to_openapi(path_resource=self.config.path_resource, resource=c.input, config=self.config, cs_config=c)
             if openapi_spec is None:
                 print(f"❌ Error: not foud {c.input} in {self.config.path_resource}")
             output = os.path.join(self.config.path_output, c.output)

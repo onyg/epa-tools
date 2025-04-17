@@ -33,3 +33,4 @@ openapi:
     - input: CapabilityStatement/epa-audit-event-server-merged
       output: epa-audit-event-server.openapi.yaml
       additional-openapi: openapis/manual-operations.yaml
+      post-search: true
