@@ -81,7 +81,7 @@ class FHIRArtifactLoader(object):
         for root, _, filenames in os.walk(package_path):
             for filename in filenames:
                 if filename.endswith(".json"):
-                    with open(os.path.join(root, filename), encoding="utf-8") as f:
+                    with open(os.path.join(root, filename), encoding="utf-8-sig") as f:
                         try:
                             artifact = json.load(f)
                             if artifact.get("resourceType") == "CapabilityStatement":
@@ -110,5 +110,7 @@ class FHIRArtifactLoader(object):
             except FileNotFoundError as e:
                 print(f"⚠️  {e}")
             except Exception as e:
-                raise Exception(f"Error loading {filename}: {e}")
+                print(f"⚠️ Error loading {filename}: {e}")
+                continue
+                # raise Exception(f"Error loading {filename}: {e}")
         return None, None
