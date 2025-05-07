@@ -3,7 +3,7 @@
   "id": "epa-audit-event-server",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/epa/StructureDefinition/epa-basic-server-profile"
+      "https://gematik.de/fhir/epa/StructureDefinition/epa-basic-capability-statement"
     ]
   },
   "url": "https://gematik.de/fhir/epa/CapabilityStatement/epa-audit-event-server",
@@ -17,363 +17,8 @@
       ]
     }
   ],
-  "rest": [
-    {
-      "mode": "server"
-    },
-    {
-      "resource": [
-        {
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-              "valueCode": "SHALL"
-            }
-          ],
-          "supportedProfile": [
-            "https://gematik.de/fhir/epa/StructureDefinition/epa-auditevent"
-          ],
-          "_supportedProfile": [
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ]
-            }
-          ],
-          "interaction": [
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "search-type"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource is not known"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "read"
-            }
-          ],
-          "searchParam": [
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "name": "_id",
-              "definition": "http://hl7.org/fhir/SearchParameter/Resource-id",
-              "type": "token",
-              "documentation": "Resource.id"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "name": "_lastUpdated",
-              "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
-              "type": "date",
-              "documentation": "Resource.meta.lastUpdated"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "name": "action",
-              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-action",
-              "type": "token",
-              "documentation": "AuditEvent.action"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "name": "altid",
-              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-altid",
-              "type": "token",
-              "documentation": "AuditEvent.agent.altId"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "name": "date",
-              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-date",
-              "type": "date",
-              "documentation": "AuditEvent.recorded"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "name": "outcome",
-              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-outcome",
-              "type": "token",
-              "documentation": "AuditEvent.outcome"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "name": "entity-name",
-              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-entity-name",
-              "type": "string",
-              "documentation": "AuditEvent.entity.name"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "name": "agent-name",
-              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-agent-name",
-              "type": "string",
-              "documentation": "AuditEvent.agent.name"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "name": "type",
-              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-type",
-              "type": "token",
-              "documentation": "AuditEvent.type"
-            }
-          ],
-          "type": "AuditEvent",
-          "profile": "https://gematik.de/fhir/epa/StructureDefinition/epa-auditevent",
-          "_profile": {
-            "extension": [
-              {
-                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                "valueCode": "SHALL"
-              }
-            ]
-          }
-        }
-      ],
-      "mode": "server"
-    }
-  ],
   "format": [
-    "application/fhir+json",
-    "application/fhir+xml"
+    "application/fhir+json"
   ],
   "extension": [
     {
@@ -603,19 +248,185 @@
       "valueString": "http://epa4all/epa/audit/api/v1/fhir"
     }
   ],
-  "version": "1.1.5",
-  "status": "draft",
+  "rest": [
+    {
+      "mode": "server",
+      "resource": [
+        {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+              "valueCode": "SHALL"
+            }
+          ],
+          "supportedProfile": [
+            "https://gematik.de/fhir/epa/StructureDefinition/epa-auditevent"
+          ],
+          "_supportedProfile": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ]
+            }
+          ],
+          "interaction": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "code": "search-type"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "code": "read"
+            }
+          ],
+          "searchParam": [
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "_id",
+              "definition": "http://hl7.org/fhir/SearchParameter/Resource-id",
+              "type": "token",
+              "documentation": "Resource.id"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "_lastUpdated",
+              "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+              "type": "date",
+              "documentation": "Resource.meta.lastUpdated"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "action",
+              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-action",
+              "type": "token",
+              "documentation": "AuditEvent.action"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "altid",
+              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-altid",
+              "type": "token",
+              "documentation": "AuditEvent.agent.altId"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "date",
+              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-date",
+              "type": "date",
+              "documentation": "AuditEvent.recorded"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "outcome",
+              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-outcome",
+              "type": "token",
+              "documentation": "AuditEvent.outcome"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "entity-name",
+              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-entity-name",
+              "type": "string",
+              "documentation": "AuditEvent.entity.name"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "agent-name",
+              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-agent-name",
+              "type": "string",
+              "documentation": "AuditEvent.agent.name"
+            },
+            {
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ],
+              "name": "type",
+              "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-type",
+              "type": "token",
+              "documentation": "AuditEvent.type"
+            }
+          ],
+          "type": "AuditEvent",
+          "versioning": "versioned-update",
+          "readHistory": true,
+          "profile": "https://gematik.de/fhir/epa/StructureDefinition/epa-auditevent",
+          "_profile": {
+            "extension": [
+              {
+                "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                "valueCode": "SHALL"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "version": "1.0.6",
+  "status": "active",
   "publisher": "gematik GmbH",
-  "date": "2025-03-31",
+  "date": "2025-05-09",
   "name": "EPAAuditEventServer",
-  "title": "EPA CapabilityStatement für den Audit Event Service",
-  "description": "EPA CapabilityStatement für den Audit Event Service",
-  "kind": "capability",
+  "title": "EPA Capability Statement für den Audit Event Service",
+  "description": "EPA Capability Statement für den Audit Event Service",
+  "kind": "requirements",
   "fhirVersion": "4.0.1",
-  "software": {
-    "name": "[Provider Software Name]",
-    "version": "[Provider Software Verson]"
-  },
   "imports": [
     "https://gematik.de/fhir/epa/CapabilityStatement/epa-basic-server"
   ],

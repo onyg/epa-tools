@@ -35,13 +35,38 @@ class Merger(object):
     def deep_merge(self, base, overlay):
         result = copy.deepcopy(base)
         for key, value in overlay.items():
-            if key in result and isinstance(result[key], dict) and isinstance(value, dict):
+            # Special handling for the "rest" element based on mode ("server", "client")
+            if key == "rest":
+                result[key] = self.merge_rest(result.get(key, []), value)
+            elif key in result and isinstance(result[key], dict) and isinstance(value, dict):
+                # Recursively merge nested dictionaries
                 result[key] = self.deep_merge(result[key], value)
             elif key in result and isinstance(result[key], list) and isinstance(value, list):
+                # Merge lists by appending non-duplicate items
                 result[key] = self.merge_lists(result[key], value)
             else:
+                # Override primitive values or add new keys
                 result[key] = value
         return result
+
+    def merge_rest(self, base_rest, overlay_rest):
+        mode_map = {}
+        # Index base_rest entries by their "mode" (e.g., "server", "client")
+        for entry in base_rest:
+            mode = entry.get("mode")
+            if mode:
+                mode_map[mode] = copy.deepcopy(entry)
+        # Merge overlay_rest entries by "mode"
+        for entry in overlay_rest:
+            mode = entry.get("mode")
+            if mode in mode_map:
+                # If the same mode exists, deep merge their contents
+                merged_entry = self.deep_merge(mode_map[mode], entry)
+                mode_map[mode] = merged_entry
+            else:
+                # If it's a new mode, simply add it
+                mode_map[mode] = copy.deepcopy(entry)
+        return list(mode_map.values())
 
     def merge_lists(self, base_list, overlay_list):
         return base_list + [item for item in overlay_list if item not in base_list]

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "epatools"
-version = "0.0.1"
+dynamic = ["version"]
 description = "ePA Tools"
 authors = [{ name = "Ronald Martins", email = "ronald.martins@gematik.de" }]
 license = { file = "LICENSE" }
@@ -12,6 +12,9 @@ dependencies = [
     "PyYAML==6.0.2",
     "requests==2.32.3"
 ]
+
+[tool.setuptools.dynamic]
+version = { attr = "epatools.version.__VERSION__" }
 
 [project.scripts]
 epatools = "epatools.main:main"

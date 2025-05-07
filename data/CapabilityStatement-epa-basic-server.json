@@ -3,7 +3,7 @@
   "id": "epa-basic-server",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/epa/StructureDefinition/epa-basic-server-profile"
+      "https://gematik.de/fhir/epa/StructureDefinition/epa-basic-capability-statement"
     ]
   },
   "url": "https://gematik.de/fhir/epa/CapabilityStatement/epa-basic-server",
@@ -17,14 +17,8 @@
       ]
     }
   ],
-  "rest": [
-    {
-      "mode": "server"
-    }
-  ],
   "format": [
-    "application/fhir+json",
-    "application/fhir+xml"
+    "application/fhir+json"
   ],
   "extension": [
     {
@@ -250,13 +244,18 @@
       "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
     }
   ],
-  "version": "1.1.5",
-  "status": "draft",
+  "rest": [
+    {
+      "mode": "server"
+    }
+  ],
+  "version": "1.0.6",
+  "status": "active",
   "publisher": "gematik GmbH",
-  "date": "2025-03-31",
+  "date": "2025-05-09",
   "name": "EPABasicServer",
   "title": "EPA Basic Server",
-  "description": "Das Basis CapabilityStatement für RESTful FHIR-Datenservices in der ePA. Es beschreibt globale Header-Anforderungen und einheitliche HTTP-Fehlercodes.",
+  "description": "Das Basis Capability Statement für einen FHIR Data Service in der ePA. Es beschreibt globale Header-Anforderungen und einheitliche HTTP Fehler Codes.",
   "kind": "requirements",
   "fhirVersion": "4.0.1"
 }
