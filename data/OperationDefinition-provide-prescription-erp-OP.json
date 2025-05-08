@@ -1,109 +1,24 @@
 {
   "resourceType": "OperationDefinition",
   "id": "provide-prescription-erp-OP",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/epa/StructureDefinition/epa-operationdefinition"
+    ]
+  },
   "url": "https://gematik.de/fhir/epa-medication/OperationDefinition/provide-prescription-erp-OP",
   "title": "Provide Prescription eRP",
   "description": "The Provide Prescription eRP operation in the ePA MedicationService is used to add electronic prescriptions to a patient's record. These prescriptions are already made by the E-Rezept-Fachdienst. This operation does not create new patient prescriptions; it just puts the ones made by the E-Rezept-Fachdienst into the patient's ePA, making sure they are stored safely and can be easily accessed.",
-  "parameter": [
+  "extension": [
     {
-      "part": [
-        {
-          "name": "prescriptionId",
-          "type": "Identifier",
-          "use": "in",
-          "min": 1,
-          "max": "1"
-        },
-        {
-          "name": "authoredOn",
-          "type": "date",
-          "use": "in",
-          "min": 1,
-          "max": "1"
-        },
-        {
-          "targetProfile": [
-            "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication-request"
-          ],
-          "name": "medicationRequest",
-          "type": "MedicationRequest",
-          "use": "in",
-          "min": 1,
-          "max": "1"
-        },
-        {
-          "targetProfile": [
-            "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication-dispense"
-          ],
-          "name": "medication",
-          "type": "Medication",
-          "use": "in",
-          "min": 1,
-          "max": "1"
-        },
-        {
-          "targetProfile": [
-            "https://gematik.de/fhir/directory/StructureDefinition/OrganizationDirectory"
-          ],
-          "name": "organization",
-          "type": "Organization",
-          "use": "in",
-          "min": 1,
-          "max": "1"
-        },
-        {
-          "targetProfile": [
-            "https://gematik.de/fhir/directory/StructureDefinition/PractitionerDirectory"
-          ],
-          "name": "practitioner",
-          "type": "Practitioner",
-          "use": "in",
-          "min": 1,
-          "max": "1"
-        }
-      ],
-      "name": "rxPrescription",
-      "use": "in",
-      "min": 1,
-      "max": "*"
-    },
-    {
-      "part": [
-        {
-          "name": "prescriptionId",
-          "type": "Identifier",
-          "use": "out",
-          "min": 1,
-          "max": "1"
-        },
-        {
-          "name": "authoredOn",
-          "type": "date",
-          "use": "out",
-          "min": 1,
-          "max": "1"
-        },
-        {
-          "targetProfile": [
-            "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-ms-operation-outcome"
-          ],
-          "name": "operationOutcome",
-          "type": "OperationOutcome",
-          "use": "out",
-          "min": 1,
-          "max": "1"
-        }
-      ],
-      "name": "rxPrescription",
-      "use": "out",
-      "min": 1,
-      "max": "*"
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-method",
+      "valueCode": "POST"
     }
   ],
-  "version": "1.1.5",
-  "status": "draft",
+  "version": "1.0.6",
+  "status": "active",
   "publisher": "gematik GmbH",
-  "date": "2025-03-31",
+  "date": "2025-05-09",
   "name": "providePrescription_MedicationSvc",
   "kind": "operation",
   "code": "provide-prescription-erp",

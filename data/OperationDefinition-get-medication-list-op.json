@@ -1,11 +1,19 @@
 {
   "resourceType": "OperationDefinition",
   "id": "get-medication-list-op",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/epa/StructureDefinition/epa-operationdefinition"
+    ]
+  },
   "url": "https://gematik.de/fhir/epa-medication/OperationDefinition/get-medication-list-op",
   "title": "Get Medication List",
   "description": "Get a medication list",
-  "resource": [
-    "Medication"
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-method",
+      "valueCode": "GET"
+    }
   ],
   "parameter": [
     {
@@ -41,15 +49,15 @@
       "documentation": "Searchset bundle containing the requested entities."
     }
   ],
-  "version": "1.1.5",
-  "status": "draft",
+  "version": "1.0.6",
+  "status": "active",
   "publisher": "gematik GmbH",
-  "date": "2025-03-31",
-  "kind": "query",
+  "date": "2025-05-09",
+  "kind": "operation",
   "name": "getMedicationList_MedicationSvc",
   "code": "medication-list",
   "affectsState": false,
   "system": true,
-  "type": true,
-  "instance": true
+  "type": false,
+  "instance": false
 }

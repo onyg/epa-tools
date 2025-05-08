@@ -101,6 +101,7 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
         op_name = op["name"].lstrip("$")
         op_http_errors = http_errors
         op_header_params = header_params
+        http_methods = ['post']
         if not op_header_params:
             op_header_params = []
         if not op_http_errors:
@@ -109,6 +110,7 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
             extension = op.get('extension')
             op_http_errors = {**extract_http_response_info(extension), **op_http_errors}
             op_header_params.extend(extract_http_headers(extension))
+            http_methods = extract_http_methods(extension)
         
         definition_obj = op.get("definition")
         if isinstance(definition_obj, dict):
@@ -128,10 +130,8 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
 
         op_name = operation_definition["code"]
 
-        if operation_definition.get("kind", "operation").lower() == "query":
-            http_method = "get"
-        else:
-            http_method = "post"
+        http_methods.extend(extract_http_methods(operation_definition.get('extension', [])))
+        http_methods = list(set(http_methods))
         op_responses = build_responses(
                             op_http_errors,
                             formats, 
@@ -139,62 +139,63 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
                             success_description="Successful operation"
         )
         op_params = operation_definition.get("parameter", [])
-        oas_params = []
-        request_body = None
-        if http_method == "get":
-            oas_params.extend(build_header_params(op_header_params) + build_parameters(op_params))
-            format_param = build_format_query_param(formats)
-            if format_param:
-                oas_params.append(format_param)
-        else:
-            oas_params.extend(build_header_params(op_header_params))
-            request_body = build_request_body(formats)
+        for http_method in http_methods:
+            oas_params = []
+            request_body = None
+            if http_method == "get":
+                oas_params.extend(build_header_params(op_header_params) + build_parameters(op_params))
+                format_param = build_format_query_param(formats)
+                if format_param:
+                    oas_params.append(format_param)
+            else:
+                oas_params.extend(build_header_params(op_header_params))
+                request_body = build_request_body(formats)
 
-        # system-level operation
-        if operation_definition.get("system") is True:
-            path = f"{path_prefix}/${op_name}"
-            openapi["paths"].setdefault(path, {})[http_method] = {
-                "summary": f"System-level FHIR Operation ${op_name}",
-                "tags": ["System-level FHIR Operation"],
-                "parameters": oas_params.copy(),
-                "responses": op_responses
-            }
-            if request_body:
-                openapi["paths"][path][http_method]["requestBody"] = request_body
-
-        # type-level operation
-        if operation_definition.get("type") is True:
-            for resource_type in operation_definition.get("resource", []):
-                path = f"{path_prefix}/{resource_type}/${op_name}"
+            # system-level operation
+            if operation_definition.get("system") is True:
+                path = f"{path_prefix}/${op_name}"
                 openapi["paths"].setdefault(path, {})[http_method] = {
-                    "summary": f"Type-level FHIR Operation ${op_name}",
-                    "tags": [resource_type],
+                    "summary": f"System-level FHIR Operation ${op_name}",
+                    "tags": ["System-level FHIR Operation"],
                     "parameters": oas_params.copy(),
                     "responses": op_responses
                 }
                 if request_body:
                     openapi["paths"][path][http_method]["requestBody"] = request_body
 
-        # instance-level operation
-        if operation_definition.get("instance") is True:
-            for resource_type in operation_definition.get("resource", []):
-                path = f"{path_prefix}/{resource_type}/{{id}}/${op_name}"
-                openapi["paths"].setdefault(path, {})[http_method] = {
-                    "summary": f"Instance-level FHIR Operation ${op_name}",
-                    "tags": [resource_type],
-                    
-                    "parameters": oas_params.copy() + [{
-                        "name": "id",
-                        "in": "path",
-                        "required": True,
-                        "schema": {"type": "string"},
-                        "description": "Resource ID"
-                    }],
-                    "responses": op_responses
-                }
-                if request_body:
-                    openapi["paths"][path][http_method]["requestBody"] = request_body
-        
+            # type-level operation
+            if operation_definition.get("type") is True:
+                for resource_type in operation_definition.get("resource", []):
+                    path = f"{path_prefix}/{resource_type}/${op_name}"
+                    openapi["paths"].setdefault(path, {})[http_method] = {
+                        "summary": f"Type-level FHIR Operation ${op_name}",
+                        "tags": [resource_type],
+                        "parameters": oas_params.copy(),
+                        "responses": op_responses
+                    }
+                    if request_body:
+                        openapi["paths"][path][http_method]["requestBody"] = request_body
+
+            # instance-level operation
+            if operation_definition.get("instance") is True:
+                for resource_type in operation_definition.get("resource", []):
+                    path = f"{path_prefix}/{resource_type}/{{id}}/${op_name}"
+                    openapi["paths"].setdefault(path, {})[http_method] = {
+                        "summary": f"Instance-level FHIR Operation ${op_name}",
+                        "tags": [resource_type],
+                        
+                        "parameters": oas_params.copy() + [{
+                            "name": "id",
+                            "in": "path",
+                            "required": True,
+                            "schema": {"type": "string"},
+                            "description": "Resource ID"
+                        }],
+                        "responses": op_responses
+                    }
+                    if request_body:
+                        openapi["paths"][path][http_method]["requestBody"] = request_body
+            
         return openapi
 
 
@@ -230,6 +231,16 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
 ####
 # END Operations
 ####
+
+def extract_http_methods(extensions):
+    methods = []
+    for ext in extensions:
+        if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/http-method":
+            method = ext.get("valueCode", None)
+            if method:
+                methods.append(str(method).lower())
+    return list(set(methods))
+
 
 def extract_http_headers(extensions):
     headers = []

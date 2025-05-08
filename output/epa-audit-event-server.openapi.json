@@ -1,9 +1,9 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "EPA CapabilityStatement für den Audit Event Service",
-    "version": "1.1.5",
-    "description": "EPA CapabilityStatement für den Audit Event Service"
+    "title": "EPA Capability Statement für den Audit Event Service",
+    "version": "1.0.6",
+    "description": "EPA Capability Statement für den Audit Event Service"
   },
   "paths": {
     "/epa/audit/api/v1/fhir/metadata": {
@@ -43,30 +43,13 @@
               "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
             }
           },
-          {
-            "name": "_format",
-            "in": "query",
-            "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "application/fhir+json",
-                "application/fhir+xml"
-              ]
-            }
-          }
+          null
         ],
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/fhir+json": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "application/fhir+xml": {
                 "schema": {
                   "type": "object"
                 }
@@ -123,19 +106,6 @@
             "schema": {
               "type": "string",
               "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          },
-          {
-            "name": "_format",
-            "in": "query",
-            "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "application/fhir+json",
-                "application/fhir+xml"
-              ]
             }
           },
           {
@@ -257,22 +227,14 @@
                 "schema": {
                   "type": "object"
                 }
-              },
-              "application/fhir+xml": {
-                "schema": {
-                  "type": "object"
-                }
               }
             }
           },
-          "400": {
-            "description": "Invalid request"
+          "403": {
+            "description": "Device registration does not exist"
           },
           "404": {
             "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "403": {
-            "description": "Device registration does not exist"
           },
           "409": {
             "description": "Health record is in state SUSPENDED"
@@ -328,19 +290,6 @@
               "type": "string"
             },
             "description": "Resource ID"
-          },
-          {
-            "name": "_format",
-            "in": "query",
-            "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "application/fhir+json",
-                "application/fhir+xml"
-              ]
-            }
           }
         ],
         "responses": {
@@ -351,22 +300,14 @@
                 "schema": {
                   "type": "object"
                 }
-              },
-              "application/fhir+xml": {
-                "schema": {
-                  "type": "object"
-                }
               }
             }
           },
-          "400": {
-            "description": "Invalid request"
+          "403": {
+            "description": "Device registration does not exist"
           },
           "404": {
             "description": "Health record is in state UNKNOWN or INITIALIZED"
-          },
-          "403": {
-            "description": "Device registration does not exist"
           },
           "409": {
             "description": "Health record is in state SUSPENDED"

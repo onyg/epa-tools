@@ -3,25 +3,13 @@
   "id": "epa-medication-service-server",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/epa/StructureDefinition/epa-basic-capability-statement",
-      "https://gematik.de/fhir/epa/StructureDefinition/epa-basic-server-profile"
+      "https://gematik.de/fhir/epa/StructureDefinition/epa-capability-statement"
     ]
   },
-  "url": "https://gematik.de/fhir/epa-medication/CapabilityStatement/epa-medication-service-server",
-  "contact": [
-    {
-      "telecom": [
-        {
-          "system": "url",
-          "value": "https://www.gematik.de"
-        }
-      ]
-    }
-  ],
-  "format": [
-    "application/fhir+json",
-    "application/fhir+xml"
-  ],
+  "text": {
+    "status": "extensions",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: CapabilityStatement epa-basic-server</b></p><a name=\"epa-basic-server\"> </a><a name=\"hcepa-basic-server\"> </a><a name=\"epa-basic-server-de-DE\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-epa-capability-statement.html\">Capability Statement Profil für ePA FHIR Data Service</a></p></div><h2 id=\"title\">EPA Basic Server</h2><ul><li>Implementation Guide Version: 1.0.6 </li><li>FHIR Version: 4.0.1 </li><li>Supported Formats: <code>application/fhir+json</code></li><li>Supported Patch Formats: </li><li>Published on: 2025-05-09 </li><li>Published by: gematik GmbH </li></ul><blockquote class=\"impl-note\"><p><strong>Note to Implementers: FHIR Capabilities</strong></p><p>Any FHIR capability may be 'allowed' by the system unless explicitly marked as 'SHALL NOT'. A few items are marked as MAY in the Implementation Guide to highlight their potential relevance to the use case.</p></blockquote><h2 id=\"rest\">FHIR RESTful Capabilities</h2><div class=\"panel panel-default\"><div class=\"panel-heading\"><h3 id=\"mode1\" class=\"panel-title\">Mode: <code>server</code></h3></div><div class=\"panel-body\"><div class=\"lead\"><em>Summary of System-wide Interactions</em></div></div></div></div>"
+  },
   "extension": [
     {
       "extension": [
@@ -250,6 +238,39 @@
       "valueString": "http://epa4all/epa/medication/api/v1/fhir"
     }
   ],
+  "url": "https://gematik.de/fhir/epa-medication/CapabilityStatement/epa-medication-service-server",
+  "version": "1.0.6",
+  "name": "EPAMedicationServiceServer",
+  "title": "EPA CapabilityStatement für den the Medication Service",
+  "status": "active",
+  "date": "2025-05-09",
+  "publisher": "gematik GmbH",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "https://www.gematik.de"
+        }
+      ]
+    }
+  ],
+  "description": "EPA CapabilityStatement für den the Medication Service",
+  "jurisdiction": [
+    {
+      "coding": [
+        {
+          "system": "urn:iso:std:iso:3166",
+          "code": "DE"
+        }
+      ]
+    }
+  ],
+  "kind": "requirements",
+  "fhirVersion": "4.0.1",
+  "format": [
+    "application/fhir+json"
+  ],
   "rest": [
     {
       "mode": "server",
@@ -311,40 +332,6 @@
                     },
                     {
                       "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
                       "valueString": "Unknown search parameter"
                     },
                     {
@@ -363,6 +350,40 @@
                     {
                       "url": "description",
                       "valueString": "Invalid query parameter(s)"
+                    },
+                    {
+                      "url": "responseType",
+                      "valueString": "OperationOutcome"
+                    }
+                  ],
+                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "statusCode",
+                      "valueString": "400"
+                    },
+                    {
+                      "url": "description",
+                      "valueString": "Invalid request"
+                    },
+                    {
+                      "url": "responseType",
+                      "valueString": "OperationOutcome"
+                    }
+                  ],
+                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "statusCode",
+                      "valueString": "404"
+                    },
+                    {
+                      "url": "description",
+                      "valueString": "Unknown resource type"
                     },
                     {
                       "url": "responseType",
@@ -426,117 +447,6 @@
                     }
                   ],
                   "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "history-type"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -564,23 +474,6 @@
                     {
                       "url": "description",
                       "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
                     },
                     {
                       "url": "responseType",
@@ -591,330 +484,6 @@
                 }
               ],
               "code": "read"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource is not known"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "history-instance"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource is not known"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "vread"
             }
           ],
           "searchParam": [
@@ -941,18 +510,6 @@
               "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
               "type": "date",
               "documentation": "Resource.meta.lastUpdated"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "name": "_has",
-              "definition": "http://hl7.org/fhir/SearchParameter/Resource-has",
-              "type": "string",
-              "documentation": "Return resources linked to by the given target"
             },
             {
               "extension": [
@@ -1003,17 +560,11 @@
               "documentation": "Medication.ingredient.item as CodeableConcept"
             }
           ],
-          "searchInclude": [
-            "Medication:ingredient"
-          ],
           "searchRevInclude": [
             "MedicationRequest:medication",
-            "MedicationDispense:medication",
-            "Medication:ingredient"
+            "MedicationDispense:medication"
           ],
           "type": "Medication",
-          "versioning": "versioned-update",
-          "readHistory": true,
           "profile": "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication",
           "_profile": {
             "extension": [
@@ -1059,40 +610,6 @@
                     },
                     {
                       "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
                       "valueString": "Unknown search parameter"
                     },
                     {
@@ -1111,6 +628,40 @@
                     {
                       "url": "description",
                       "valueString": "Invalid query parameter(s)"
+                    },
+                    {
+                      "url": "responseType",
+                      "valueString": "OperationOutcome"
+                    }
+                  ],
+                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "statusCode",
+                      "valueString": "400"
+                    },
+                    {
+                      "url": "description",
+                      "valueString": "Invalid request"
+                    },
+                    {
+                      "url": "responseType",
+                      "valueString": "OperationOutcome"
+                    }
+                  ],
+                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "statusCode",
+                      "valueString": "404"
+                    },
+                    {
+                      "url": "description",
+                      "valueString": "Unknown resource type"
                     },
                     {
                       "url": "responseType",
@@ -1174,117 +725,6 @@
                     }
                   ],
                   "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "history-type"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1312,23 +752,6 @@
                     {
                       "url": "description",
                       "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
                     },
                     {
                       "url": "responseType",
@@ -1339,330 +762,6 @@
                 }
               ],
               "code": "read"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource is not known"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "history-instance"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource is not known"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "vread"
             }
           ],
           "searchParam": [
@@ -1689,18 +788,6 @@
               "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
               "type": "date",
               "documentation": "Resource.meta.lastUpdated"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "name": "_has",
-              "definition": "http://hl7.org/fhir/SearchParameter/Resource-has",
-              "type": "string",
-              "documentation": "Return resources linked to by the given target"
             },
             {
               "extension": [
@@ -1771,8 +858,6 @@
             "MedicationDispense:prescription"
           ],
           "type": "MedicationRequest",
-          "versioning": "versioned-update",
-          "readHistory": true,
           "profile": "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication-request",
           "_profile": {
             "extension": [
@@ -1818,40 +903,6 @@
                     },
                     {
                       "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
                       "valueString": "Unknown search parameter"
                     },
                     {
@@ -1870,6 +921,40 @@
                     {
                       "url": "description",
                       "valueString": "Invalid query parameter(s)"
+                    },
+                    {
+                      "url": "responseType",
+                      "valueString": "OperationOutcome"
+                    }
+                  ],
+                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "statusCode",
+                      "valueString": "400"
+                    },
+                    {
+                      "url": "description",
+                      "valueString": "Invalid request"
+                    },
+                    {
+                      "url": "responseType",
+                      "valueString": "OperationOutcome"
+                    }
+                  ],
+                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "statusCode",
+                      "valueString": "404"
+                    },
+                    {
+                      "url": "description",
+                      "valueString": "Unknown resource type"
                     },
                     {
                       "url": "responseType",
@@ -1933,117 +1018,6 @@
                     }
                   ],
                   "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "history-type"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -2071,23 +1045,6 @@
                     {
                       "url": "description",
                       "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
                     },
                     {
                       "url": "responseType",
@@ -2098,330 +1055,6 @@
                 }
               ],
               "code": "read"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource is not known"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "history-instance"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource is not known"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "vread"
             }
           ],
           "searchParam": [
@@ -2448,18 +1081,6 @@
               "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
               "type": "date",
               "documentation": "Resource.meta.lastUpdated"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "name": "_has",
-              "definition": "http://hl7.org/fhir/SearchParameter/Resource-has",
-              "type": "string",
-              "documentation": "Return resources linked to by the given target"
             },
             {
               "extension": [
@@ -2540,8 +1161,6 @@
             "MedicationDispense:prescription"
           ],
           "type": "MedicationDispense",
-          "versioning": "versioned-update",
-          "readHistory": true,
           "profile": "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-medication-dispense",
           "_profile": {
             "extension": [
@@ -2600,40 +1219,6 @@
                     },
                     {
                       "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
                       "valueString": "Unknown search parameter"
                     },
                     {
@@ -2652,6 +1237,40 @@
                     {
                       "url": "description",
                       "valueString": "Invalid query parameter(s)"
+                    },
+                    {
+                      "url": "responseType",
+                      "valueString": "OperationOutcome"
+                    }
+                  ],
+                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "statusCode",
+                      "valueString": "400"
+                    },
+                    {
+                      "url": "description",
+                      "valueString": "Invalid request"
+                    },
+                    {
+                      "url": "responseType",
+                      "valueString": "OperationOutcome"
+                    }
+                  ],
+                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "statusCode",
+                      "valueString": "404"
+                    },
+                    {
+                      "url": "description",
+                      "valueString": "Unknown resource type"
                     },
                     {
                       "url": "responseType",
@@ -2715,117 +1334,6 @@
                     }
                   ],
                   "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "history-type"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -2853,23 +1361,6 @@
                     {
                       "url": "description",
                       "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
                     },
                     {
                       "url": "responseType",
@@ -2880,330 +1371,6 @@
                 }
               ],
               "code": "read"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource is not known"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "history-instance"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource is not known"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "vread"
             }
           ],
           "searchParam": [
@@ -3238,18 +1405,6 @@
                   "valueCode": "SHALL"
                 }
               ],
-              "name": "_has",
-              "definition": "http://hl7.org/fhir/SearchParameter/Resource-has",
-              "type": "string",
-              "documentation": "Return resources linked to by the given target"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
               "name": "identifier",
               "definition": "http://hl7.org/fhir/SearchParameter/Organization-identifier",
               "type": "token",
@@ -3273,9 +1428,7 @@
             "PractitionerRole:organization",
             "MedicationRequest:requester"
           ],
-          "type": "Organization",
-          "versioning": "versioned-update",
-          "readHistory": true
+          "type": "Organization"
         },
         {
           "extension": [
@@ -3325,40 +1478,6 @@
                     },
                     {
                       "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
                       "valueString": "Unknown search parameter"
                     },
                     {
@@ -3377,6 +1496,40 @@
                     {
                       "url": "description",
                       "valueString": "Invalid query parameter(s)"
+                    },
+                    {
+                      "url": "responseType",
+                      "valueString": "OperationOutcome"
+                    }
+                  ],
+                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "statusCode",
+                      "valueString": "400"
+                    },
+                    {
+                      "url": "description",
+                      "valueString": "Invalid request"
+                    },
+                    {
+                      "url": "responseType",
+                      "valueString": "OperationOutcome"
+                    }
+                  ],
+                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "statusCode",
+                      "valueString": "404"
+                    },
+                    {
+                      "url": "description",
+                      "valueString": "Unknown resource type"
                     },
                     {
                       "url": "responseType",
@@ -3440,117 +1593,6 @@
                     }
                   ],
                   "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "history-type"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -3578,23 +1620,6 @@
                     {
                       "url": "description",
                       "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
                     },
                     {
                       "url": "responseType",
@@ -3605,330 +1630,6 @@
                 }
               ],
               "code": "read"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource is not known"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "history-instance"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource is not known"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "vread"
             }
           ],
           "searchParam": [
@@ -3963,18 +1664,6 @@
                   "valueCode": "SHALL"
                 }
               ],
-              "name": "_has",
-              "definition": "http://hl7.org/fhir/SearchParameter/Resource-has",
-              "type": "string",
-              "documentation": "Return resources linked to by the given target"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
               "name": "identifier",
               "definition": "http://hl7.org/fhir/SearchParameter/Practitioner-identifier",
               "type": "token",
@@ -3998,9 +1687,7 @@
             "PractitionerRole:practitioner",
             "MedicationRequest:requester"
           ],
-          "type": "Practitioner",
-          "versioning": "versioned-update",
-          "readHistory": true
+          "type": "Practitioner"
         },
         {
           "extension": [
@@ -4037,40 +1724,6 @@
                     },
                     {
                       "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
                       "valueString": "Unknown search parameter"
                     },
                     {
@@ -4089,6 +1742,40 @@
                     {
                       "url": "description",
                       "valueString": "Invalid query parameter(s)"
+                    },
+                    {
+                      "url": "responseType",
+                      "valueString": "OperationOutcome"
+                    }
+                  ],
+                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "statusCode",
+                      "valueString": "400"
+                    },
+                    {
+                      "url": "description",
+                      "valueString": "Invalid request"
+                    },
+                    {
+                      "url": "responseType",
+                      "valueString": "OperationOutcome"
+                    }
+                  ],
+                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                },
+                {
+                  "extension": [
+                    {
+                      "url": "statusCode",
+                      "valueString": "404"
+                    },
+                    {
+                      "url": "description",
+                      "valueString": "Unknown resource type"
                     },
                     {
                       "url": "responseType",
@@ -4152,117 +1839,6 @@
                     }
                   ],
                   "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "history-type"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -4290,23 +1866,6 @@
                     {
                       "url": "description",
                       "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
                     },
                     {
                       "url": "responseType",
@@ -4317,330 +1876,6 @@
                 }
               ],
               "code": "read"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource is not known"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "history-instance"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "200"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Successful operation"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown resource type"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Unknown search parameter"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid query parameter(s)"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "400"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Invalid request"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "application/json"
-                    },
-                    {
-                      "url": "errorCode",
-                      "valueString": "malformedRequest"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource is not known"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "404"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Not found"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                },
-                {
-                  "extension": [
-                    {
-                      "url": "statusCode",
-                      "valueString": "410"
-                    },
-                    {
-                      "url": "description",
-                      "valueString": "Resource was deleted"
-                    },
-                    {
-                      "url": "responseType",
-                      "valueString": "OperationOutcome"
-                    }
-                  ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-                }
-              ],
-              "code": "vread"
             }
           ],
           "searchParam": [
@@ -4667,18 +1902,6 @@
               "definition": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
               "type": "date",
               "documentation": "Resource.meta.lastUpdated"
-            },
-            {
-              "extension": [
-                {
-                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-                  "valueCode": "SHALL"
-                }
-              ],
-              "name": "_has",
-              "definition": "http://hl7.org/fhir/SearchParameter/Resource-has",
-              "type": "string",
-              "documentation": "Return resources linked to by the given target"
             },
             {
               "extension": [
@@ -4725,9 +1948,7 @@
             "MedicationDispense:perfomer",
             "MedicationRequest:requester"
           ],
-          "type": "PractitionerRole",
-          "versioning": "versioned-update",
-          "readHistory": true
+          "type": "PractitionerRole"
         }
       ],
       "operation": [
@@ -5078,6 +2299,10 @@
                 }
               ],
               "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+            },
+            {
+              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-method",
+              "valueCode": "POST"
             }
           ],
           "name": "medication-list",
@@ -5086,33 +2311,6 @@
       ]
     }
   ],
-  "version": "1.1.5",
-  "status": "draft",
-  "publisher": "gematik GmbH",
-  "date": "2025-03-31",
-  "name": "EPAMedicationServiceServer",
-  "title": "EPA CapabilityStatement für den Medication Service",
-  "description": "EPA CapabilityStatement für den Medication Service",
-  "kind": "capability",
-  "fhirVersion": "4.0.1",
-  "text": {
-    "status": "extensions",
-    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: CapabilityStatement epa-basic-server</b></p><a name=\"epa-basic-server\"> </a><a name=\"hcepa-basic-server\"> </a><a name=\"epa-basic-server-de-DE\"> </a><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\"/><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-epa-basic-server-profile.html\">EPA Basic Server Profil</a></p></div><h2 id=\"title\">EPA Basic Server</h2><ul><li>Implementation Guide Version: 1.1.5 </li><li>FHIR Version: 4.0.1 </li><li>Supported Formats: <code>application/fhir+json</code>, <code>application/fhir+xml</code></li><li>Supported Patch Formats: </li><li>Published on: 2025-03-31 </li><li>Published by: gematik GmbH </li></ul><blockquote class=\"impl-note\"><p><strong>Note to Implementers: FHIR Capabilities</strong></p><p>Any FHIR capability may be 'allowed' by the system unless explicitly marked as 'SHALL NOT'. A few items are marked as MAY in the Implementation Guide to highlight their potential relevance to the use case.</p></blockquote><h2 id=\"rest\">FHIR RESTful Capabilities</h2><div class=\"panel panel-default\"><div class=\"panel-heading\"><h3 id=\"mode1\" class=\"panel-title\">Mode: <code>server</code></h3></div><div class=\"panel-body\"><div class=\"lead\"><em>Summary of System-wide Interactions</em></div></div></div></div>"
-  },
-  "jurisdiction": [
-    {
-      "coding": [
-        {
-          "system": "urn:iso:std:iso:3166",
-          "code": "DE"
-        }
-      ]
-    }
-  ],
-  "software": {
-    "name": "[Provider Software Name]",
-    "version": "[Provider Software Verson]"
-  },
   "imports": [
     "https://gematik.de/fhir/epa/CapabilityStatement/epa-basic-server"
   ],
