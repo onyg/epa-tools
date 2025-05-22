@@ -31,9 +31,11 @@ def main():
             _merger.dependencies_config = args.dependencies
             _merger.merge()
 
-        if args.command == "openapi":
+        elif args.command == "openapi":
             _oaconverter = OpenApiConverter(config_file=args.config).load()
             _oaconverter.convert()
+        else:
+            parser.print_help()
     except Exception as e:
         print(f"❌ Error: {e}")
         # raise e

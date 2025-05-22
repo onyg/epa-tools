@@ -105,7 +105,7 @@
           "valueString": "invalAuth"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
     },
     {
       "extension": [
@@ -126,7 +126,7 @@
           "valueString": "notEntitled"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
     },
     {
       "extension": [
@@ -147,7 +147,7 @@
           "valueString": "invalidOid"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
     },
     {
       "extension": [
@@ -168,7 +168,7 @@
           "valueString": "unregisteredDevice"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
     },
     {
       "extension": [
@@ -189,7 +189,7 @@
           "valueString": "noHealthRecord"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
     },
     {
       "extension": [
@@ -210,7 +210,7 @@
           "valueString": "statusMismatch"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
     },
     {
       "extension": [
@@ -231,7 +231,7 @@
           "valueString": "internalError"
         }
       ],
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
     },
     {
       "url": "https://gematik.de/fhir/epa/StructureDefinition/base-url-extenstion",
@@ -322,7 +322,7 @@
                       "valueString": "Successful operation"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -339,7 +339,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -356,7 +356,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -373,7 +373,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -390,7 +390,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 }
               ],
               "code": "search-type"
@@ -412,7 +412,7 @@
                       "valueString": "Successful operation"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -429,7 +429,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -446,7 +446,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -463,7 +463,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -480,7 +480,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 }
               ],
               "code": "read"
@@ -600,7 +600,7 @@
                       "valueString": "Successful operation"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -617,7 +617,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -634,7 +634,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -651,7 +651,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -668,7 +668,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 }
               ],
               "code": "search-type"
@@ -690,7 +690,7 @@
                       "valueString": "Successful operation"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -707,7 +707,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -724,7 +724,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -741,7 +741,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -758,7 +758,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 }
               ],
               "code": "read"
@@ -893,7 +893,7 @@
                       "valueString": "Successful operation"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -910,7 +910,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -927,7 +927,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -944,7 +944,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -961,7 +961,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 }
               ],
               "code": "search-type"
@@ -983,7 +983,7 @@
                       "valueString": "Successful operation"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1000,7 +1000,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1017,7 +1017,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1034,7 +1034,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1051,7 +1051,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 }
               ],
               "code": "read"
@@ -1209,7 +1209,7 @@
                       "valueString": "Successful operation"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1226,7 +1226,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1243,7 +1243,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1260,7 +1260,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1277,7 +1277,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 }
               ],
               "code": "search-type"
@@ -1299,7 +1299,7 @@
                       "valueString": "Successful operation"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1316,7 +1316,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1333,7 +1333,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1350,7 +1350,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1367,7 +1367,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 }
               ],
               "code": "read"
@@ -1468,7 +1468,7 @@
                       "valueString": "Successful operation"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1485,7 +1485,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1502,7 +1502,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1519,7 +1519,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1536,7 +1536,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 }
               ],
               "code": "search-type"
@@ -1558,7 +1558,7 @@
                       "valueString": "Successful operation"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1575,7 +1575,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1592,7 +1592,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1609,7 +1609,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1626,7 +1626,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 }
               ],
               "code": "read"
@@ -1714,7 +1714,7 @@
                       "valueString": "Successful operation"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1731,7 +1731,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1748,7 +1748,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1765,7 +1765,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1782,7 +1782,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 }
               ],
               "code": "search-type"
@@ -1804,7 +1804,7 @@
                       "valueString": "Successful operation"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1821,7 +1821,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1838,7 +1838,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1855,7 +1855,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 },
                 {
                   "extension": [
@@ -1872,7 +1872,7 @@
                       "valueString": "OperationOutcome"
                     }
                   ],
-                  "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
                 }
               ],
               "code": "read"
@@ -1969,7 +1969,7 @@
                   "valueString": "Successful operation"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -1986,7 +1986,7 @@
                   "valueString": "OperationOutcome"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -2007,7 +2007,7 @@
                   "valueString": "locked"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -2024,7 +2024,7 @@
                   "valueString": "OperationOutcome"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             }
           ],
           "name": "provide-prescription-erp",
@@ -2047,7 +2047,7 @@
                   "valueString": "Successful operation"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -2064,7 +2064,7 @@
                   "valueString": "OperationOutcome"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -2085,7 +2085,7 @@
                   "valueString": "locked"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             }
           ],
           "name": "cancel-prescription-erp",
@@ -2108,7 +2108,7 @@
                   "valueString": "Successful operation"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -2125,7 +2125,7 @@
                   "valueString": "OperationOutcome"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -2146,7 +2146,7 @@
                   "valueString": "locked"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -2163,7 +2163,7 @@
                   "valueString": "OperationOutcome"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             }
           ],
           "name": "provide-dispensation-erp",
@@ -2186,7 +2186,7 @@
                   "valueString": "Successful operation"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -2203,7 +2203,7 @@
                   "valueString": "OperationOutcome"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -2224,7 +2224,7 @@
                   "valueString": "locked"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             }
           ],
           "name": "cancel-dispensation-erp",
@@ -2247,7 +2247,7 @@
                   "valueString": "Successful operation"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -2264,7 +2264,7 @@
                   "valueString": "OperationOutcome"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -2281,7 +2281,7 @@
                   "valueString": "OperationOutcome"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "extension": [
@@ -2298,7 +2298,7 @@
                   "valueString": "OperationOutcome"
                 }
               ],
-              "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
             },
             {
               "url": "https://gematik.de/fhir/epa/StructureDefinition/http-method",

@@ -1,2 +1,2 @@
-__VERSION__ = '0.0.3'
+__VERSION__ = '0.0.4'
 __APPNAME__ = 'EPATOOLS'

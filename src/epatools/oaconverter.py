@@ -233,9 +233,13 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
 ####
 
 def extract_http_methods(extensions):
+    http_method_urls = [
+        "https://gematik.de/fhir/epa/StructureDefinition/http-method",
+        "https://gematik.de/fhir/ti/StructureDefinition/http-method"
+    ]
     methods = []
     for ext in extensions:
-        if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/http-method":
+        if ext.get("url") in http_method_urls:
             method = ext.get("valueCode", None)
             if method:
                 methods.append(str(method).lower())
@@ -243,9 +247,13 @@ def extract_http_methods(extensions):
 
 
 def extract_http_headers(extensions):
+    header_header_urls = [
+        "https://gematik.de/fhir/epa/StructureDefinition/http-header-extenstion",
+        "https://gematik.de/fhir/ti/StructureDefinition/http-header-extenstion"
+    ]
     headers = []
     for ext in extensions:
-        if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/http-header-extenstion":
+        if ext.get("url") in header_header_urls:
             header = {}
             for sub in ext.get("extension", []):
                 header[sub["url"]] = sub.get("valueString") or sub.get("valueBoolean")
@@ -254,9 +262,14 @@ def extract_http_headers(extensions):
 
 
 def extract_http_response_info(extensions):
+    http_response_info_urls = [
+        "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion",
+        "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion",
+        "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
+    ]
     errors = {}
     for ext in extensions:
-        if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion" or ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion":
+        if ext.get("url") in http_response_info_urls:
             code = None
             description = None
             for sub in ext.get("extension", []):
@@ -270,8 +283,12 @@ def extract_http_response_info(extensions):
 
 
 def extract_base_url_parts(extensions):
+    base_url_urls = [
+        "https://gematik.de/fhir/epa/StructureDefinition/base-url-extenstion",
+        "https://gematik.de/fhir/ti/StructureDefinition/base-url-extenstion"
+    ]
     for ext in extensions:
-        if ext.get("url") == "https://gematik.de/fhir/epa/StructureDefinition/base-url-extenstion":
+        if ext.get("url") in base_url_urls:
             full_url = ext.get("valueString")
             if full_url:
                 parsed = urlparse(full_url)
