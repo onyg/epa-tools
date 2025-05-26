@@ -235,7 +235,8 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
 def extract_http_methods(extensions):
     http_method_urls = [
         "https://gematik.de/fhir/epa/StructureDefinition/http-method",
-        "https://gematik.de/fhir/ti/StructureDefinition/http-method"
+        "https://gematik.de/fhir/ti/StructureDefinition/http-method",
+        "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method"
     ]
     methods = []
     for ext in extensions:
@@ -249,7 +250,8 @@ def extract_http_methods(extensions):
 def extract_http_headers(extensions):
     header_header_urls = [
         "https://gematik.de/fhir/epa/StructureDefinition/http-header-extenstion",
-        "https://gematik.de/fhir/ti/StructureDefinition/http-header-extenstion"
+        "https://gematik.de/fhir/ti/StructureDefinition/http-header-extenstion",
+        "https://gematik.de/fhir/ti/StructureDefinition/extension-http-header"
     ]
     headers = []
     for ext in extensions:
@@ -265,7 +267,8 @@ def extract_http_response_info(extensions):
     http_response_info_urls = [
         "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion",
         "https://gematik.de/fhir/epa/StructureDefinition/http-error-extenstion",
-        "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion"
+        "https://gematik.de/fhir/ti/StructureDefinition/http-response-info-extenstion",
+        "https://gematik.de/fhir/ti/StructureDefinition/extension-http-response-info"
     ]
     errors = {}
     for ext in extensions:
@@ -285,7 +288,8 @@ def extract_http_response_info(extensions):
 def extract_base_url_parts(extensions):
     base_url_urls = [
         "https://gematik.de/fhir/epa/StructureDefinition/base-url-extenstion",
-        "https://gematik.de/fhir/ti/StructureDefinition/base-url-extenstion"
+        "https://gematik.de/fhir/ti/StructureDefinition/base-url-extenstion",
+        "https://gematik.de/fhir/ti/StructureDefinition/extension-base-url"
     ]
     for ext in extensions:
         if ext.get("url") in base_url_urls:
