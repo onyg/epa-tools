@@ -31,7 +31,6 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
-      - null
       responses:
         '200':
           description: OK
@@ -1125,56 +1124,6 @@ paths:
             schema:
               type: object
   /epa/medication/api/v1/fhir/$cancel-dispensation-erp:
-    post:
-      summary: System-level FHIR Operation $cancel-dispensation-erp
-      tags:
-      - System-level FHIR Operation
-      parameters:
-      - name: X-Request-ID
-        in: header
-        required: true
-        description: UUID of the request message
-        schema:
-          type: string
-          format: uuid
-      - name: x-insurantid
-        in: header
-        required: true
-        description: Health Record Identifier
-        schema:
-          type: string
-          pattern: ^[A-Z]{1}\d{9}$
-      - name: x-useragent
-        in: header
-        required: true
-        description: user agent information
-        schema:
-          type: string
-          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/fhir+json:
-              schema:
-                type: object
-        '403':
-          description: Device registration does not exist
-        '423':
-          description: If the insurant objected to the submission of prescription
-            and dispensation data into the ePA system, the Medication Service is locked
-        '404':
-          description: Health record is in state UNKNOWN or INITIALIZED
-        '409':
-          description: Health record is in state SUSPENDED
-        '500':
-          description: Any other error
-      requestBody:
-        required: true
-        content:
-          application/fhir+json:
-            schema:
-              type: object
     get:
       summary: System-level FHIR Operation $cancel-dispensation-erp
       tags:
@@ -1219,9 +1168,8 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
-  /epa/medication/api/v1/fhir/$medication-list:
     post:
-      summary: System-level FHIR Operation $medication-list
+      summary: System-level FHIR Operation $cancel-dispensation-erp
       tags:
       - System-level FHIR Operation
       parameters:
@@ -1253,10 +1201,11 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-        '400':
-          description: Invalid request
         '403':
           description: Device registration does not exist
+        '423':
+          description: If the insurant objected to the submission of prescription
+            and dispensation data into the ePA system, the Medication Service is locked
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
         '409':
@@ -1269,6 +1218,7 @@ paths:
           application/fhir+json:
             schema:
               type: object
+  /epa/medication/api/v1/fhir/$medication-list:
     get:
       summary: System-level FHIR Operation $medication-list
       tags:
@@ -1332,6 +1282,55 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+    post:
+      summary: System-level FHIR Operation $medication-list
+      tags:
+      - System-level FHIR Operation
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
   /epa/medication/api/v1/fhir/metadawwwta:
     get:
       responses:

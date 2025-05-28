@@ -18,7 +18,8 @@
     }
   ],
   "format": [
-    "application/fhir+json"
+    "application/fhir+json",
+    "application/fhir+xml"
   ],
   "extension": [
     {

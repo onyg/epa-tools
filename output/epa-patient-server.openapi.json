@@ -44,6 +44,19 @@
             }
           },
           {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
             "name": "_format",
             "in": "query",
             "required": false,
@@ -123,6 +136,19 @@
             "schema": {
               "type": "string",
               "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
             }
           },
           {
@@ -247,19 +273,6 @@
             }
           },
           {
-            "name": "_format",
-            "in": "query",
-            "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "application/fhir+json",
-                "application/fhir+xml"
-              ]
-            }
-          },
-          {
             "name": "_count",
             "in": "query",
             "required": false,
@@ -284,6 +297,32 @@
             "description": "This parameter controls whether and how the AuditEvent Service returns the total number of search results.",
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
             }
           }
         ],
@@ -366,6 +405,19 @@
               "type": "string"
             },
             "description": "Resource ID"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
           },
           {
             "name": "_format",
@@ -562,6 +614,19 @@
             "description": "Resource ID"
           },
           {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
             "name": "_format",
             "in": "query",
             "required": false,
@@ -690,6 +755,19 @@
               "type": "string"
             },
             "description": "Version ID"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
           },
           {
             "name": "_format",

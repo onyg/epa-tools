@@ -22,6 +22,7 @@ class OpenAPIConfig(BaseConfig):
         self.path_output = "openapi"
         self.with_metadata = False
         self.with_format_parameter = False
+        self.with_accept_header = False
         self.capability_statement = []
 
     def from_dict(self, data):
@@ -31,6 +32,7 @@ class OpenAPIConfig(BaseConfig):
             self.path_output = params.get('path-output', self.path_output)
             self.with_metadata = params.get('with-metadata', self.with_metadata)
             self.with_format_parameter = params.get('with-format-parameter', self.with_format_parameter)
+            self.with_accept_header = params.get('with-accept-header', self.with_accept_header)
             self.capability_statement = []
             for cs in params.get('capability-statement', []):
                 convert_config = ConvertConfig()
@@ -95,7 +97,7 @@ def try_download_operation_definition(url):
 
 
 
-def add_operations_from_capabilitystatement(openapi, capability, operation_definitions, formats, header_params, http_errors, path_prefix=""):
+def add_operations_from_capabilitystatement(config, openapi, capability, operation_definitions, formats, header_params, http_errors, path_prefix=""):
 
     def add_operation(openapi, op):
         op_name = op["name"].lstrip("$")
@@ -143,10 +145,18 @@ def add_operations_from_capabilitystatement(openapi, capability, operation_defin
             oas_params = []
             request_body = None
             if http_method == "get":
-                oas_params.extend(build_header_params(op_header_params) + build_parameters(op_params))
-                format_param = build_format_query_param(formats)
-                if format_param:
-                    oas_params.append(format_param)
+                oas_params.extend(build_header_params(op_header_params))
+                if config.with_accept_header:
+                    accept_header_param = build_accept_header_param(formats)
+                    if accept_header_param:
+                        oas_params.append(accept_header_param)
+                if config.with_format_parameter:
+                    format_param = build_format_query_param(formats)
+                    if format_param:
+                        oas_params.append(format_param)
+                        
+                oas_params.extend(build_parameters(op_params))
+                
             else:
                 oas_params.extend(build_header_params(op_header_params))
                 request_body = build_request_body(formats)
@@ -379,6 +389,21 @@ def build_format_query_param(fhir_formats):
     return None
 
 
+def build_accept_header_param(fhir_formats):
+    if len(fhir_formats) > 1:
+        return {
+            "name": "Accept",
+            "in": "header",
+            "required": False,
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "schema": {
+                "type": "string",
+                "enum": fhir_formats
+            }
+        }
+    return None
+
+
 def build_pagination_query_params():
     return [
         {
@@ -474,19 +499,25 @@ def merge_custom_openapi(openapi, openapi_path):
     return openapi
 
 
-def interaction_to_paths(resource_type, interaction_code, search_params, search_include, search_rev_include, http_errors,
-                         prefix_path="", format_query_param=None, fhir_formats=None, extension=None):
+def interaction_to_paths(config, resource_type, interaction_code, search_params, search_include, search_rev_include, http_errors,
+                         prefix_path="", fhir_formats=None, extension=None):
     paths = {}
 
     base_parameters = []
-    if format_query_param:
-        base_parameters.append(format_query_param)
     if not http_errors:
         http_errors = {}
     if extension:
         http_errors = extract_http_response_info(extension)
         _headers = extract_http_headers(extension)
         base_parameters.extend(build_header_params(_headers))
+
+    format_param = None
+    accept_header_param = None
+
+    if config.with_format_parameter:
+        format_param = build_format_query_param(fhir_formats)
+    if config.with_accept_header:
+        accept_header_param = build_accept_header_param(fhir_formats)
 
 
     def path_obj(method, summary, parameters, responses, request_body=None):
@@ -514,6 +545,10 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
             "schema": { "type": "string" }, "description": "Resource ID"
         }]
         params += base_parameters
+        if accept_header_param:
+            params += [accept_header_param]
+        if format_param:
+            params += [format_param]
         paths[path] = path_obj("get", f"Read a specific {resource_type}", params, responses)
 
     ###
@@ -527,6 +562,10 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
             "schema": { "type": "string" }, "description": "Resource ID"
         }]
         params += base_parameters
+        if accept_header_param:
+            params += [accept_header_param]
+        if format_param:
+            params += [format_param]
         params.extend(build_pagination_query_params())
         paths[path] = path_obj("get", f"History of a specific {resource_type}", params, responses)
 
@@ -541,6 +580,10 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
             {"name": "vid", "in": "path", "required": True, "schema": {"type": "string"}, "description": "Version ID"}
         ] 
         params += base_parameters
+        if accept_header_param:
+            params += [accept_header_param]
+        if format_param:
+            params += [format_param]
         paths[path] = path_obj("get", f"Read version of {resource_type}", params, responses)
 
     ###
@@ -550,6 +593,10 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
         responses = build_responses(http_errors, formats=fhir_formats, success_codes=["200"], success_description="History for type retrieved")
         path = f"{prefix_path}/{resource_type}/_history"
         params = base_parameters + build_pagination_query_params()
+        if accept_header_param:
+            params += [accept_header_param]
+        if format_param:
+            params += [format_param]
         paths[path] = path_obj("get", f"History for all {resource_type}", params, responses)
 
     ###
@@ -559,6 +606,10 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
         responses = build_responses(http_errors, formats=fhir_formats, success_codes=["200"], success_description="Search successful")
         path = f"{prefix_path}/{resource_type}"
         params = base_parameters.copy()
+        if accept_header_param:
+            params += [accept_header_param]
+        if format_param:
+            params += [format_param]
         params.extend(build_pagination_query_params())
         if search_include:
             params.append(build_include_query_param(search_include))
@@ -585,6 +636,10 @@ def interaction_to_paths(resource_type, interaction_code, search_params, search_
         responses = build_responses(http_errors, formats=fhir_formats, success_codes=["200"], success_description="Search successful")
         path = f"{prefix_path}/{resource_type}/_search"
         params = base_parameters.copy()
+        if accept_header_param:
+            params += [accept_header_param]
+        if format_param:
+            params += [format_param]
         params.extend(build_pagination_query_params())
         if search_include:
             params.append(build_include_query_param(search_include))
@@ -719,16 +774,20 @@ def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
         path_prefix = ""
     
     fhir_formats = capability.get("format", [])
-    base_fhir_parameters = []
-    format_query_param = None
-    if config.with_format_parameter:
-        format_query_param = build_format_query_param(fhir_formats)
-        base_fhir_parameters.append(format_query_param)
 
     ###
     # Add /metadata
     ###
     if config.with_metadata:
+        base_fhir_parameters = []
+        if config.with_accept_header:
+            accept_header_param = build_accept_header_param(fhir_formats)
+            if accept_header_param:
+                base_fhir_parameters.append(accept_header_param)
+        if config.with_format_parameter:
+            format_query_param = build_format_query_param(fhir_formats)
+            if format_query_param:
+                base_fhir_parameters.append(format_query_param)
         new_path = build_metadata_interaction(prefix_path=path_prefix, fhir_formats=fhir_formats, parameters=base_fhir_parameters)
         openapi = update_openapi(openapi, new_path)
 
@@ -762,6 +821,7 @@ def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
                 interaction_code = interaction.get("code")
                 interaction_extension = interaction.get("extension", [])
                 new_paths = interaction_to_paths(
+                    config,
                     resource_type,
                     interaction_code,
                     search_params,
@@ -769,7 +829,6 @@ def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
                     search_rev_include,
                     http_errors={},
                     prefix_path=path_prefix,
-                    format_query_param=format_query_param,
                     fhir_formats=fhir_formats,
                     extension=interaction_extension
                 )
@@ -785,6 +844,7 @@ def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
     ###
     operation_definitions = load_operation_definitions_from_same_folder(path_resource)
     openapi = add_operations_from_capabilitystatement(
+        config=config,
         openapi=openapi,
         capability=capability,
         operation_definitions=operation_definitions,

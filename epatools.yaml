@@ -12,6 +12,7 @@ merger:
 openapi:
   with-metadata: true
   with-format-parameter: true
+  with-accept-header: true
   path-output: output
   path-resource: data
   capability-statement:

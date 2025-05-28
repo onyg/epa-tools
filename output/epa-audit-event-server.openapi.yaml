@@ -31,12 +31,35 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
-      - null
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       responses:
         '200':
           description: OK
           content:
             application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
               schema:
                 type: object
         '403':
@@ -74,6 +97,27 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       - name: _count
         in: query
         required: false
@@ -159,6 +203,9 @@ paths:
           description: Search successful
           content:
             application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
               schema:
                 type: object
         '403':
@@ -202,11 +249,35 @@ paths:
         schema:
           type: string
         description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       responses:
         '200':
           description: AuditEvent successfully read
           content:
             application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
               schema:
                 type: object
         '403':
@@ -244,6 +315,27 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       - name: _count
         in: query
         required: false
@@ -329,6 +421,9 @@ paths:
           description: Search successful
           content:
             application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
               schema:
                 type: object
         '403':
