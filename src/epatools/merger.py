@@ -81,6 +81,7 @@ class Merger(object):
                     if base_artifact is None:
                         base_artifact, _ = FHIRArtifactLoader.load_capability_from_dependencies(dependencies_config_path=self.dependencies_config, canonical_url=canonical_url)                    
                     if base_artifact:
+                        base_artifact.pop('text', None)
                         artifact = self.deep_merge(base=base_artifact, overlay=artifact)
                         merged = True
                 if merged:
