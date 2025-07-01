@@ -3,24 +3,233 @@
   "id": "epa-audit-event-server",
   "meta": {
     "profile": [
+      "https://gematik.de/fhir/ti/StructureDefinition/ti-capability-statement",
       "https://gematik.de/fhir/epa/StructureDefinition/epa-basic-capability-statement"
     ]
   },
-  "url": "https://gematik.de/fhir/epa/CapabilityStatement/epa-audit-event-server",
-  "contact": [
-    {
-      "telecom": [
-        {
-          "system": "url",
-          "value": "https://www.gematik.de"
-        }
-      ]
-    }
-  ],
-  "format": [
-    "application/fhir+json"
-  ],
   "extension": [
+    {
+      "extension": [
+        {
+          "url": "name",
+          "valueString": "X-Request-ID"
+        },
+        {
+          "url": "type",
+          "valueString": "string"
+        },
+        {
+          "url": "description",
+          "valueString": "UUID of the request message"
+        },
+        {
+          "url": "format",
+          "valueString": "uuid"
+        },
+        {
+          "url": "required",
+          "valueBoolean": true
+        }
+      ],
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-header"
+    },
+    {
+      "extension": [
+        {
+          "url": "name",
+          "valueString": "x-insurantid"
+        },
+        {
+          "url": "type",
+          "valueString": "string"
+        },
+        {
+          "url": "description",
+          "valueString": "Health Record Identifier"
+        },
+        {
+          "url": "pattern",
+          "valueString": "^[A-Z]{1}\\d{9}$"
+        },
+        {
+          "url": "required",
+          "valueBoolean": true
+        }
+      ],
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-header"
+    },
+    {
+      "extension": [
+        {
+          "url": "name",
+          "valueString": "x-useragent"
+        },
+        {
+          "url": "type",
+          "valueString": "string"
+        },
+        {
+          "url": "description",
+          "valueString": "user agent information"
+        },
+        {
+          "url": "pattern",
+          "valueString": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+        },
+        {
+          "url": "required",
+          "valueBoolean": true
+        }
+      ],
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-header"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "403"
+        },
+        {
+          "url": "description",
+          "valueString": "Request does not match schema"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "invalAuth"
+        }
+      ],
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-response-info"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "403"
+        },
+        {
+          "url": "description",
+          "valueString": "Requestor has no valid entitlement"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "notEntitled"
+        }
+      ],
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-response-info"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "403"
+        },
+        {
+          "url": "description",
+          "valueString": "Requestor role is not in the list of allowed user groups"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "invalidOid"
+        }
+      ],
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-response-info"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "403"
+        },
+        {
+          "url": "description",
+          "valueString": "Device registration does not exist"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "unregisteredDevice"
+        }
+      ],
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-response-info"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "404"
+        },
+        {
+          "url": "description",
+          "valueString": "Health record is in state UNKNOWN or INITIALIZED"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "noHealthRecord"
+        }
+      ],
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-response-info"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "409"
+        },
+        {
+          "url": "description",
+          "valueString": "Health record is in state SUSPENDED"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "statusMismatch"
+        }
+      ],
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-response-info"
+    },
+    {
+      "extension": [
+        {
+          "url": "statusCode",
+          "valueString": "500"
+        },
+        {
+          "url": "description",
+          "valueString": "Any other error"
+        },
+        {
+          "url": "responseType",
+          "valueString": "application/json"
+        },
+        {
+          "url": "errorCode",
+          "valueString": "internalError"
+        }
+      ],
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-response-info"
+    },
     {
       "extension": [
         {
@@ -248,6 +457,39 @@
       "valueString": "http://epa4all/epa/audit/api/v1/fhir"
     }
   ],
+  "url": "https://gematik.de/fhir/epa/CapabilityStatement/epa-audit-event-server",
+  "version": "1.0.6",
+  "name": "EPAAuditEventServer",
+  "title": "EPA Capability Statement für den Audit Event Service",
+  "status": "active",
+  "date": "2025-05-09",
+  "publisher": "gematik GmbH",
+  "contact": [
+    {
+      "telecom": [
+        {
+          "system": "url",
+          "value": "https://www.gematik.de"
+        }
+      ]
+    }
+  ],
+  "description": "EPA Capability Statement für den Audit Event Service",
+  "jurisdiction": [
+    {
+      "coding": [
+        {
+          "system": "urn:iso:std:iso:3166",
+          "code": "DE"
+        }
+      ]
+    }
+  ],
+  "kind": "requirements",
+  "fhirVersion": "4.0.1",
+  "format": [
+    "application/fhir+json"
+  ],
   "rest": [
     {
       "mode": "server",
@@ -418,15 +660,6 @@
       ]
     }
   ],
-  "version": "1.0.6",
-  "status": "active",
-  "publisher": "gematik GmbH",
-  "date": "2025-05-09",
-  "name": "EPAAuditEventServer",
-  "title": "EPA Capability Statement für den Audit Event Service",
-  "description": "EPA Capability Statement für den Audit Event Service",
-  "kind": "requirements",
-  "fhirVersion": "4.0.1",
   "imports": [
     "https://gematik.de/fhir/epa/CapabilityStatement/epa-basic-server"
   ],

@@ -3,16 +3,22 @@
   "id": "provide-dispensation-erp-OP",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/epa/StructureDefinition/epa-operationdefinition"
+      "https://gematik.de/fhir/ti/StructureDefinition/ti-operationdefinition"
     ]
   },
   "url": "https://gematik.de/fhir/epa-medication/OperationDefinition/provide-dispensation-erp-OP",
   "title": "Provide Dispensation eRP",
   "description": "The Provide Dispensation eRP operation in the ePA Medication Service is used to record information about the dispensing of medications based on an electronic prescription in the patient's record. This operation comes into play when a patient receives their medication from a pharmacy. It documents that the medication has been dispensed as per the prescription, including details like the quantity, date of dispensing, and pharmacy information. This helps maintain a comprehensive overview of the patient's medication history.",
-  "version": "1.0.6",
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
+      "valueCode": "POST"
+    }
+  ],
+  "version": "1.2.0",
   "status": "active",
   "publisher": "gematik GmbH",
-  "date": "2025-05-09",
+  "date": "2025-07-15",
   "name": "provideDispensation_MedicationSvc",
   "kind": "operation",
   "code": "provide-dispensation-erp",

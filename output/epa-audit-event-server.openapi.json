@@ -44,29 +44,33 @@
             }
           },
           {
-            "name": "Accept",
+            "name": "X-Request-ID",
             "in": "header",
-            "required": false,
-            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "required": true,
+            "description": "UUID of the request message",
             "schema": {
               "type": "string",
-              "enum": [
-                "application/fhir+json",
-                "application/fhir+xml"
-              ]
+              "format": "uuid"
             }
           },
           {
-            "name": "_format",
-            "in": "query",
-            "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
             "schema": {
               "type": "string",
-              "enum": [
-                "application/fhir+json",
-                "application/fhir+xml"
-              ]
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
             }
           }
         ],
@@ -75,11 +79,6 @@
             "description": "OK",
             "content": {
               "application/fhir+json": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "application/fhir+xml": {
                 "schema": {
                   "type": "object"
                 }
@@ -139,29 +138,33 @@
             }
           },
           {
-            "name": "Accept",
+            "name": "X-Request-ID",
             "in": "header",
-            "required": false,
-            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "required": true,
+            "description": "UUID of the request message",
             "schema": {
               "type": "string",
-              "enum": [
-                "application/fhir+json",
-                "application/fhir+xml"
-              ]
+              "format": "uuid"
             }
           },
           {
-            "name": "_format",
-            "in": "query",
-            "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
             "schema": {
               "type": "string",
-              "enum": [
-                "application/fhir+json",
-                "application/fhir+xml"
-              ]
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
             }
           },
           {
@@ -283,11 +286,6 @@
                 "schema": {
                   "type": "object"
                 }
-              },
-              "application/fhir+xml": {
-                "schema": {
-                  "type": "object"
-                }
               }
             }
           },
@@ -344,6 +342,36 @@
             }
           },
           {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
             "name": "id",
             "in": "path",
             "required": true,
@@ -351,32 +379,6 @@
               "type": "string"
             },
             "description": "Resource ID"
-          },
-          {
-            "name": "Accept",
-            "in": "header",
-            "required": false,
-            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "application/fhir+json",
-                "application/fhir+xml"
-              ]
-            }
-          },
-          {
-            "name": "_format",
-            "in": "query",
-            "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "application/fhir+json",
-                "application/fhir+xml"
-              ]
-            }
           }
         ],
         "responses": {
@@ -384,11 +386,6 @@
             "description": "AuditEvent successfully read",
             "content": {
               "application/fhir+json": {
-                "schema": {
-                  "type": "object"
-                }
-              },
-              "application/fhir+xml": {
                 "schema": {
                   "type": "object"
                 }
@@ -442,6 +439,36 @@
           }
         },
         "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
           {
             "name": "X-Request-ID",
             "in": "header",
@@ -535,6 +562,36 @@
               "type": "string",
               "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
             }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
           }
         ]
       }
@@ -571,6 +628,36 @@
           }
         },
         "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
           {
             "name": "X-Request-ID",
             "in": "header",

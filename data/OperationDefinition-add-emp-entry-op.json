@@ -1,0 +1,29 @@
+{
+  "resourceType": "OperationDefinition",
+  "id": "add-emp-entry-op",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/ti/StructureDefinition/ti-operationdefinition"
+    ]
+  },
+  "url": "https://gematik.de/fhir/epa-medication/OperationDefinition/add-emp-entry-op",
+  "title": "eMP-Eintrag hinzufügen",
+  "description": "Diese Operation ermöglicht das gezielte Hinzufügen eines neuen Medikations-Eintrags zum elektronischen Medikationsplan (eMP).",
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
+      "valueCode": "POST"
+    }
+  ],
+  "version": "1.2.0",
+  "status": "active",
+  "publisher": "gematik GmbH",
+  "date": "2025-07-15",
+  "kind": "operation",
+  "name": "addEMPEntry_MedicationSvc",
+  "code": "add-emp-entry",
+  "affectsState": true,
+  "system": true,
+  "type": false,
+  "instance": false
+}

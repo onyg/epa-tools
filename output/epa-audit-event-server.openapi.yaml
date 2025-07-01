@@ -31,35 +31,32 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
-      - name: Accept
+      - name: X-Request-ID
         in: header
-        required: false
-        description: The Accept header indicates the format in which the client wishes
-          to receive the FHIR response — supported values are application/fhir+json
-          and application/fhir+xml
+        required: true
+        description: UUID of the request message
         schema:
           type: string
-          enum:
-          - application/fhir+json
-          - application/fhir+xml
-      - name: _format
-        in: query
-        required: false
-        description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable acccess accept: header)'
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
         schema:
           type: string
-          enum:
-          - application/fhir+json
-          - application/fhir+xml
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       responses:
         '200':
           description: OK
           content:
             application/fhir+json:
-              schema:
-                type: object
-            application/fhir+xml:
               schema:
                 type: object
         '403':
@@ -97,27 +94,27 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
-      - name: Accept
+      - name: X-Request-ID
         in: header
-        required: false
-        description: The Accept header indicates the format in which the client wishes
-          to receive the FHIR response — supported values are application/fhir+json
-          and application/fhir+xml
+        required: true
+        description: UUID of the request message
         schema:
           type: string
-          enum:
-          - application/fhir+json
-          - application/fhir+xml
-      - name: _format
-        in: query
-        required: false
-        description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable acccess accept: header)'
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
         schema:
           type: string
-          enum:
-          - application/fhir+json
-          - application/fhir+xml
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _count
         in: query
         required: false
@@ -203,9 +200,6 @@ paths:
           description: Search successful
           content:
             application/fhir+json:
-              schema:
-                type: object
-            application/fhir+xml:
               schema:
                 type: object
         '403':
@@ -243,41 +237,38 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: id
         in: path
         required: true
         schema:
           type: string
         description: Resource ID
-      - name: Accept
-        in: header
-        required: false
-        description: The Accept header indicates the format in which the client wishes
-          to receive the FHIR response — supported values are application/fhir+json
-          and application/fhir+xml
-        schema:
-          type: string
-          enum:
-          - application/fhir+json
-          - application/fhir+xml
-      - name: _format
-        in: query
-        required: false
-        description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable acccess accept: header)'
-        schema:
-          type: string
-          enum:
-          - application/fhir+json
-          - application/fhir+xml
       responses:
         '200':
           description: AuditEvent successfully read
           content:
             application/fhir+json:
-              schema:
-                type: object
-            application/fhir+xml:
               schema:
                 type: object
         '403':
@@ -315,27 +306,27 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
-      - name: Accept
+      - name: X-Request-ID
         in: header
-        required: false
-        description: The Accept header indicates the format in which the client wishes
-          to receive the FHIR response — supported values are application/fhir+json
-          and application/fhir+xml
+        required: true
+        description: UUID of the request message
         schema:
           type: string
-          enum:
-          - application/fhir+json
-          - application/fhir+xml
-      - name: _format
-        in: query
-        required: false
-        description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable acccess accept: header)'
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
         schema:
           type: string
-          enum:
-          - application/fhir+json
-          - application/fhir+xml
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: _count
         in: query
         required: false
@@ -423,9 +414,6 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-            application/fhir+xml:
-              schema:
-                type: object
         '403':
           description: Device registration does not exist
         '404':
@@ -456,6 +444,27 @@ paths:
         '500':
           description: Any other error
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: X-Request-ID
         in: header
         required: true
@@ -519,6 +528,27 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
   /epa/medication/render/v1/eml/pdf:
     get:
       operationId: renderEMLAsPDF
@@ -541,6 +571,27 @@ paths:
         '500':
           description: Any other error
       parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: X-Request-ID
         in: header
         required: true

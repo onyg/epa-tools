@@ -3,7 +3,7 @@
   "id": "provide-prescription-erp-OP",
   "meta": {
     "profile": [
-      "https://gematik.de/fhir/epa/StructureDefinition/epa-operationdefinition"
+      "https://gematik.de/fhir/ti/StructureDefinition/ti-operationdefinition"
     ]
   },
   "url": "https://gematik.de/fhir/epa-medication/OperationDefinition/provide-prescription-erp-OP",
@@ -11,14 +11,14 @@
   "description": "The Provide Prescription eRP operation in the ePA MedicationService is used to add electronic prescriptions to a patient's record. These prescriptions are already made by the E-Rezept-Fachdienst. This operation does not create new patient prescriptions; it just puts the ones made by the E-Rezept-Fachdienst into the patient's ePA, making sure they are stored safely and can be easily accessed.",
   "extension": [
     {
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/http-method",
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
       "valueCode": "POST"
     }
   ],
-  "version": "1.0.6",
+  "version": "1.2.0",
   "status": "active",
   "publisher": "gematik GmbH",
-  "date": "2025-05-09",
+  "date": "2025-07-15",
   "name": "providePrescription_MedicationSvc",
   "kind": "operation",
   "code": "provide-prescription-erp",

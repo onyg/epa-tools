@@ -1,14 +1,14 @@
 {
   "resourceType": "OperationDefinition",
-  "id": "get-medication-list-op",
+  "id": "medication-plan-log-op",
   "meta": {
     "profile": [
       "https://gematik.de/fhir/ti/StructureDefinition/ti-operationdefinition"
     ]
   },
-  "url": "https://gematik.de/fhir/epa-medication/OperationDefinition/get-medication-list-op",
-  "title": "Get Medication List",
-  "description": "Die Operation liefert die elektronische Medikationsliste (eML) in Form eines FHIR _searchSet_-Bundles. In der eML werden ausschließlich nicht stornierte Instanzen von Verschreibungsdaten (MedicationRequest), Dispensierdaten (MedicationDispense) sowie die zugehörige Versicherteninformation (Patient) aus dem Patient Service angezeigt.",
+  "url": "https://gematik.de/fhir/epa-medication/OperationDefinition/medication-plan-log-op",
+  "title": "Medication Plan Chronology Log",
+  "description": "Diese Operation liefert die chronologische Historie aller gespeicherten Versionen des elektronischen Medikationsplans (eMP) in Form von Provenance-Ressourcen. Jede Provenance-Instanz beschreibt dabei einen dokumentierten Zustand des eMP zu einem bestimmten Zeitpunkt. Die Operation ermöglicht es, gezielt die Versionshistorie des Medikationsplans abzufragen - etwa um Änderungen nachzuvollziehen oder frühere Zustände einzusehen.",
   "extension": [
     {
       "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
@@ -16,14 +16,6 @@
     }
   ],
   "parameter": [
-    {
-      "name": "date",
-      "type": "date",
-      "use": "in",
-      "min": 0,
-      "max": "2",
-      "documentation": "Limit the search to this date. Can specify upper or lower limits and periods by providing an upper and a lower limit."
-    },
     {
       "name": "_count",
       "type": "integer",
@@ -54,8 +46,8 @@
   "publisher": "gematik GmbH",
   "date": "2025-07-15",
   "kind": "operation",
-  "name": "getMedicationList_MedicationSvc",
-  "code": "medication-list",
+  "name": "getMedicationPlanChronologyLog_MedicationSvc",
+  "code": "medication-plan-log",
   "affectsState": false,
   "system": true,
   "type": false,

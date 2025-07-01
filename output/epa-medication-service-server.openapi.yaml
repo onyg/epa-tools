@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: EPA CapabilityStatement für den the Medication Service
-  version: 1.0.6
+  version: 1.2.0
   description: EPA CapabilityStatement für den the Medication Service
 paths:
   /epa/medication/api/v1/fhir/metadata:
@@ -31,11 +31,35 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       responses:
         '200':
           description: OK
           content:
             application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
               schema:
                 type: object
         '403':
@@ -46,9 +70,158 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
   /epa/medication/api/v1/fhir/Medication:
     get:
       summary: Search for Medication
+      tags:
+      - Medication
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _revinclude
+        in: query
+        required: false
+        description: Reverse include other resources
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Resource.id
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Medication.identifier
+      - name: code
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Medication.code
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Medication.status
+      - name: ingredient-code
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Medication.ingredient.item as CodeableConcept
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid query parameter(s)
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Medication/_history:
+    get:
+      summary: History for all Medication
       tags:
       - Medication
       parameters:
@@ -97,54 +270,35 @@ paths:
           returns the total number of search results.
         schema:
           type: string
-      - name: _revinclude
-        in: query
+      - name: Accept
+        in: header
         required: false
-        description: Reverse include other resources
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
         schema:
           type: string
-      - name: _id
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
         in: query
         required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
         schema:
           type: string
-        description: Resource.id
-      - name: _lastUpdated
-        in: query
-        required: false
-        schema:
-          type: string
-          format: date
-        description: Resource.meta.lastUpdated
-      - name: identifier
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Medication.identifier
-      - name: code
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Medication.code
-      - name: status
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Medication.status
-      - name: ingredient-code
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Medication.ingredient.item as CodeableConcept
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       responses:
         '200':
-          description: Search successful
+          description: History for type retrieved
           content:
             application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
               schema:
                 type: object
         '400':
@@ -157,6 +311,10 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
   /epa/medication/api/v1/fhir/Medication/{id}:
     get:
       summary: Read a specific Medication
@@ -190,6 +348,27 @@ paths:
         schema:
           type: string
         description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       responses:
         '200':
           description: Medication successfully read
@@ -197,16 +376,215 @@ paths:
             application/fhir+json:
               schema:
                 type: object
+            application/fhir+xml:
+              schema:
+                type: object
         '400':
           description: Invalid request
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
         '403':
           description: Device registration does not exist
         '409':
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Medication/{id}/_history:
+    get:
+      summary: History of a specific Medication
+      tags:
+      - Medication
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Medication/{id}/_history/{vid}:
+    get:
+      summary: Read version of Medication
+      tags:
+      - Medication
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: Medication version read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
   /epa/medication/api/v1/fhir/MedicationRequest:
     get:
       summary: Search for MedicationRequest
@@ -234,6 +612,27 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       - name: _count
         in: query
         required: false
@@ -283,6 +682,12 @@ paths:
           type: string
           format: date
         description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
       - name: identifier
         in: query
         required: false
@@ -323,58 +728,11 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-        '400':
-          description: Invalid request
-        '404':
-          description: Health record is in state UNKNOWN or INITIALIZED
-        '403':
-          description: Device registration does not exist
-        '409':
-          description: Health record is in state SUSPENDED
-        '500':
-          description: Any other error
-  /epa/medication/api/v1/fhir/MedicationRequest/{id}:
-    get:
-      summary: Read a specific MedicationRequest
-      tags:
-      - MedicationRequest
-      parameters:
-      - name: X-Request-ID
-        in: header
-        required: true
-        description: UUID of the request message
-        schema:
-          type: string
-          format: uuid
-      - name: x-insurantid
-        in: header
-        required: true
-        description: Health Record Identifier
-        schema:
-          type: string
-          pattern: ^[A-Z]{1}\d{9}$
-      - name: x-useragent
-        in: header
-        required: true
-        description: user agent information
-        schema:
-          type: string
-          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: string
-        description: Resource ID
-      responses:
-        '200':
-          description: MedicationRequest successfully read
-          content:
-            application/fhir+json:
+            application/fhir+xml:
               schema:
                 type: object
         '400':
-          description: Invalid request
+          description: Invalid query parameter(s)
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
         '403':
@@ -383,11 +741,15 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
-  /epa/medication/api/v1/fhir/MedicationDispense:
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/MedicationRequest/_history:
     get:
-      summary: Search for MedicationDispense
+      summary: History for all MedicationRequest
       tags:
-      - MedicationDispense
+      - MedicationRequest
       parameters:
       - name: X-Request-ID
         in: header
@@ -434,6 +796,393 @@ paths:
           returns the total number of search results.
         schema:
           type: string
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: History for type retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/MedicationRequest/{id}:
+    get:
+      summary: Read a specific MedicationRequest
+      tags:
+      - MedicationRequest
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: MedicationRequest successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/MedicationRequest/{id}/_history:
+    get:
+      summary: History of a specific MedicationRequest
+      tags:
+      - MedicationRequest
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/MedicationRequest/{id}/_history/{vid}:
+    get:
+      summary: Read version of MedicationRequest
+      tags:
+      - MedicationRequest
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: MedicationRequest version read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/MedicationDispense:
+    get:
+      summary: Search for MedicationDispense
+      tags:
+      - MedicationDispense
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
       - name: _include
         in: query
         required: false
@@ -453,6 +1202,12 @@ paths:
           type: string
           format: date
         description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
       - name: identifier
         in: query
         required: false
@@ -500,6 +1255,105 @@ paths:
             application/fhir+json:
               schema:
                 type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid query parameter(s)
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/MedicationDispense/_history:
+    get:
+      summary: History for all MedicationDispense
+      tags:
+      - MedicationDispense
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: History for type retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
         '400':
           description: Invalid request
         '404':
@@ -510,6 +1364,10 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
   /epa/medication/api/v1/fhir/MedicationDispense/{id}:
     get:
       summary: Read a specific MedicationDispense
@@ -543,6 +1401,27 @@ paths:
         schema:
           type: string
         description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       responses:
         '200':
           description: MedicationDispense successfully read
@@ -550,120 +1429,30 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-        '400':
-          description: Invalid request
-        '404':
-          description: Health record is in state UNKNOWN or INITIALIZED
-        '403':
-          description: Device registration does not exist
-        '409':
-          description: Health record is in state SUSPENDED
-        '500':
-          description: Any other error
-  /epa/medication/api/v1/fhir/Organization:
-    get:
-      summary: Search for Organization
-      tags:
-      - Organization
-      parameters:
-      - name: X-Request-ID
-        in: header
-        required: true
-        description: UUID of the request message
-        schema:
-          type: string
-          format: uuid
-      - name: x-insurantid
-        in: header
-        required: true
-        description: Health Record Identifier
-        schema:
-          type: string
-          pattern: ^[A-Z]{1}\d{9}$
-      - name: x-useragent
-        in: header
-        required: true
-        description: user agent information
-        schema:
-          type: string
-          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
-      - name: _count
-        in: query
-        required: false
-        description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the Medication Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
-        schema:
-          type: string
-      - name: _offset
-        in: query
-        required: false
-        description: This URL parameter indicates the (zero-based) offset of the first
-          returned element in the collection. If no value for _offset is provided,
-          the default value set is 0.
-        schema:
-          type: integer
-      - name: _total
-        in: query
-        required: false
-        description: This parameter controls whether and how the AuditEvent Service
-          returns the total number of search results.
-        schema:
-          type: string
-      - name: _revinclude
-        in: query
-        required: false
-        description: Reverse include other resources
-        schema:
-          type: string
-      - name: _id
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Resource.id
-      - name: _lastUpdated
-        in: query
-        required: false
-        schema:
-          type: string
-          format: date
-        description: Resource.meta.lastUpdated
-      - name: identifier
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Organization.identifier
-      - name: name
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Organization.name | Organization.alias
-      responses:
-        '200':
-          description: Search successful
-          content:
-            application/fhir+json:
+            application/fhir+xml:
               schema:
                 type: object
         '400':
           description: Invalid request
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
         '403':
           description: Device registration does not exist
         '409':
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
-  /epa/medication/api/v1/fhir/Organization/{id}:
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/MedicationDispense/{id}/_history:
     get:
-      summary: Read a specific Organization
+      summary: History of a specific MedicationDispense
       tags:
-      - Organization
+      - MedicationDispense
       parameters:
       - name: X-Request-ID
         in: header
@@ -692,50 +1481,27 @@ paths:
         schema:
           type: string
         description: Resource ID
-      responses:
-        '200':
-          description: Organization successfully read
-          content:
-            application/fhir+json:
-              schema:
-                type: object
-        '400':
-          description: Invalid request
-        '404':
-          description: Health record is in state UNKNOWN or INITIALIZED
-        '403':
-          description: Device registration does not exist
-        '409':
-          description: Health record is in state SUSPENDED
-        '500':
-          description: Any other error
-  /epa/medication/api/v1/fhir/Practitioner:
-    get:
-      summary: Search for Practitioner
-      tags:
-      - Practitioner
-      parameters:
-      - name: X-Request-ID
+      - name: Accept
         in: header
-        required: true
-        description: UUID of the request message
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
         schema:
           type: string
-          format: uuid
-      - name: x-insurantid
-        in: header
-        required: true
-        description: Health Record Identifier
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
         schema:
           type: string
-          pattern: ^[A-Z]{1}\d{9}$
-      - name: x-useragent
-        in: header
-        required: true
-        description: user agent information
-        schema:
-          type: string
-          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       - name: _count
         in: query
         required: false
@@ -760,59 +1526,37 @@ paths:
           returns the total number of search results.
         schema:
           type: string
-      - name: _revinclude
-        in: query
-        required: false
-        description: Reverse include other resources
-        schema:
-          type: string
-      - name: _id
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Resource.id
-      - name: _lastUpdated
-        in: query
-        required: false
-        schema:
-          type: string
-          format: date
-        description: Resource.meta.lastUpdated
-      - name: identifier
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Practitioner.identifier
-      - name: name
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Practitioner.name
       responses:
         '200':
-          description: Search successful
+          description: History retrieved
           content:
             application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
               schema:
                 type: object
         '400':
           description: Invalid request
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
         '403':
           description: Device registration does not exist
         '409':
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
-  /epa/medication/api/v1/fhir/Practitioner/{id}:
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/MedicationDispense/{id}/_history/{vid}:
     get:
-      summary: Read a specific Practitioner
+      summary: Read version of MedicationDispense
       tags:
-      - Practitioner
+      - MedicationDispense
       parameters:
       - name: X-Request-ID
         in: header
@@ -841,28 +1585,64 @@ paths:
         schema:
           type: string
         description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       responses:
         '200':
-          description: Practitioner successfully read
+          description: MedicationDispense version read
           content:
             application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
               schema:
                 type: object
         '400':
           description: Invalid request
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
         '403':
           description: Device registration does not exist
         '409':
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
-  /epa/medication/api/v1/fhir/PractitionerRole:
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/MedicationStatement:
     get:
-      summary: Search for PractitionerRole
+      summary: Search for MedicationStatement
       tags:
-      - PractitionerRole
+      - MedicationStatement
       parameters:
       - name: X-Request-ID
         in: header
@@ -885,6 +1665,27 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       - name: _count
         in: query
         required: false
@@ -934,6 +1735,1529 @@ paths:
           type: string
           format: date
         description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: MedicationStatement.identifier
+      - name: medication
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: MedicationStatement.medication as Reference
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+        description: MedicationStatement.status
+      - name: effective
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: MedicationStatement.effective
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid query parameter(s)
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/MedicationStatement/_history:
+    get:
+      summary: History for all MedicationStatement
+      tags:
+      - MedicationStatement
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: History for type retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/MedicationStatement/{id}:
+    get:
+      summary: Read a specific MedicationStatement
+      tags:
+      - MedicationStatement
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: MedicationStatement successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/MedicationStatement/{id}/_history:
+    get:
+      summary: History of a specific MedicationStatement
+      tags:
+      - MedicationStatement
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/MedicationStatement/{id}/_history/{vid}:
+    get:
+      summary: Read version of MedicationStatement
+      tags:
+      - MedicationStatement
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: MedicationStatement version read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Organization:
+    get:
+      summary: Search for Organization
+      tags:
+      - Organization
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _revinclude
+        in: query
+        required: false
+        description: Reverse include other resources
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Resource.id
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Organization.identifier
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Organization.name | Organization.alias
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid query parameter(s)
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Organization/_history:
+    get:
+      summary: History for all Organization
+      tags:
+      - Organization
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: History for type retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Organization/{id}:
+    get:
+      summary: Read a specific Organization
+      tags:
+      - Organization
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: Organization successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Organization/{id}/_history:
+    get:
+      summary: History of a specific Organization
+      tags:
+      - Organization
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Organization/{id}/_history/{vid}:
+    get:
+      summary: Read version of Organization
+      tags:
+      - Organization
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: Organization version read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Practitioner:
+    get:
+      summary: Search for Practitioner
+      tags:
+      - Practitioner
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _revinclude
+        in: query
+        required: false
+        description: Reverse include other resources
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Resource.id
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Practitioner.identifier
+      - name: name
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Practitioner.name
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid query parameter(s)
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Practitioner/_history:
+    get:
+      summary: History for all Practitioner
+      tags:
+      - Practitioner
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: History for type retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Practitioner/{id}:
+    get:
+      summary: Read a specific Practitioner
+      tags:
+      - Practitioner
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: Practitioner successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Practitioner/{id}/_history:
+    get:
+      summary: History of a specific Practitioner
+      tags:
+      - Practitioner
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Practitioner/{id}/_history/{vid}:
+    get:
+      summary: Read version of Practitioner
+      tags:
+      - Practitioner
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: Practitioner version read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/PractitionerRole:
+    get:
+      summary: Search for PractitionerRole
+      tags:
+      - PractitionerRole
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _include
+        in: query
+        required: false
+        description: Including other resources
+        schema:
+          type: string
+      - name: _revinclude
+        in: query
+        required: false
+        description: Reverse include other resources
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Resource.id
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
       - name: identifier
         in: query
         required: false
@@ -961,6 +3285,105 @@ paths:
             application/fhir+json:
               schema:
                 type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid query parameter(s)
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/PractitionerRole/_history:
+    get:
+      summary: History for all PractitionerRole
+      tags:
+      - PractitionerRole
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: History for type retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
         '400':
           description: Invalid request
         '404':
@@ -971,6 +3394,10 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
   /epa/medication/api/v1/fhir/PractitionerRole/{id}:
     get:
       summary: Read a specific PractitionerRole
@@ -1004,6 +3431,27 @@ paths:
         schema:
           type: string
         description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       responses:
         '200':
           description: PractitionerRole successfully read
@@ -1011,8 +3459,351 @@ paths:
             application/fhir+json:
               schema:
                 type: object
+            application/fhir+xml:
+              schema:
+                type: object
         '400':
           description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/PractitionerRole/{id}/_history:
+    get:
+      summary: History of a specific PractitionerRole
+      tags:
+      - PractitionerRole
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      responses:
+        '200':
+          description: History retrieved
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/PractitionerRole/{id}/_history/{vid}:
+    get:
+      summary: Read version of PractitionerRole
+      tags:
+      - PractitionerRole
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: vid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Version ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: PractitionerRole version read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Provenance:
+    get:
+      summary: Search for Provenance
+      tags:
+      - Provenance
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. This means the Medication Service
+          limits the result set to this maximum specified number. If no value for
+          _count is provided, the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the AuditEvent Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _include
+        in: query
+        required: false
+        description: Including other resources
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Resource.id
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Resource.meta.lastUpdated
+      - name: _has
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Return resources linked to by the given target
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: MedicationStatement.identifier
+      - name: agent
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: Who participated
+      - name: target
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: Target References - usually version specific
+      - name: recorded
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: When the activity was recorded / updated
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid query parameter(s)
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
         '403':
@@ -1021,6 +3812,90 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/Provenance/{id}:
+    get:
+      summary: Read a specific Provenance
+      tags:
+      - Provenance
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: Provenance successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '410':
+          description: Resource was deleted
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
   /epa/medication/api/v1/fhir/$provide-prescription-erp:
     post:
       summary: System-level FHIR Operation $provide-prescription-erp
@@ -1055,21 +3930,30 @@ paths:
             application/fhir+json:
               schema:
                 type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
         '403':
           description: Device registration does not exist
-        '423':
-          description: If the insurant objected to the submission of prescription
-            and dispensation data into the ePA system, the Medication Service is locked
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
         '409':
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
       requestBody:
         required: true
         content:
           application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
             schema:
               type: object
   /epa/medication/api/v1/fhir/$cancel-prescription-erp:
@@ -1106,26 +3990,35 @@ paths:
             application/fhir+json:
               schema:
                 type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
         '403':
           description: Device registration does not exist
-        '423':
-          description: If the insurant objected to the submission of prescription
-            and dispensation data into the ePA system, the Medication Service is locked
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
         '409':
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
       requestBody:
         required: true
         content:
           application/fhir+json:
             schema:
               type: object
-  /epa/medication/api/v1/fhir/$cancel-dispensation-erp:
-    get:
-      summary: System-level FHIR Operation $cancel-dispensation-erp
+          application/fhir+xml:
+            schema:
+              type: object
+  /epa/medication/api/v1/fhir/$provide-dispensation-erp:
+    post:
+      summary: System-level FHIR Operation $provide-dispensation-erp
       tags:
       - System-level FHIR Operation
       parameters:
@@ -1157,17 +4050,33 @@ paths:
             application/fhir+json:
               schema:
                 type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
         '403':
           description: Device registration does not exist
-        '423':
-          description: If the insurant objected to the submission of prescription
-            and dispensation data into the ePA system, the Medication Service is locked
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
         '409':
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+  /epa/medication/api/v1/fhir/$cancel-dispensation-erp:
     post:
       summary: System-level FHIR Operation $cancel-dispensation-erp
       tags:
@@ -1201,21 +4110,30 @@ paths:
             application/fhir+json:
               schema:
                 type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
         '403':
           description: Device registration does not exist
-        '423':
-          description: If the insurant objected to the submission of prescription
-            and dispensation data into the ePA system, the Medication Service is locked
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
         '409':
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
       requestBody:
         required: true
         content:
           application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
             schema:
               type: object
   /epa/medication/api/v1/fhir/$medication-list:
@@ -1245,6 +4163,27 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       - name: date
         in: query
         required: false
@@ -1272,18 +4211,26 @@ paths:
             application/fhir+json:
               schema:
                 type: object
+            application/fhir+xml:
+              schema:
+                type: object
         '400':
           description: Invalid request
-        '403':
-          description: Device registration does not exist
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist
         '409':
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
-    post:
-      summary: System-level FHIR Operation $medication-list
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/$medication-plan:
+    get:
+      summary: System-level FHIR Operation $medication-plan
       tags:
       - System-level FHIR Operation
       parameters:
@@ -1308,6 +4255,38 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: provenance
+        in: query
+        required: false
+        description: Die UUID der Provenance-Instanz, die eine bestimmte Version des
+          elektronischen Medikationsplans (eMP) identifiziert. Diese Provenance-Instanz
+          repräsentiert den Zustand zu einem bestimmten Zeitpunkt und bündelt die
+          zu diesem Zeitpunkt aktiven eMP-Elemente. Wird kein provenance-Parameter
+          angegeben, liefert die Operation den aktuellsten bekannten Zustand des eMP
+          zurück.
+        schema:
+          type: string
       responses:
         '200':
           description: Successful operation
@@ -1315,8 +4294,94 @@ paths:
             application/fhir+json:
               schema:
                 type: object
+            application/fhir+xml:
+              schema:
+                type: object
         '400':
           description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/$medication-plan-log:
+    get:
+      summary: System-level FHIR Operation $medication-plan-log
+      tags:
+      - System-level FHIR Operation
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response — supported values are application/fhir+json
+          and application/fhir+xml
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: Limit the result bundle to this many entries. To get more entries
+          request the next page.
+        schema:
+          type: integer
+      - name: _offset
+        in: query
+        required: false
+        description: Defines the offset of the first entry in the collection.
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
         '403':
           description: Device registration does not exist
         '404':
@@ -1325,10 +4390,140 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+  /epa/medication/api/v1/fhir/$add-emp-entry:
+    post:
+      summary: System-level FHIR Operation $add-emp-entry
+      tags:
+      - System-level FHIR Operation
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: X-Originator
+        in: header
+        required: true
+        description: Base64 encoded FHIR Organization resource in JSON format used
+          to identify the author of the request
+        schema:
+          type: string
+          format: base64(fhir+json:Organization)
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
       requestBody:
         required: true
         content:
           application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+  /epa/medication/api/v1/fhir/$update-emp-entry:
+    post:
+      summary: System-level FHIR Operation $update-emp-entry
+      tags:
+      - System-level FHIR Operation
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: X-Originator
+        in: header
+        required: true
+        description: Base64 encoded FHIR Organization resource in JSON format used
+          to identify the author of the request
+        schema:
+          type: string
+          format: base64(fhir+json:Organization)
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
             schema:
               type: object
   /epa/medication/api/v1/fhir/metadawwwta:
@@ -1352,6 +4547,10 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
       parameters:
       - name: X-Request-ID
         in: header
@@ -1394,6 +4593,10 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
       parameters:
       - name: X-Request-ID
         in: header
@@ -1437,6 +4640,10 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+        '423':
+          description: If the insurant objected to the medication process or objected
+            to the submission of prescription and dispensation data into the ePA system,
+            the Medication Service is locked.
       parameters:
       - name: X-Request-ID
         in: header
