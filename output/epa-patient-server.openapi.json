@@ -77,7 +77,7 @@
             "name": "Accept",
             "in": "header",
             "required": false,
-            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response.",
             "schema": {
               "type": "string",
               "enum": [
@@ -202,7 +202,7 @@
             "name": "Accept",
             "in": "header",
             "required": false,
-            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response.",
             "schema": {
               "type": "string",
               "enum": [
@@ -393,7 +393,7 @@
             "name": "Accept",
             "in": "header",
             "required": false,
-            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response.",
             "schema": {
               "type": "string",
               "enum": [
@@ -530,7 +530,7 @@
             "name": "Accept",
             "in": "header",
             "required": false,
-            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response.",
             "schema": {
               "type": "string",
               "enum": [
@@ -797,7 +797,7 @@
             "name": "Accept",
             "in": "header",
             "required": false,
-            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response.",
             "schema": {
               "type": "string",
               "enum": [
@@ -970,7 +970,7 @@
             "name": "Accept",
             "in": "header",
             "required": false,
-            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response.",
             "schema": {
               "type": "string",
               "enum": [
@@ -1161,6 +1161,81 @@
     },
     "/epa/medication/api/v1/fhir/metadawwwta": {
       "get": {
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "This functionality ensures that a call to /metadata returns the FHIR CapabilityStatement.",
@@ -1189,7 +1264,15 @@
           "500": {
             "description": "Any other error"
           }
-        },
+        }
+      }
+    },
+    "/epa/medication/render/v1/eml/xhtml": {
+      "get": {
+        "operationId": "renderEMLAsHTML",
+        "tags": [
+          "Render"
+        ],
         "parameters": [
           {
             "name": "X-Request-ID",
@@ -1250,15 +1333,19 @@
               "type": "string",
               "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
             }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "text/html"
+              ]
+            }
           }
-        ]
-      }
-    },
-    "/epa/medication/render/v1/eml/xhtml": {
-      "get": {
-        "operationId": "renderEMLAsHTML",
-        "tags": [
-          "Render"
         ],
         "responses": {
           "200": {
@@ -1283,7 +1370,15 @@
           "500": {
             "description": "Any other error"
           }
-        },
+        }
+      }
+    },
+    "/epa/medication/render/v1/eml/pdf": {
+      "get": {
+        "operationId": "renderEMLAsPDF",
+        "tags": [
+          "Render"
+        ],
         "parameters": [
           {
             "name": "X-Request-ID",
@@ -1344,15 +1439,19 @@
               "type": "string",
               "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
             }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/pdf"
+              ]
+            }
           }
-        ]
-      }
-    },
-    "/epa/medication/render/v1/eml/pdf": {
-      "get": {
-        "operationId": "renderEMLAsPDF",
-        "tags": [
-          "Render"
         ],
         "responses": {
           "200": {
@@ -1378,69 +1477,7 @@
           "500": {
             "description": "Any other error"
           }
-        },
-        "parameters": [
-          {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          },
-          {
-            "name": "X-Request-ID",
-            "in": "header",
-            "required": true,
-            "description": "UUID of the request message",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "x-insurantid",
-            "in": "header",
-            "required": true,
-            "description": "Health Record Identifier",
-            "schema": {
-              "type": "string",
-              "pattern": "^[A-Z]{1}\\d{9}$"
-            }
-          },
-          {
-            "name": "x-useragent",
-            "in": "header",
-            "required": true,
-            "description": "user agent information",
-            "schema": {
-              "type": "string",
-              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
-            }
-          }
-        ]
+        }
       }
     }
   },

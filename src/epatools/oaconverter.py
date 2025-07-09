@@ -144,12 +144,12 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
         for http_method in http_methods:
             oas_params = []
             request_body = None
+            if config.with_accept_header:
+                accept_header_param = build_accept_header_param(formats)
+                if accept_header_param:
+                    oas_params.append(accept_header_param)
             if http_method == "get":
                 oas_params.extend(build_header_params(op_header_params))
-                if config.with_accept_header:
-                    accept_header_param = build_accept_header_param(formats)
-                    if accept_header_param:
-                        oas_params.append(accept_header_param)
                 if config.with_format_parameter:
                     format_param = build_format_query_param(formats)
                     if format_param:
@@ -390,18 +390,18 @@ def build_format_query_param(fhir_formats):
 
 
 def build_accept_header_param(fhir_formats):
-    if len(fhir_formats) > 1:
-        return {
-            "name": "Accept",
-            "in": "header",
-            "required": False,
-            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response — supported values are application/fhir+json and application/fhir+xml",
-            "schema": {
-                "type": "string",
-                "enum": fhir_formats
-            }
+    enum_values = fhir_formats if fhir_formats else ["*/*"]
+    description = "The Accept header indicates the format in which the client wishes to receive the FHIR response."
+    return {
+        "name": "Accept",
+        "in": "header",
+        "required": False,
+        "description": description,
+        "schema": {
+            "type": "string",
+            "enum": enum_values
         }
-    return None
+    }
 
 
 def build_pagination_query_params():

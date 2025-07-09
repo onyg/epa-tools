@@ -35,3 +35,10 @@ openapi:
       output: epa-audit-event-server.openapi.yaml
       additional-openapi: openapis/manual-operations.yaml
       post-search: true
+    - input: CapabilityStatement/epa-mhd-document-responder-merged
+      output: epa-mhd-document-responder.openapi.json
+      additional-openapi: openapis/manual-operations.yaml
+    - input: CapabilityStatement/epa-mhd-document-responder-merged
+      output: epa-mhd-document-responder.openapi.yaml
+      additional-openapi: openapis/manual-operations.yaml
+      post-search: true
