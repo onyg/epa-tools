@@ -148,18 +148,25 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
                 accept_header_param = build_accept_header_param(formats)
                 if accept_header_param:
                     oas_params.append(accept_header_param)
-            if http_method == "get":
-                oas_params.extend(build_header_params(op_header_params))
-                if config.with_format_parameter:
-                    format_param = build_format_query_param(formats)
-                    if format_param:
-                        oas_params.append(format_param)
+            # if http_method == "get":
+            #     oas_params.extend(build_header_params(op_header_params))
+            #     if config.with_format_parameter:
+            #         format_param = build_format_query_param(formats)
+            #         if format_param:
+            #             oas_params.append(format_param)
                         
-                oas_params.extend(build_parameters(op_params))
+            #     oas_params.extend(build_parameters(op_params))
                 
-            else:
-                oas_params.extend(build_header_params(op_header_params))
-                request_body = build_request_body(formats)
+            # else:
+            #     oas_params.extend(build_header_params(op_header_params))
+            #     request_body = build_request_body(formats)
+            oas_params.extend(build_header_params(op_header_params))
+            if config.with_format_parameter:
+                format_param = build_format_query_param(formats)
+                if format_param:
+                    oas_params.append(format_param)
+                    
+            oas_params.extend(build_parameters(op_params))
 
             # system-level operation
             if operation_definition.get("system") is True:
@@ -212,7 +219,7 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
     def build_parameters(params, location="query", format_param=None):
         result = []
         for param in params:
-            if param.get("use", "") == "in":
+            if param.get("use", "") == "in" and param.get("name", "") != "resource":
                 p = {
                     "name": param["name"],
                     "in": location,
@@ -666,7 +673,10 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
         responses = build_responses(http_errors, formats=fhir_formats, success_codes=["201"], success_description="Resource created")
         path = f"{prefix_path}/{resource_type}"
         request_body = build_request_body(fhir_formats or [])
-        paths[path] = path_obj("post", f"Create a new {resource_type}", [], responses, request_body)
+        params = []
+        if format_param:
+            params += [format_param]
+        paths[path] = path_obj("post", f"Create a new {resource_type}", params, responses, request_body)
 
     ###
     # PUT /ResourceType/{rid}
@@ -678,6 +688,8 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
             "name": "id", "in": "path", "required": True,
             "schema": {"type": "string"}, "description": "Resource ID"
         }]
+        if format_param:
+            params += [format_param]
         request_body = build_request_body(fhir_formats or [])
         paths[path] = path_obj("put", f"Update {resource_type} by ID", params, responses, request_body)
 
@@ -690,6 +702,8 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
         path = f"{prefix_path}/{resource_type}/"
         request_body = build_request_body(fhir_formats or [])
         params = []
+        if format_param:
+            params += [format_param]
         for sp in search_params:
             param_type, param_format = fhir_to_openapi_type(sp.get("type", "string"))
             param = {
@@ -714,6 +728,8 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
             "name": "id", "in": "path", "required": True,
             "schema": {"type": "string"}, "description": "Resource ID"
         }]
+        if format_param:
+            params += [format_param]
         request_body = build_request_body(fhir_formats or [])
         paths[path] = path_obj("patch", f"Patch {resource_type} by ID", params, responses, request_body)
 
@@ -727,6 +743,8 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
             "name": "id", "in": "path", "required": True,
             "schema": {"type": "string"}, "description": "Resource ID"
         }]
+        if format_param:
+            params += [format_param]
         params += base_parameters
         paths[path] = path_obj("delete", f"Delete {resource_type} by ID", params, responses)
 

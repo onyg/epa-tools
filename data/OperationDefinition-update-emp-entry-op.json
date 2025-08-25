@@ -15,15 +15,17 @@
       "valueCode": "POST"
     }
   ],
-  "version": "1.2.0",
-  "status": "active",
+  "version": "1.2.0-ballot.1",
+  "status": "draft",
   "publisher": "gematik GmbH",
-  "date": "2025-07-15",
+  "date": "2025-08-01",
   "kind": "operation",
   "name": "updateEMPEntry_MedicationSvc",
   "code": "update-emp-entry",
   "affectsState": true,
   "system": true,
   "type": false,
-  "instance": false
+  "instance": false,
+  "inputProfile": "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-op-update-emp-entry-input-parameters",
+  "outputProfile": "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-op-emp-entry-output-parameters"
 }

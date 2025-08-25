@@ -41,10 +41,10 @@
       "documentation": "Searchset bundle containing the requested entities."
     }
   ],
-  "version": "1.2.0",
-  "status": "active",
+  "version": "1.2.0-ballot.1",
+  "status": "draft",
   "publisher": "gematik GmbH",
-  "date": "2025-07-15",
+  "date": "2025-08-01",
   "kind": "operation",
   "name": "getMedicationPlanChronologyLog_MedicationSvc",
   "code": "medication-plan-log",

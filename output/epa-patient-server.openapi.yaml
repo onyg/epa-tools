@@ -162,7 +162,7 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the Medication Service
+          to be included on one page of the response. This means the FHIR Data Service
           limits the result set to this maximum specified number. If no value for
           _count is provided, the default value set is 25.
         schema:
@@ -178,7 +178,7 @@ paths:
       - name: _total
         in: query
         required: false
-        description: This parameter controls whether and how the AuditEvent Service
+        description: This parameter controls whether and how the FHIR Data Service
           returns the total number of search results.
         schema:
           type: string
@@ -260,7 +260,7 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the Medication Service
+          to be included on one page of the response. This means the FHIR Data Service
           limits the result set to this maximum specified number. If no value for
           _count is provided, the default value set is 25.
         schema:
@@ -276,7 +276,7 @@ paths:
       - name: _total
         in: query
         required: false
-        description: This parameter controls whether and how the AuditEvent Service
+        description: This parameter controls whether and how the FHIR Data Service
           returns the total number of search results.
         schema:
           type: string
@@ -467,6 +467,16 @@ paths:
         schema:
           type: string
         description: Resource ID
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       responses:
         '200':
           description: Resource updated
@@ -580,7 +590,7 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the Medication Service
+          to be included on one page of the response. This means the FHIR Data Service
           limits the result set to this maximum specified number. If no value for
           _count is provided, the default value set is 25.
         schema:
@@ -596,7 +606,7 @@ paths:
       - name: _total
         in: query
         required: false
-        description: This parameter controls whether and how the AuditEvent Service
+        description: This parameter controls whether and how the FHIR Data Service
           returns the total number of search results.
         schema:
           type: string
@@ -769,6 +779,16 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable acccess accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
       - name: identifier
         in: query
         required: false

@@ -1,0 +1,34 @@
+{
+  "resourceType": "OperationDefinition",
+  "id": "link-emp-op",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/ti/StructureDefinition/ti-operationdefinition"
+    ]
+  },
+  "url": "https://gematik.de/fhir/epa-medication/OperationDefinition/link-emp-op",
+  "title": "eMP-Eintrag verknüpfen",
+  "description": "Diese Instanz-Operation dient der Verknüpfung eines bestehenden eML-Eintrags (MedicationStatement) mit einem bereits dokumentierten Eintrag im elektronischen Medikationsplan (eMP).",
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
+      "valueCode": "POST"
+    }
+  ],
+  "resource": [
+    "MedicationStatement"
+  ],
+  "version": "1.2.0-ballot.1",
+  "status": "draft",
+  "publisher": "gematik GmbH",
+  "date": "2025-08-01",
+  "kind": "operation",
+  "name": "linkEMP_MedicationSvc",
+  "code": "link-emp",
+  "affectsState": true,
+  "system": false,
+  "type": false,
+  "instance": true,
+  "inputProfile": "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-op-link-emp-entry-parameters",
+  "outputProfile": "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-op-link-emp-entry-output-parameters"
+}

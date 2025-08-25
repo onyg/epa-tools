@@ -1,0 +1,33 @@
+{
+  "resourceType": "OperationDefinition",
+  "id": "cancel-eml-entry-op",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/ti/StructureDefinition/ti-operationdefinition"
+    ]
+  },
+  "url": "https://gematik.de/fhir/epa-medication/OperationDefinition/cancel-eml-entry-op",
+  "title": "Cancel Medication List Entry",
+  "description": "Diese Operation dient dem gezielten Widerruf/Abbruch eines bestehenden Eintrags der elektronischen Medikationsliste (eML) auf Instanzebene.",
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
+      "valueCode": "POST"
+    }
+  ],
+  "resource": [
+    "MedicationStatement"
+  ],
+  "version": "1.2.0-ballot.1",
+  "status": "draft",
+  "publisher": "gematik GmbH",
+  "date": "2025-08-01",
+  "kind": "operation",
+  "name": "cancelEMLEntry_MedicationSvc",
+  "code": "cancel-eml-entry",
+  "affectsState": true,
+  "system": false,
+  "type": false,
+  "instance": true,
+  "outputProfile": "https://gematik.de/fhir/epa-medication/StructureDefinition/epa-op-eml-entry-output-parameters"
+}

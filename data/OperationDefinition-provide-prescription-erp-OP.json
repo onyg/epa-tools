@@ -15,10 +15,10 @@
       "valueCode": "POST"
     }
   ],
-  "version": "1.2.0",
-  "status": "active",
+  "version": "1.2.0-ballot.1",
+  "status": "draft",
   "publisher": "gematik GmbH",
-  "date": "2025-07-15",
+  "date": "2025-08-01",
   "name": "providePrescription_MedicationSvc",
   "kind": "operation",
   "code": "provide-prescription-erp",

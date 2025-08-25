@@ -1,0 +1,48 @@
+{
+  "resourceType": "OperationDefinition",
+  "id": "batch-emp-entries-op",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/ti/StructureDefinition/ti-operationdefinition"
+    ]
+  },
+  "url": "https://gematik.de/fhir/epa-medication/OperationDefinition/batch-emp-entries-op",
+  "title": "Batch eMP Einträge",
+  "description": "Mit der Batch Operation $batch-emp können Primärsysteme mehrere fachliche Änderungen am eMP in einem Aufruf\nan den Medication Service übergeben. Innerhalb des Request-Bundles werden ausschließlich FHIR-Operationen\nausgeführt (keine direkten Resource-CRUDs). Am Ende wird ein emp-commit ausgeführt, der eine neue\nPlan-Version (Provenance) erzeugt. Die Operation antwortet mit einem Bundle vom Typ transaction-response.",
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
+      "valueCode": "POST"
+    }
+  ],
+  "parameter": [
+    {
+      "name": "resource",
+      "use": "in",
+      "min": 1,
+      "max": "1",
+      "type": "Bundle",
+      "documentation": "Bundle mit ausschließlich Operationseinträgen (POST) gemäß Allow-List.\nDer Server kann das Bundle-Attribut 'type' ignorieren; die Ausführungssemantik ist serverseitig festgelegt.\nJeder entry.resource MUSS eine Parameters-Ressource der jeweiligen Operation sein.\nVerboten: direkte POST/PUT/DELETE auf Ressourcen außerhalb von Operationen."
+    },
+    {
+      "name": "return",
+      "use": "out",
+      "min": 1,
+      "max": "1",
+      "type": "Bundle",
+      "documentation": "Antwort ist ein Bundle vom Typ 'transaction-response' (bei atomarer Server-Policy) bzw. 'batch-response'\n(bei best-effort-Policy). Für jeden Request-Entry enthält die Antwort einen korrespondierenden Entry mit:\n- response.status (HTTP-Status),\n- response.outcome (OperationOutcome bei Fehler/Warnung),\n- resource = Parameters (Ergebnisse von $add-emp-entry / $update-emp-entry),\n- beim letzten Eintrag ($emp-commit): eine Provenance-Instanz (neue eMP-Plan-Version)."
+    }
+  ],
+  "version": "1.2.0-ballot.1",
+  "status": "draft",
+  "publisher": "gematik GmbH",
+  "date": "2025-08-01",
+  "kind": "operation",
+  "name": "batchEMPEntries_MedicationSvc",
+  "code": "batch-emp",
+  "system": true,
+  "type": false,
+  "instance": false,
+  "affectsState": true,
+  "purpose": "Stapelverarbeitung von eMP-Änderungen mit konsistenter, atomarer Ausführung und anschließender\nVersionierung des eMP. Reduziert Roundtrips, vermeidet Zwischenzustände und stellt eine neue Plan-Version bereit."
+}
