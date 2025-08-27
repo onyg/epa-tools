@@ -66,7 +66,7 @@ paths:
         in: query
         required: false
         description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable acccess accept: header)'
+          a client is unable access Accept: header)'
         schema:
           type: string
           enum:
@@ -152,7 +152,7 @@ paths:
         in: query
         required: false
         description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable acccess accept: header)'
+          a client is unable access Accept: header)'
         schema:
           type: string
           enum:
@@ -294,7 +294,7 @@ paths:
         in: query
         required: false
         description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable acccess accept: header)'
+          a client is unable access Accept: header)'
         schema:
           type: string
           enum:
@@ -388,7 +388,7 @@ paths:
         in: query
         required: false
         description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable acccess accept: header)'
+          a client is unable access Accept: header)'
         schema:
           type: string
           enum:
@@ -471,7 +471,7 @@ paths:
         in: query
         required: false
         description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable acccess accept: header)'
+          a client is unable access Accept: header)'
         schema:
           type: string
           enum:
@@ -580,7 +580,7 @@ paths:
         in: query
         required: false
         description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable acccess accept: header)'
+          a client is unable access Accept: header)'
         schema:
           type: string
           enum:
@@ -704,7 +704,7 @@ paths:
         in: query
         required: false
         description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable acccess accept: header)'
+          a client is unable access Accept: header)'
         schema:
           type: string
           enum:
@@ -783,7 +783,7 @@ paths:
         in: query
         required: false
         description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable acccess accept: header)'
+          a client is unable access Accept: header)'
         schema:
           type: string
           enum:

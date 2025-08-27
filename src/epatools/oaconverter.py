@@ -41,7 +41,7 @@ class OpenAPIConfig(BaseConfig):
                 convert_config.additional_openapi = cs.get('additional-openapi', None)
                 convert_config.search_with_post = cs.get('post-search', False)
                 self.capability_statement.append(convert_config)
-            
+
 
 class NoAliasDumper(yaml.SafeDumper):
     def ignore_aliases(self, data):
@@ -113,7 +113,7 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
             op_http_errors = {**extract_http_response_info(extension), **op_http_errors}
             op_header_params.extend(extract_http_headers(extension))
             http_methods = extract_http_methods(extension)
-        
+
         definition_obj = op.get("definition")
         if isinstance(definition_obj, dict):
             definition_ref = definition_obj.get("reference")
@@ -136,7 +136,7 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
         http_methods = list(set(http_methods))
         op_responses = build_responses(
                             op_http_errors,
-                            formats, 
+                            formats,
                             success_codes=["200"],
                             success_description="Successful operation"
         )
@@ -154,9 +154,9 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
             #         format_param = build_format_query_param(formats)
             #         if format_param:
             #             oas_params.append(format_param)
-                        
+
             #     oas_params.extend(build_parameters(op_params))
-                
+
             # else:
             #     oas_params.extend(build_header_params(op_header_params))
             #     request_body = build_request_body(formats)
@@ -165,7 +165,7 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
                 format_param = build_format_query_param(formats)
                 if format_param:
                     oas_params.append(format_param)
-                    
+
             oas_params.extend(build_parameters(op_params))
 
             # system-level operation
@@ -200,7 +200,7 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
                     openapi["paths"].setdefault(path, {})[http_method] = {
                         "summary": f"Instance-level FHIR Operation ${op_name}",
                         "tags": [resource_type],
-                        
+
                         "parameters": oas_params.copy() + [{
                             "name": "id",
                             "in": "path",
@@ -212,7 +212,7 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
                     }
                     if request_body:
                         openapi["paths"][path][http_method]["requestBody"] = request_body
-            
+
         return openapi
 
 
@@ -387,7 +387,7 @@ def build_format_query_param(fhir_formats):
             "name": "_format",
             "in": "query",
             "required": False,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
                 "type": "string",
                 "enum": fhir_formats
@@ -539,7 +539,7 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
         if request_body:
             obj[method]["requestBody"] = request_body
         return obj
-        
+
 
     ###
     # GET /ResourceType/{rid}
@@ -585,7 +585,7 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
         params = [
             {"name": "id", "in": "path", "required": True, "schema": {"type": "string"}, "description": "Resource ID"},
             {"name": "vid", "in": "path", "required": True, "schema": {"type": "string"}, "description": "Version ID"}
-        ] 
+        ]
         params += base_parameters
         if accept_header_param:
             params += [accept_header_param]
@@ -693,7 +693,7 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
         request_body = build_request_body(fhir_formats or [])
         paths[path] = path_obj("put", f"Update {resource_type} by ID", params, responses, request_body)
 
-    
+
     ###
     # PUT /ResourceType?searchparameter=value
     ###
@@ -754,14 +754,14 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
 
 
 def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
-    
+
     def update_openapi(openapi, new_paths):
         for path, item in new_paths.items():
             if path not in openapi["paths"]:
                 openapi["paths"][path] = {}
             openapi["paths"][path].update(item)
         return openapi
-    
+
     capability, filename = FHIRArtifactLoader.load_artifact(path=path_resource, resource=resource)
 
     if capability is None:
@@ -790,7 +790,7 @@ def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
         }]
     else:
         path_prefix = ""
-    
+
     fhir_formats = capability.get("format", [])
 
     ###
@@ -812,7 +812,7 @@ def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
     ###
     # FHIR Interaction
     ###
-    
+
     for rest in capability.get("rest", []):
         for res in rest.get("resource", []):
             resource_type = res.get("type")
@@ -897,7 +897,7 @@ def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
             openapi["paths"][path][method].setdefault("responses", [])
             for code, info in base_http_errors.items():
                     append_responses_code(responses=openapi["paths"][path][method]['responses'], code=code, info=info)
-    
+
 
     return openapi
 
@@ -917,7 +917,7 @@ class OpenApiConverter(object):
             if openapi_spec is None:
                 print(f"❌ Error: not foud {c.input} in {self.config.path_resource}")
             output = os.path.join(self.config.path_output, c.output)
-            
+
             os.makedirs(os.path.dirname(output), exist_ok=True)
             with open(output, "w", encoding="utf-8") as f:
                 _, ext = os.path.splitext(output.lower())

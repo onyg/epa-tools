@@ -60,7 +60,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -158,7 +158,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -362,7 +362,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -502,7 +502,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -612,7 +612,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -710,7 +710,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -817,7 +817,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -924,7 +924,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -1031,7 +1031,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -1180,7 +1180,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -1284,7 +1284,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -1552,7 +1552,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -1662,7 +1662,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -1775,7 +1775,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -1924,7 +1924,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -2028,7 +2028,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -2296,7 +2296,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -2406,7 +2406,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -2519,7 +2519,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -2668,7 +2668,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -2772,7 +2772,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -3059,7 +3059,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -3169,7 +3169,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -3282,7 +3282,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -3431,7 +3431,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -3535,7 +3535,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -3745,7 +3745,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -3855,7 +3855,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -3968,7 +3968,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -4117,7 +4117,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -4221,7 +4221,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -4431,7 +4431,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -4541,7 +4541,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -4654,7 +4654,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -4803,7 +4803,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -4907,7 +4907,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -5137,7 +5137,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -5247,7 +5247,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -5360,7 +5360,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -5509,7 +5509,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -5613,7 +5613,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -5845,7 +5845,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -5949,7 +5949,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -6050,7 +6050,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -6151,7 +6151,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -6252,7 +6252,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -6353,7 +6353,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -6481,7 +6481,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -6591,7 +6591,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -6717,7 +6717,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -6828,7 +6828,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -6939,7 +6939,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -7050,7 +7050,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -7161,7 +7161,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -7272,7 +7272,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -7395,7 +7395,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
@@ -7515,7 +7515,7 @@
             "name": "_format",
             "in": "query",
             "required": false,
-            "description": "Specify alternative response formats by their MIME-types (when a client is unable acccess accept: header)",
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
             "schema": {
               "type": "string",
               "enum": [
