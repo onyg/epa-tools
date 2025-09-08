@@ -6,7 +6,7 @@ from epatools.version import __APPNAME__, __VERSION__
 import epatools.cli as cli 
 from epatools.merger import Merger
 from epatools.oaconverter import OpenApiConverter
-from epatools.common import DEFAULT_CONFIG, DEFAULT_DEPENDENCIES_CONFIG
+from epatools.common import ConfigFileDoesNotExists, DEFAULT_CONFIG, DEFAULT_DEPENDENCIES_CONFIG
 
 def main():
     parser = argparse.ArgumentParser(description=cli.get_version(__APPNAME__, __VERSION__))
@@ -36,9 +36,11 @@ def main():
             _oaconverter.convert()
         else:
             parser.print_help()
+    except ConfigFileDoesNotExists as e:
+        print("⚠️  Config file missing. Skipping execution.")
+        sys.exit(os.EX_OK)
     except Exception as e:
         print(f"❌ Error: {e}")
-        # raise e
         sys.exit(os.EX_DATAERR)
 
 

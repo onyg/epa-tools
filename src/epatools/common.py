@@ -15,6 +15,10 @@ DEFAULT_CONFIG = 'epatools.yaml'
 DEFAULT_DEPENDENCIES_CONFIG = 'sushi-config.yaml'
 
 
+class ConfigFileDoesNotExists(Exception):
+    pass
+
+
 class BaseConfig(object):
 
     def __init__(self, config):
@@ -23,7 +27,7 @@ class BaseConfig(object):
 
     def load(self):
         if not os.path.exists(self.config_file):
-            raise Exception(f"The config filepath {self.config_file} does not exists")
+            raise ConfigFileDoesNotExists(f"The config filepath {self.config_file} does not exists")
         with open(self.config_file, 'r', encoding='utf-8') as file:
             _data = yaml.safe_load(file)
             self.from_dict(data=_data)
