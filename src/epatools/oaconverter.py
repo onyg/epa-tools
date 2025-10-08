@@ -302,20 +302,14 @@ def extract_http_response_info(extensions):
     return errors
 
 
-def extract_base_url_parts(extensions):
-    base_url_urls = [
-        "https://gematik.de/fhir/epa/StructureDefinition/base-url-extenstion",
-        "https://gematik.de/fhir/ti/StructureDefinition/base-url-extenstion",
-        "https://gematik.de/fhir/ti/StructureDefinition/extension-base-url"
-    ]
-    for ext in extensions:
-        if ext.get("url") in base_url_urls:
-            full_url = ext.get("valueString")
-            if full_url:
-                parsed = urlparse(full_url)
-                host = f"{parsed.scheme}://{parsed.netloc}"
-                path = parsed.path.rstrip("/")
-                return host, path
+def extract_base_url_parts(implementation):
+    if implementation:
+        full_url = implementation.get("url")
+        if full_url:
+            parsed = urlparse(full_url)
+            host = f"{parsed.scheme}://{parsed.netloc}"
+            path = parsed.path.rstrip("/")
+            return host, path
     return None, ""
 
 
@@ -781,9 +775,8 @@ def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
         }
     }
 
-    extensions = capability.get("extension", [])
-
-    host_url, path_prefix = extract_base_url_parts(extensions)
+    implementation = capability.get("implementation")
+    host_url, path_prefix = extract_base_url_parts(implementation)
     if host_url:
         openapi["servers"] = [{
             "url": host_url
@@ -878,6 +871,8 @@ def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
     if cs_config.additional_openapi:
         openapi = merge_custom_openapi(openapi, cs_config.additional_openapi)
 
+    extensions = capability.get("extension", [])
+   
     ###
     # Set the global headers
     ###

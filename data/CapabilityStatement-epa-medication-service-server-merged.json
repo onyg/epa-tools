@@ -230,10 +230,6 @@
       "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-response-info"
     },
     {
-      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-base-url",
-      "valueString": "http://epa4all/epa/medication/api/v1/fhir"
-    },
-    {
       "extension": [
         {
           "url": "statusCode",
@@ -255,6 +251,10 @@
       "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-response-info"
     }
   ],
+  "implementation": {
+    "url": "http://epa4all/epa/medication/api/v1/fhir",
+    "description": "ePA Medication Service innerhalb eines VAU Kanals"
+  },
   "url": "https://gematik.de/fhir/epa-medication/CapabilityStatement/epa-medication-service-server",
   "version": "1.2.0-ballot.1",
   "name": "EPAMedicationServiceServer",
