@@ -237,11 +237,11 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
     for rest in capability.get("rest", []):
         for op in rest.get("operation", []):
             openapi = add_operation(openapi, op)
-            print(f"✅ Added OperationDefinition ${op.get("name", "")}.")
+            print(f"✅ Added OperationDefinition ${op.get('name', '')}.")
         for resource in rest.get("resource", []):
             for op in resource.get("operation", []):
                 openapi = add_operation(openapi, op)
-                print(f"✅ Added OperationDefinition {resource.get("type", "")}/${op.get("name", "")}.")
+                print(f"✅ Added OperationDefinition {resource.get('type', '')}/${op.get('name', '')}.")
 
     return openapi
 
