@@ -889,7 +889,7 @@ def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
     ###
     if cs_config.additional_openapi:
         openapi = merge_custom_openapi(openapi, cs_config.additional_openapi)
-   
+
     ###
     # Set the global headers
     ###
