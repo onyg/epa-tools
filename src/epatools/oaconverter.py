@@ -237,11 +237,11 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
     for rest in capability.get("rest", []):
         for op in rest.get("operation", []):
             openapi = add_operation(openapi, op)
-            print(f"✅ Added OperationDefinition ${op.get("name", "")}.")
+            print(f"✅ Added OperationDefinition ${op.get('name', '')}.")
         for resource in rest.get("resource", []):
             for op in resource.get("operation", []):
                 openapi = add_operation(openapi, op)
-                print(f"✅ Added OperationDefinition {resource.get("type", "")}/${op.get("name", "")}.")
+                print(f"✅ Added OperationDefinition {resource.get('type', '')}/${op.get('name', '')}.")
 
     return openapi
 
@@ -302,7 +302,16 @@ def extract_http_response_info(extensions):
     return errors
 
 
-def extract_base_url_parts(extensions):
+def extract_base_url_parts(implementation, extensions):
+    if implementation:
+        full_url = implementation.get("url")
+        if full_url:
+            parsed = urlparse(full_url)
+            host = f"{parsed.scheme}://{parsed.netloc}"
+            path = parsed.path.rstrip("/")
+            return host, path
+
+    # for backward commpatibility
     base_url_urls = [
         "https://gematik.de/fhir/epa/StructureDefinition/base-url-extenstion",
         "https://gematik.de/fhir/ti/StructureDefinition/base-url-extenstion",
@@ -781,9 +790,12 @@ def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
         }
     }
 
+
+    implementation = capability.get("implementation")
     extensions = capability.get("extension", [])
 
-    host_url, path_prefix = extract_base_url_parts(extensions)
+    host_url, path_prefix = extract_base_url_parts(implementation, extensions)
+ 
     if host_url:
         openapi["servers"] = [{
             "url": host_url

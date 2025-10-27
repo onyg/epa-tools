@@ -452,12 +452,12 @@
         }
       ],
       "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-    },
-    {
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/base-url-extenstion",
-      "valueString": "http://epa4all/epa/patient/api/v1/fhir"
     }
   ],
+  "implementation": {
+    "url": "http://epa4all/epa/patient/api/v1/fhir",
+    "description": "ePA Patient Service innerhalb eines VAU Kanals"
+  },
   "url": "https://gematik.de/fhir/epa/CapabilityStatement/epa-patient-server",
   "version": "1.1.5",
   "name": "EPAPatientServer",

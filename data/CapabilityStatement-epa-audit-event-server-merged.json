@@ -451,12 +451,12 @@
         }
       ],
       "url": "https://gematik.de/fhir/epa/StructureDefinition/http-response-info-extenstion"
-    },
-    {
-      "url": "https://gematik.de/fhir/epa/StructureDefinition/base-url-extenstion",
-      "valueString": "http://epa4all/epa/audit/api/v1/fhir"
     }
   ],
+  "implementation": {
+    "url": "http://epa4all/epa/audit/api/v1/fhir",
+    "description": "ePA Audit Service innerhalb eines VAU Kanals"
+  },
   "url": "https://gematik.de/fhir/epa/CapabilityStatement/epa-audit-event-server",
   "version": "1.0.6",
   "name": "EPAAuditEventServer",
