@@ -125,9 +125,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -330,9 +329,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -745,9 +743,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -929,9 +926,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -1082,9 +1078,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -1284,9 +1279,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -1468,9 +1462,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -1621,9 +1614,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -1823,9 +1815,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -2007,9 +1998,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -2173,9 +2163,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -2375,9 +2364,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -2559,9 +2547,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -2672,9 +2659,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -2874,9 +2860,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -3058,9 +3043,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -3171,9 +3155,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -3373,9 +3356,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -3557,9 +3539,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -3684,9 +3665,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -3886,9 +3866,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset
@@ -4070,9 +4049,8 @@ paths:
         in: query
         required: false
         description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
         schema:
           type: string
       - name: _offset

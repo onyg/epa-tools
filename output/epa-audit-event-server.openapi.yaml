@@ -133,15 +133,6 @@ paths:
           type: string
           enum:
           - application/fhir+json
-      - name: _count
-        in: query
-        required: false
-        description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
-        schema:
-          type: string
       - name: _offset
         in: query
         required: false
@@ -213,6 +204,13 @@ paths:
         schema:
           type: string
         description: AuditEvent.type
+      - name: _count
+        in: query
+        required: false
+        schema:
+          type: number
+        description: Maximale Anzahl zurückgegebener Einträge pro Seite; maximum value
+          is 50
       responses:
         '200':
           description: Search successful
@@ -363,15 +361,6 @@ paths:
           type: string
           enum:
           - application/fhir+json
-      - name: _count
-        in: query
-        required: false
-        description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. This means the FHIR Data Service
-          limits the result set to this maximum specified number. If no value for
-          _count is provided, the default value set is 25.
-        schema:
-          type: string
       - name: _offset
         in: query
         required: false
@@ -443,6 +432,13 @@ paths:
         schema:
           type: string
         description: AuditEvent.type
+      - name: _count
+        in: query
+        required: false
+        schema:
+          type: number
+        description: Maximale Anzahl zurückgegebener Einträge pro Seite; maximum value
+          is 50
       responses:
         '200':
           description: Search successful

@@ -23,6 +23,7 @@ class OpenAPIConfig(BaseConfig):
         self.with_metadata = False
         self.with_format_parameter = False
         self.with_accept_header = False
+        self.with_pagination = True
         self.capability_statement = []
 
     def from_dict(self, data):
@@ -33,6 +34,7 @@ class OpenAPIConfig(BaseConfig):
             self.with_metadata = params.get('with-metadata', self.with_metadata)
             self.with_format_parameter = params.get('with-format-parameter', self.with_format_parameter)
             self.with_accept_header = params.get('with-accept-header', self.with_accept_header)
+            self.with_pagination = params.get('with-pagination', self.with_pagination)
             self.capability_statement = []
             for cs in params.get('capability-statement', []):
                 convert_config = ConvertConfig()
@@ -420,36 +422,63 @@ def build_accept_header_param(fhir_formats):
     }
 
 
-def build_pagination_query_params():
-    return [
-        {
+def build_pagination_query_params(search_params=None):
+    supported = None
+
+    if search_params is not None:
+        supported = {
+            param.get("name")
+            for param in search_params
+            if param.get("name")
+        }
+
+    params = []
+
+    if supported is None or "_count" not in supported:
+        params.append({
             "name": "_count",
             "in": "query",
             "required": False,
-            "description": "With _count, the client can specify the maximum number of elements to be included on one page of the response. This means the FHIR Data Service limits the result set to this maximum specified number. If no value for _count is provided, the default value set is 25.",
+            "description": (
+                "With _count, the client can specify the maximum number of elements "
+                "to be included on one page of the response. If no value for _count "
+                "is provided, the default value set is 25."
+            ),
             "schema": {
                 "type": "string"
             }
-        },
-        {
+        })
+
+    if supported is None or "_offset" not in supported:
+        params.append({
             "name": "_offset",
             "in": "query",
             "required": False,
-            "description": "This URL parameter indicates the (zero-based) offset of the first returned element in the collection. If no value for _offset is provided, the default value set is 0.",
+            "description": (
+                "This URL parameter indicates the (zero-based) offset of the first "
+                "returned element in the collection. If no value for _offset is "
+                "provided, the default value set is 0."
+            ),
             "schema": {
                 "type": "integer"
             }
-        },
-        {
+        })
+
+    if supported is None or "_total" not in supported:
+        params.append({
             "name": "_total",
             "in": "query",
             "required": False,
-            "description": "This parameter controls whether and how the FHIR Data Service returns the total number of search results.",
+            "description": (
+                "This parameter controls whether and how the FHIR Data Service "
+                "returns the total number of search results."
+            ),
             "schema": {
                 "type": "string"
             }
-        }
-    ]
+        })
+
+    return params
 
 
 def build_include_query_param(search_include):
@@ -582,7 +611,8 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
             params += [accept_header_param]
         if format_param:
             params += [format_param]
-        params.extend(build_pagination_query_params())
+        if config.with_pagination:
+            params.extend(build_pagination_query_params(search_params=search_params))
         paths[path] = path_obj("get", f"History of a specific {resource_type}", params, responses)
 
     ###
@@ -608,7 +638,9 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
     elif interaction_code == "history-type":
         responses = build_responses(http_errors, formats=fhir_formats, success_codes=["200"], success_description="History for type retrieved")
         path = f"{prefix_path}/{resource_type}/_history"
-        params = base_parameters + build_pagination_query_params()
+        params = base_parameters.copy()
+        if config.with_pagination:
+            params.extend(build_pagination_query_params(search_params=search_params))
         if accept_header_param:
             params += [accept_header_param]
         if format_param:
@@ -626,7 +658,8 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
             params += [accept_header_param]
         if format_param:
             params += [format_param]
-        params.extend(build_pagination_query_params())
+        if config.with_pagination:
+            params.extend(build_pagination_query_params(search_params=search_params))
         if search_include:
             params.append(build_include_query_param(search_include))
         if search_rev_include:
@@ -656,7 +689,8 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
             params += [accept_header_param]
         if format_param:
             params += [format_param]
-        params.extend(build_pagination_query_params())
+        if config.with_pagination:
+            params.extend(build_pagination_query_params(search_params=search_params))
         if search_include:
             params.append(build_include_query_param(search_include))
         if search_rev_include:

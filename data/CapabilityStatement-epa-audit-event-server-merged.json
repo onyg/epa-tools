@@ -642,6 +642,17 @@
               "definition": "http://hl7.org/fhir/SearchParameter/AuditEvent-type",
               "type": "token",
               "documentation": "AuditEvent.type"
+            },
+            {
+              "name": "_count",
+              "type": "number",
+              "documentation": "Maximale Anzahl zurückgegebener Einträge pro Seite; maximum value is 50",
+              "extension": [
+                {
+                  "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+                  "valueCode": "SHALL"
+                }
+              ]
             }
           ],
           "type": "AuditEvent",
