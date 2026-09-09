@@ -168,7 +168,8 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
                 if format_param:
                     oas_params.append(format_param)
 
-            oas_params.extend(build_parameters(op_params))
+            if http_method not in ("post", "put"):
+                oas_params.extend(build_parameters(op_params))
 
             # system-level operation
             if operation_definition.get("system") is True:
