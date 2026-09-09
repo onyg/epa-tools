@@ -15,6 +15,7 @@ openapi:
   with-accept-header: true
   path-output: output
   path-resource: data
+  with-pagination: true
   capability-statement:
     - input: CapabilityStatement/epa-patient-server-merged
       output: epa-patient-server.openapi.json
