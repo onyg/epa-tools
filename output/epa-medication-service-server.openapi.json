@@ -5993,6 +5993,21 @@
           "423": {
             "description": "If the insurant objected to the medication process or objected to the submission of prescription and dispensation data into the ePA system, the Medication Service is locked."
           }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
         }
       }
     },
@@ -6093,6 +6108,21 @@
           },
           "423": {
             "description": "If the insurant objected to the medication process or objected to the submission of prescription and dispensation data into the ePA system, the Medication Service is locked."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
           }
         }
       }
@@ -6195,6 +6225,21 @@
           "423": {
             "description": "If the insurant objected to the medication process or objected to the submission of prescription and dispensation data into the ePA system, the Medication Service is locked."
           }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
         }
       }
     },
@@ -6295,6 +6340,21 @@
           },
           "423": {
             "description": "If the insurant objected to the medication process or objected to the submission of prescription and dispensation data into the ePA system, the Medication Service is locked."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
           }
         }
       }
@@ -6761,6 +6821,21 @@
           "423": {
             "description": "If the insurant objected to the medication process or objected to the submission of prescription and dispensation data into the ePA system, the Medication Service is locked."
           }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
         }
       }
     },
@@ -6871,6 +6946,21 @@
           },
           "423": {
             "description": "If the insurant objected to the medication process or objected to the submission of prescription and dispensation data into the ePA system, the Medication Service is locked."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
           }
         }
       }
@@ -6983,6 +7073,21 @@
           "423": {
             "description": "If the insurant objected to the medication process or objected to the submission of prescription and dispensation data into the ePA system, the Medication Service is locked."
           }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
         }
       }
     },
@@ -7094,6 +7199,21 @@
           "423": {
             "description": "If the insurant objected to the medication process or objected to the submission of prescription and dispensation data into the ePA system, the Medication Service is locked."
           }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
         }
       }
     },
@@ -7204,6 +7324,21 @@
           },
           "423": {
             "description": "If the insurant objected to the medication process or objected to the submission of prescription and dispensation data into the ePA system, the Medication Service is locked."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
           }
         }
       }
@@ -7328,6 +7463,21 @@
           "423": {
             "description": "If the insurant objected to the medication process or objected to the submission of prescription and dispensation data into the ePA system, the Medication Service is locked."
           }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
         }
       }
     },
@@ -7447,6 +7597,21 @@
           },
           "423": {
             "description": "If the insurant objected to the medication process or objected to the submission of prescription and dispensation data into the ePA system, the Medication Service is locked."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
           }
         }
       }
@@ -7570,6 +7735,21 @@
           },
           "423": {
             "description": "If the insurant objected to the medication process or objected to the submission of prescription and dispensation data into the ePA system, the Medication Service is locked."
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
           }
         }
       }

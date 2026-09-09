@@ -4310,6 +4310,15 @@ paths:
           description: If the insurant objected to the medication process or objected
             to the submission of prescription and dispensation data into the ePA system,
             the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
   /epa/medication/api/v1/fhir/$cancel-prescription-erp:
     post:
       summary: System-level FHIR Operation $cancel-prescription-erp
@@ -4382,6 +4391,15 @@ paths:
           description: If the insurant objected to the medication process or objected
             to the submission of prescription and dispensation data into the ePA system,
             the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
   /epa/medication/api/v1/fhir/$provide-dispensation-erp:
     post:
       summary: System-level FHIR Operation $provide-dispensation-erp
@@ -4454,6 +4472,15 @@ paths:
           description: If the insurant objected to the medication process or objected
             to the submission of prescription and dispensation data into the ePA system,
             the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
   /epa/medication/api/v1/fhir/$cancel-dispensation-erp:
     post:
       summary: System-level FHIR Operation $cancel-dispensation-erp
@@ -4526,6 +4553,15 @@ paths:
           description: If the insurant objected to the medication process or objected
             to the submission of prescription and dispensation data into the ePA system,
             the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
   /epa/medication/api/v1/fhir/$medication-list:
     get:
       summary: System-level FHIR Operation $medication-list
@@ -4864,6 +4900,15 @@ paths:
           description: If the insurant objected to the medication process or objected
             to the submission of prescription and dispensation data into the ePA system,
             the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
   /epa/medication/api/v1/fhir/$update-emp-entry:
     post:
       summary: System-level FHIR Operation $update-emp-entry
@@ -4944,6 +4989,15 @@ paths:
           description: If the insurant objected to the medication process or objected
             to the submission of prescription and dispensation data into the ePA system,
             the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
   /epa/medication/api/v1/fhir/$batch-emp:
     post:
       summary: System-level FHIR Operation $batch-emp
@@ -5024,6 +5078,15 @@ paths:
           description: If the insurant objected to the medication process or objected
             to the submission of prescription and dispensation data into the ePA system,
             the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
   /epa/medication/api/v1/fhir/$emp-commit:
     post:
       summary: System-level FHIR Operation $emp-commit
@@ -5104,6 +5167,15 @@ paths:
           description: If the insurant objected to the medication process or objected
             to the submission of prescription and dispensation data into the ePA system,
             the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
   /epa/medication/api/v1/fhir/MedicationStatement/$add-eml-entry:
     post:
       summary: Type-level FHIR Operation $add-eml-entry
@@ -5184,6 +5256,15 @@ paths:
           description: If the insurant objected to the medication process or objected
             to the submission of prescription and dispensation data into the ePA system,
             the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
   /epa/medication/api/v1/fhir/MedicationStatement/{id}/$cancel-eml-entry:
     post:
       summary: Instance-level FHIR Operation $cancel-eml-entry
@@ -5272,6 +5353,15 @@ paths:
           description: If the insurant objected to the medication process or objected
             to the submission of prescription and dispensation data into the ePA system,
             the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
   /epa/medication/api/v1/fhir/MedicationStatement/{id}/$link-emp:
     post:
       summary: Instance-level FHIR Operation $link-emp
@@ -5358,6 +5448,15 @@ paths:
           description: If the insurant objected to the medication process or objected
             to the submission of prescription and dispensation data into the ePA system,
             the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
   /epa/medication/api/v1/fhir/MedicationStatement/{id}/$unlink-emp:
     post:
       summary: Instance-level FHIR Operation $unlink-emp
@@ -5447,6 +5546,15 @@ paths:
           description: If the insurant objected to the medication process or objected
             to the submission of prescription and dispensation data into the ePA system,
             the Medication Service is locked.
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
   /epa/medication/api/v1/fhir/metadawwwta:
     get:
       parameters:

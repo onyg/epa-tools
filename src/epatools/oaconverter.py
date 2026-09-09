@@ -150,25 +150,15 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
                 accept_header_param = build_accept_header_param(formats)
                 if accept_header_param:
                     oas_params.append(accept_header_param)
-            # if http_method == "get":
-            #     oas_params.extend(build_header_params(op_header_params))
-            #     if config.with_format_parameter:
-            #         format_param = build_format_query_param(formats)
-            #         if format_param:
-            #             oas_params.append(format_param)
-
-            #     oas_params.extend(build_parameters(op_params))
-
-            # else:
-            #     oas_params.extend(build_header_params(op_header_params))
-            #     request_body = build_request_body(formats)
             oas_params.extend(build_header_params(op_header_params))
             if config.with_format_parameter:
                 format_param = build_format_query_param(formats)
                 if format_param:
                     oas_params.append(format_param)
 
-            if http_method not in ("post", "put"):
+            if http_method in ("post", "put", "patch"):
+                request_body = build_request_body(formats)
+            else:
                 oas_params.extend(build_parameters(op_params))
 
             # system-level operation
