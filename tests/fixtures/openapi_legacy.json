@@ -1,0 +1,59 @@
+{
+  "description": "SHA-256 of canonical JSON from the unmodified converter, with default and enhanced configuration.",
+  "operations": [
+    "data/OperationDefinition-add-eml-entry-op.json",
+    "data/OperationDefinition-add-emp-entry-op.json",
+    "data/OperationDefinition-batch-emp-entries-op.json",
+    "data/OperationDefinition-cancel-dispensation-erp-OP.json",
+    "data/OperationDefinition-cancel-eml-entry-op.json",
+    "data/OperationDefinition-cancel-prescription-erp-OP.json",
+    "data/OperationDefinition-emp-commit-op.json",
+    "data/OperationDefinition-get-medication-list-op.json",
+    "data/OperationDefinition-get-medication-plan-op.json",
+    "data/OperationDefinition-link-emp-op.json",
+    "data/OperationDefinition-medication-plan-log-op.json",
+    "data/OperationDefinition-provide-dispensation-erp-OP.json",
+    "data/OperationDefinition-provide-medication-OP.json",
+    "data/OperationDefinition-provide-prescription-erp-OP.json",
+    "data/OperationDefinition-unlink-emp-op.json",
+    "data/OperationDefinition-update-emp-entry-op.json"
+  ],
+  "outputs": {
+    "CapabilityStatement-epa-audit-event-server-merged.json": {
+      "False": "ebc3f544f7321f8c8d6d082c390399e04ddb25233092e88a67b5523a239de17f",
+      "True": "53a5055e71b4d5e619b6a73cd402d3d7b9039d0cfaeb643a1d6c8f8bb85997c8"
+    },
+    "CapabilityStatement-epa-audit-event-server.json": {
+      "False": "e7f89b7661b476aa68f9356277a41d7eb76605b3bb7065d72498f5818daccf67",
+      "True": "f74d0b40cb419f0cb5de86c2b91b85b44359640ba98f965cce3491bd867066d9"
+    },
+    "CapabilityStatement-epa-basic-server.json": {
+      "False": "f3e3471727cb42f946ea157d74fc910938ad6c2a7b66e6a8f7ae33f640283f0c",
+      "True": "789fce7b46e2e5c0bad29fa2d40f279b9853ad30b498fc3a6e7d618b879fed5d"
+    },
+    "CapabilityStatement-epa-medication-service-server-merged.json": {
+      "False": "ea229a6a441c0e97a16b30714beb59d8a5a776f38021d807cc080a4f97a769fd",
+      "True": "51fe180cbcbcb67262f9e935be80db76ee58a8d6409fc353c851e21e0e659a0d"
+    },
+    "CapabilityStatement-epa-medication-service-server.json": {
+      "False": "385ec3b7ba4cfa2b9457285b70e2dc53762cdb2684a3cf2aca846ca331b679f4",
+      "True": "00451853e88382e643560055a11567961aa50ddd51a2837ea9a2d1542ec57d64"
+    },
+    "CapabilityStatement-epa-mhd-document-responder-merged.json": {
+      "False": "708518c2fedc48609a5d03abbbf8c6593cfb221c40754f54a399c9df32874698",
+      "True": "e1433e7917c8fb87cd7a16f613c09dc4b085aaccada561cdd525a1357cc031be"
+    },
+    "CapabilityStatement-epa-mhd-document-responder.json": {
+      "False": "708518c2fedc48609a5d03abbbf8c6593cfb221c40754f54a399c9df32874698",
+      "True": "e1433e7917c8fb87cd7a16f613c09dc4b085aaccada561cdd525a1357cc031be"
+    },
+    "CapabilityStatement-epa-patient-server-merged.json": {
+      "False": "eda2b2eaf4bfa4027ac8719a63ebdb36a486a582ca215640804b9895b26cf17e",
+      "True": "dc379a023b7fb93f455839642aae5e86056d1db3659d8a961f4417c1d3d4b6ea"
+    },
+    "CapabilityStatement-epa-patient-server.json": {
+      "False": "eda2b2eaf4bfa4027ac8719a63ebdb36a486a582ca215640804b9895b26cf17e",
+      "True": "dc379a023b7fb93f455839642aae5e86056d1db3659d8a961f4417c1d3d4b6ea"
+    }
+  }
+}

@@ -5,6 +5,69 @@ from urllib.parse import urlparse
 
 from epatools.common import BaseConfig, FHIRArtifactLoader
 
+OPERATION_PARAMETER_LOCATION_EXTENSION = (
+    "https://gematik.de/fhir/ti/StructureDefinition/operation-parameter-location"
+)
+SEARCH_PARAMETER_INTERACTION_EXTENSION = (
+    "https://gematik.de/fhir/ti/StructureDefinition/search-parameter-interaction"
+)
+RESOURCE_INTERACTIONS = {
+    "read", "vread", "update", "patch", "delete", "history-instance",
+    "history-type", "create", "search-type",
+}
+
+
+def extension_codes(parameter, url):
+    return [ext.get("valueCode") for ext in parameter.get("extension", [])
+            if ext.get("url") == url]
+
+
+def query_parameter(parameter, required=False):
+    param_type, param_format = fhir_to_openapi_type(parameter.get("type", "string"))
+    result = {
+        "name": parameter.get("name"),
+        "in": "query",
+        "required": required,
+        "schema": {"type": param_type},
+        "description": parameter.get("documentation", ""),
+    }
+    if param_format:
+        result["schema"]["format"] = param_format
+    return result
+
+
+def split_operation_parameters(parameters):
+    default, query = [], []
+    for parameter in parameters:
+        codes = extension_codes(parameter, OPERATION_PARAMETER_LOCATION_EXTENSION)
+        if parameter.get("use") != "in" or not codes:
+            default.append(parameter)
+        elif any(code != "query" for code in codes):
+            raise ValueError(f"Unsupported operation parameter location: {codes}")
+        else:
+            query.append(parameter)
+    return default, query
+
+
+def select_search_parameters(parameters, interaction):
+    """Keep unextended parameters on their original path."""
+    if not any(extension_codes(p, SEARCH_PARAMETER_INTERACTION_EXTENSION) for p in parameters):
+        return parameters, []
+    default, explicit = [], []
+    target = "search-type" if interaction == "search-type-post" else interaction
+    for parameter in parameters:
+        codes = extension_codes(parameter, SEARCH_PARAMETER_INTERACTION_EXTENSION)
+        if not codes:
+            default.append(parameter)
+            continue
+        if any(code not in RESOURCE_INTERACTIONS for code in codes):
+            raise ValueError(f"Unsupported search parameter interaction: {codes}")
+        if target in codes:
+            explicit.append(parameter)
+            default.append(parameter)
+    return default, explicit
+
+
 class ConvertConfig(object):
 
     def __init__(self):
@@ -143,6 +206,7 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
                             success_description="Successful operation"
         )
         op_params = operation_definition.get("parameter", [])
+        body_params, query_params = split_operation_parameters(op_params)
         for http_method in http_methods:
             oas_params = []
             request_body = None
@@ -157,9 +221,11 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
                     oas_params.append(format_param)
 
             if http_method in ("post", "put", "patch"):
-                request_body = build_request_body(formats)
+                if not query_params or any(p.get("use") == "in" for p in body_params):
+                    request_body = build_request_body(formats)
             else:
-                oas_params.extend(build_parameters(op_params))
+                oas_params.extend(build_parameters(body_params))
+            oas_params.extend(query_parameter(p, p.get("min", 0) > 0) for p in query_params)
 
             # system-level operation
             if operation_definition.get("system") is True:
@@ -539,6 +605,8 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
                          prefix_path="", fhir_formats=None, extension=None):
     paths = {}
 
+    original_search_params = search_params
+    search_params, explicit_params = select_search_parameters(search_params, interaction_code)
     base_parameters = []
     if not http_errors:
         http_errors = {}
@@ -782,6 +850,28 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
         params += base_parameters
         paths[path] = path_obj("delete", f"Delete {resource_type} by ID", params, responses)
 
+
+    # Only explicit extensions alter the legacy interaction output.
+    excluded_names = {
+        p.get("name") for p in original_search_params
+        if extension_codes(p, SEARCH_PARAMETER_INTERACTION_EXTENSION)
+        and p not in explicit_params
+    }
+    if explicit_params or excluded_names:
+        for methods in paths.values():
+            for operation in methods.values():
+                operation["parameters"] = [
+                    p for p in operation["parameters"]
+                    if p.get("in") != "query" or p.get("name") not in excluded_names
+                ]
+                if interaction_code not in ("search-type", "search-type-post"):
+                    for parameter in explicit_params:
+                        query = query_parameter(parameter)
+                        operation["parameters"] = [
+                            p for p in operation["parameters"]
+                            if (p.get("name"), p.get("in")) != (query["name"], "query")
+                        ]
+                        operation["parameters"].append(query)
 
     print(f"✅ Added interaction {interaction_code} for {resource_type}.")
     return paths

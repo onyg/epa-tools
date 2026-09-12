@@ -1,0 +1,43 @@
+{
+  "resourceType": "OperationDefinition",
+  "id": "tiflow-rx-create-op",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/ti/StructureDefinition/ti-operationdefinition"
+    ]
+  },
+  "url": "https://gematik.de/fhir/tiflow-erezept/OperationDefinition/tiflow-rx-create-op",
+  "title": "E-Rezept erstellen",
+  "description": "Diese Operation erstellt eine Aufgabe für die Verschreibung eines bestimmten Flowtypes.",
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
+      "valueCode": "POST"
+    }
+  ],
+  "version": "2.0.0",
+  "status": "active",
+  "publisher": "gematik GmbH",
+  "date": "2026-08-27",
+  "kind": "operation",
+  "affectsState": true,
+  "resource": [
+    "Task"
+  ],
+  "system": false,
+  "type": true,
+  "instance": false,
+  "code": "create",
+  "name": "TIFlowRXOPCreate",
+  "inputProfile": "https://gematik.de/fhir/tiflow-erezept/StructureDefinition/GEM-ERP-PR-PAR-Create-Operation-Input",
+  "outputProfile": "https://gematik.de/fhir/tiflow-erezept/StructureDefinition/GEM-ERP-PR-PAR-Create-Operation-Output",
+  "parameter": [
+    {
+      "name": "return",
+      "use": "out",
+      "min": 1,
+      "max": "1",
+      "type": "Task"
+    }
+  ]
+}
