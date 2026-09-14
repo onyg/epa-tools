@@ -1,0 +1,62 @@
+{
+  "resourceType": "OperationDefinition",
+  "id": "tiflow-rx-abort-op",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/ti/StructureDefinition/ti-operationdefinition"
+    ]
+  },
+  "url": "https://gematik.de/fhir/tiflow-erezept/OperationDefinition/tiflow-rx-abort-op",
+  "title": "E-Rezept abbrechen",
+  "description": "Diese Operation bricht den Workflow eines E-Rezepts ab und löscht alle Daten, die mit dieser Aufgabe zusammenhängen.",
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
+      "valueCode": "POST"
+    }
+  ],
+  "parameter": [
+    {
+      "extension": [
+        {
+          "url": "https://gematik.de/fhir/ti/StructureDefinition/operation-parameter-location",
+          "valueCode": "query"
+        }
+      ],
+      "name": "ac",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "documentation": "[Nur von Patienten und Anbietern (Ärzten/Zahnärzten) zu verwenden] Der secret Parameter, der es Benutzern ermöglicht, exklusiv über die URL und den Parameter ?ac auf die Aufgabe zuzugreifen.",
+      "type": "string"
+    },
+    {
+      "extension": [
+        {
+          "url": "https://gematik.de/fhir/ti/StructureDefinition/operation-parameter-location",
+          "valueCode": "query"
+        }
+      ],
+      "name": "secret",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "documentation": "[Nur von der Apotheke zu verwenden] Der secret Parameter, der es einer Apotheke ermöglicht, exklusiv über die URL und den Parameter ?secret auf die Aufgabe zuzugreifen.",
+      "type": "string"
+    }
+  ],
+  "version": "2.0.0",
+  "status": "active",
+  "publisher": "gematik GmbH",
+  "date": "2026-08-27",
+  "kind": "operation",
+  "affectsState": true,
+  "resource": [
+    "Task"
+  ],
+  "system": false,
+  "type": false,
+  "instance": true,
+  "code": "abort",
+  "name": "TIFlowRXOPAbort"
+}

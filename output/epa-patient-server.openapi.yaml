@@ -207,6 +207,105 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
+    put:
+      summary: conditional-update Patient
+      tags:
+      - Patient
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable access Accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Patient.identifier
+      responses:
+        '200':
+          description: Resource conditional update
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '201':
+          description: Resource conditional update
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Health record is in state SUSPENDED
+        '500':
+          description: Any other error
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
   /epa/patient/api/v1/fhir/Patient/_history:
     get:
       summary: History for all Patient
@@ -727,107 +826,6 @@ paths:
           description: Health record is in state SUSPENDED
         '500':
           description: Any other error
-  /epa/patient/api/v1/fhir/Patient/:
-    put:
-      summary: 'Conditional update: Create or Update a Patient depending on search
-        criteria'
-      tags:
-      - Patient
-      parameters:
-      - name: X-Request-ID
-        in: header
-        required: true
-        description: UUID of the request message
-        schema:
-          type: string
-          format: uuid
-      - name: x-insurantid
-        in: header
-        required: true
-        description: Health Record Identifier
-        schema:
-          type: string
-          pattern: ^[A-Z]{1}\d{9}$
-      - name: x-useragent
-        in: header
-        required: true
-        description: user agent information
-        schema:
-          type: string
-          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
-      - name: X-Request-ID
-        in: header
-        required: true
-        description: UUID of the request message
-        schema:
-          type: string
-          format: uuid
-      - name: x-insurantid
-        in: header
-        required: true
-        description: Health Record Identifier
-        schema:
-          type: string
-          pattern: ^[A-Z]{1}\d{9}$
-      - name: x-useragent
-        in: header
-        required: true
-        description: user agent information
-        schema:
-          type: string
-          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
-      - name: _format
-        in: query
-        required: false
-        description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable access Accept: header)'
-        schema:
-          type: string
-          enum:
-          - application/fhir+json
-          - application/fhir+xml
-      - name: identifier
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Patient.identifier
-      responses:
-        '200':
-          description: OK, wenn eine bestehende FHIR-Ressourceninstanz aktualisiert
-            wurde
-        '201':
-          description: Resource conditional update
-          content:
-            application/fhir+json:
-              schema:
-                type: object
-            application/fhir+xml:
-              schema:
-                type: object
-        '400':
-          description: Bad Request, falls eine falsche ID in der Anfrage angegeben
-            wurde
-        '403':
-          description: Device registration does not exist
-        '404':
-          description: Health record is in state UNKNOWN or INITIALIZED
-        '412':
-          description: Precondition Failed, wenn mehrere Ressourceninstanz gefunden
-            wurden
-        '409':
-          description: Health record is in state SUSPENDED
-        '500':
-          description: Any other error
-      requestBody:
-        required: true
-        content:
-          application/fhir+json:
-            schema:
-              type: object
-          application/fhir+xml:
-            schema:
-              type: object
   /epa/medication/api/v1/fhir/metadawwwta:
     get:
       parameters:

@@ -1,0 +1,48 @@
+{
+  "resourceType": "OperationDefinition",
+  "id": "tiflow-rx-reject-op",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/ti/StructureDefinition/ti-operationdefinition"
+    ]
+  },
+  "url": "https://gematik.de/fhir/tiflow-erezept/OperationDefinition/tiflow-rx-reject-op",
+  "title": "E-Rezept zurückgeben",
+  "description": "Lehnt die Ausgabe eines E-Rezepts ab. Die Aufgabe wird in einen aktiven Zustand zurückgesetzt, das secret wird gelöscht, und der Task wird für jeden anderen Apotheker zugänglich oder kann vom Patienten gelöscht werden.",
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
+      "valueCode": "POST"
+    }
+  ],
+  "parameter": [
+    {
+      "extension": [
+        {
+          "url": "https://gematik.de/fhir/ti/StructureDefinition/operation-parameter-location",
+          "valueCode": "query"
+        }
+      ],
+      "name": "secret",
+      "use": "in",
+      "min": 1,
+      "max": "1",
+      "documentation": "Der secret Parameter, der einer Apotheke den exklusiven Zugriff auf den Task als URL-Parameter ?secret ermöglicht.",
+      "type": "string"
+    }
+  ],
+  "version": "2.0.0",
+  "status": "active",
+  "publisher": "gematik GmbH",
+  "date": "2026-08-27",
+  "kind": "operation",
+  "affectsState": true,
+  "resource": [
+    "Task"
+  ],
+  "system": false,
+  "type": false,
+  "instance": true,
+  "code": "reject",
+  "name": "TIFlowRXOPReject"
+}

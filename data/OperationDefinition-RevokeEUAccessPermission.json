@@ -1,0 +1,27 @@
+{
+  "resourceType": "OperationDefinition",
+  "id": "RevokeEUAccessPermission",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/ti/StructureDefinition/ti-operationdefinition"
+    ]
+  },
+  "url": "https://gematik.de/fhir/tiflow-erezept/OperationDefinition/RevokeEUAccessPermission",
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
+      "valueCode": "POST"
+    }
+  ],
+  "status": "draft",
+  "version": "2.0.0",
+  "date": "2026-08-27",
+  "name": "RevokeEUAccessPermission",
+  "kind": "operation",
+  "description": "This operation revokes the currently registered access code for redeeming prescriptions in an EU country.",
+  "code": "revoke-eu-access-permission",
+  "system": true,
+  "type": false,
+  "instance": false,
+  "affectsState": true
+}

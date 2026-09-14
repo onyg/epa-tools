@@ -17,6 +17,8 @@ openapi:
   path-resource: data
   with-pagination: true
   capability-statement:
+    - input: CapabilityStatement/ti-flow-fachdienst-server-rx
+      output: ti-flow-fachdienst-server-rx.openapi.json
     - input: CapabilityStatement/epa-patient-server-merged
       output: epa-patient-server.openapi.json
       additional-openapi: openapis/manual-operations.yaml

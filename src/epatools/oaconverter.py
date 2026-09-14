@@ -1,9 +1,181 @@
 import os
+import copy
 import json
 import yaml
 from urllib.parse import urlparse
 
 from epatools.common import BaseConfig, FHIRArtifactLoader
+
+OPERATION_PARAMETER_LOCATION_EXTENSION = (
+    "https://gematik.de/fhir/ti/StructureDefinition/operation-parameter-location"
+)
+SEARCH_PARAMETER_INTERACTION_EXTENSION = (
+    "https://gematik.de/fhir/ti/StructureDefinition/search-parameter-interaction"
+)
+RESOURCE_INTERACTIONS = {
+    "read", "vread", "update", "patch", "delete", "history-instance",
+    "history-type", "create", "search-type",
+}
+
+CONDITIONAL_INTERACTIONS = {
+    "conditional-create", "conditional-read", "conditional-update", "conditional-delete",
+}
+RESOURCE_HTTP_EXTENSIONS = {
+    "https://gematik.de/fhir/ti/StructureDefinition/extension-http-header",
+    "https://gematik.de/fhir/ti/StructureDefinition/extension-http-response-info",
+}
+
+
+def resource_interaction_extensions(resource):
+    result = {}
+    for ext in resource.get("extension", []):
+        if ext.get("url") not in RESOURCE_HTTP_EXTENSIONS:
+            continue
+        codes = extension_codes(ext, "interaction")
+        if len(codes) != 1 or codes[0] not in RESOURCE_INTERACTIONS | CONDITIONAL_INTERACTIONS:
+            raise ValueError(f"Resource HTTP extension requires a supported interaction: {codes}")
+        result.setdefault(codes[0], []).append(ext)
+    return result
+
+
+def apply_resource_http_extensions(operation, extensions):
+    for header in build_header_params(extract_http_headers(extensions)):
+        header["required"] = bool(header["required"])
+        operation["parameters"] = [
+            p for p in operation["parameters"]
+            if (p.get("in"), p.get("name")) != ("header", header["name"])
+        ]
+        operation["parameters"].append(header)
+    for code, info in extract_http_response_info(extensions).items():
+        # Retain existing response content when overriding its description.
+        operation["responses"].setdefault(code, {}).update(info)
+
+
+def conditional_interaction_paths(config, resource, search_params, extensions, prefix, formats):
+    paths = {}
+    enabled = []
+    if resource.get("conditionalCreate") is True:
+        enabled.append(("conditional-create", "create"))
+    if resource.get("conditionalRead", "not-supported") in ("modified-since", "not-match", "full-support"):
+        enabled.append(("conditional-read", "read"))
+    if resource.get("conditionalUpdate") is True:
+        enabled.append(("conditional-update", "conditional_update"))
+    if resource.get("conditionalDelete") in ("single", "multiple"):
+        enabled.append(("conditional-delete", "delete"))
+
+    for code, base in enabled:
+        query_based = code in ("conditional-update", "conditional-delete")
+        if query_based and not search_params:
+            print(f"⚠️ {resource.get('type')} {code}: no search parameters defined.")
+        generated = interaction_to_paths(
+            config, resource.get("type"), base, [], [], [], {},
+            prefix_path=prefix, fhir_formats=formats,
+        )
+        operation = next(iter(next(iter(generated.values())).values()))
+        if query_based:
+            path = f"{prefix}/{resource.get('type')}"
+            method = "put" if code == "conditional-update" else "delete"
+            operation["parameters"] = [p for p in operation["parameters"] if p.get("in") != "path"]
+            operation["parameters"].extend(query_parameter(p) for p in search_params)
+        else:
+            path, methods = next(iter(generated.items()))
+            method = next(iter(methods))
+        operation["summary"] = f"{code} {resource.get('type')}"
+        if code == "conditional-create":
+            operation["parameters"].extend(build_header_params([{
+                "name": "If-None-Exist", "type": "string", "required": True,
+                "description": "FHIR search criteria for conditional create.",
+            }]))
+        elif code == "conditional-read":
+            mode = resource.get("conditionalRead")
+            headers = []
+            if mode in ("not-match", "full-support"):
+                headers.append({"name": "If-None-Match", "type": "string",
+                                "description": "Return the resource only if its ETag differs."})
+            if mode in ("modified-since", "full-support"):
+                headers.append({"name": "If-Modified-Since", "type": "string",
+                                "description": "Return the resource only if modified since this HTTP date."})
+            operation["parameters"].extend(build_header_params(headers))
+            operation["responses"]["304"] = {"description": "Not modified"}
+        apply_resource_http_extensions(operation, extensions.get(code, []))
+        if not query_based:
+            operation["x-fhir-conditional"] = {
+                "interaction": code,
+                "parameters": copy.deepcopy(operation["parameters"]),
+                "responses": copy.deepcopy(operation["responses"]),
+            }
+        paths.setdefault(path, {})[method] = operation
+    return paths
+
+
+def merge_conditional_paths(openapi, paths):
+    for path, methods in paths.items():
+        for method, conditional in methods.items():
+            existing = openapi["paths"].setdefault(path, {}).get(method)
+            if existing is None or "x-fhir-conditional" not in conditional:
+                openapi["paths"][path][method] = conditional
+                continue
+            existing["x-fhir-conditional"] = conditional["x-fhir-conditional"]
+            keys = {(p.get("in"), p.get("name")) for p in existing["parameters"]}
+            for param in conditional["parameters"]:
+                if (param.get("in"), param.get("name")) not in keys:
+                    param = copy.deepcopy(param)
+                    param["required"] = False
+                    existing["parameters"].append(param)
+            for code, response in conditional["responses"].items():
+                existing["responses"].setdefault(code, response)
+
+
+def extension_codes(parameter, url):
+    return [ext.get("valueCode") for ext in parameter.get("extension", [])
+            if ext.get("url") == url]
+
+
+def query_parameter(parameter, required=False):
+    param_type, param_format = fhir_to_openapi_type(parameter.get("type", "string"))
+    result = {
+        "name": parameter.get("name"),
+        "in": "query",
+        "required": required,
+        "schema": {"type": param_type},
+        "description": parameter.get("documentation", ""),
+    }
+    if param_format:
+        result["schema"]["format"] = param_format
+    return result
+
+
+def split_operation_parameters(parameters):
+    default, query = [], []
+    for parameter in parameters:
+        codes = extension_codes(parameter, OPERATION_PARAMETER_LOCATION_EXTENSION)
+        if parameter.get("use") != "in" or not codes:
+            default.append(parameter)
+        elif any(code != "query" for code in codes):
+            raise ValueError(f"Unsupported operation parameter location: {codes}")
+        else:
+            query.append(parameter)
+    return default, query
+
+
+def select_search_parameters(parameters, interaction):
+    """Keep unextended parameters on their original path."""
+    if not any(extension_codes(p, SEARCH_PARAMETER_INTERACTION_EXTENSION) for p in parameters):
+        return parameters, []
+    default, explicit = [], []
+    target = "search-type" if interaction == "search-type-post" else interaction
+    for parameter in parameters:
+        codes = extension_codes(parameter, SEARCH_PARAMETER_INTERACTION_EXTENSION)
+        if not codes:
+            default.append(parameter)
+            continue
+        if any(code not in RESOURCE_INTERACTIONS | CONDITIONAL_INTERACTIONS for code in codes):
+            raise ValueError(f"Unsupported search parameter interaction: {codes}")
+        if target in codes:
+            explicit.append(parameter)
+            default.append(parameter)
+    return default, explicit
+
 
 class ConvertConfig(object):
 
@@ -143,6 +315,7 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
                             success_description="Successful operation"
         )
         op_params = operation_definition.get("parameter", [])
+        body_params, query_params = split_operation_parameters(op_params)
         for http_method in http_methods:
             oas_params = []
             request_body = None
@@ -157,9 +330,11 @@ def add_operations_from_capabilitystatement(config, openapi, capability, operati
                     oas_params.append(format_param)
 
             if http_method in ("post", "put", "patch"):
-                request_body = build_request_body(formats)
+                if not query_params or any(p.get("use") == "in" for p in body_params):
+                    request_body = build_request_body(formats)
             else:
-                oas_params.extend(build_parameters(op_params))
+                oas_params.extend(build_parameters(body_params))
+            oas_params.extend(query_parameter(p, p.get("min", 0) > 0) for p in query_params)
 
             # system-level operation
             if operation_definition.get("system") is True:
@@ -539,6 +714,8 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
                          prefix_path="", fhir_formats=None, extension=None):
     paths = {}
 
+    original_search_params = search_params
+    search_params, explicit_params = select_search_parameters(search_params, interaction_code)
     base_parameters = []
     if not http_errors:
         http_errors = {}
@@ -783,6 +960,28 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
         paths[path] = path_obj("delete", f"Delete {resource_type} by ID", params, responses)
 
 
+    # Only explicit extensions alter the legacy interaction output.
+    excluded_names = {
+        p.get("name") for p in original_search_params
+        if extension_codes(p, SEARCH_PARAMETER_INTERACTION_EXTENSION)
+        and p not in explicit_params
+    }
+    if explicit_params or excluded_names:
+        for methods in paths.values():
+            for operation in methods.values():
+                operation["parameters"] = [
+                    p for p in operation["parameters"]
+                    if p.get("in") != "query" or p.get("name") not in excluded_names
+                ]
+                if interaction_code not in ("search-type", "search-type-post"):
+                    for parameter in explicit_params:
+                        query = query_parameter(parameter)
+                        operation["parameters"] = [
+                            p for p in operation["parameters"]
+                            if (p.get("name"), p.get("in")) != (query["name"], "query")
+                        ]
+                        operation["parameters"].append(query)
+
     print(f"✅ Added interaction {interaction_code} for {resource_type}.")
     return paths
 
@@ -853,17 +1052,11 @@ def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
     for rest in capability.get("rest", []):
         for res in rest.get("resource", []):
             resource_type = res.get("type")
-            interactions = res.get("interaction", [])
+            interactions = list(res.get("interaction", []))
+            resource_extensions = resource_interaction_extensions(res)
             search_params = res.get("searchParam", [])
             search_include = res.get("searchInclude", [])
             search_rev_include = res.get("searchRevInclude", [])
-            if res.get("conditionalUpdate", False):
-                conditional_update = {"code":"conditional_update", "extension":[]}
-                # Check for update interaction extension
-                for interaction in interactions:
-                    if interaction.get("code", "") == "update":
-                        conditional_update["extension"].extend(interaction.get("extension", []))
-                interactions.append(conditional_update)
             if cs_config.search_with_post:
                 post_search = {"code":"post_search", "extension":[]}
                 for interaction in interactions:
@@ -887,12 +1080,20 @@ def capabilitystatement_to_openapi(path_resource, resource, config, cs_config):
                     fhir_formats=fhir_formats,
                     extension=interaction_extension
                 )
+                target = "search-type" if interaction_code == "search-type-post" else interaction_code
+                for methods in new_paths.values():
+                    for operation in methods.values():
+                        apply_resource_http_extensions(operation, resource_extensions.get(target, []))
                 openapi = update_openapi(openapi, new_paths)
                 # for path, item in new_paths.items():
                 #     if path not in openapi["paths"]:
                 #         openapi["paths"][path] = {}
                 #     openapi["paths"][path].update(item)
 
+
+            merge_conditional_paths(openapi, conditional_interaction_paths(
+                config, res, search_params, resource_extensions, path_prefix, fhir_formats,
+            ))
 
     ###
     # OperationDefinition-Dateien einlesen (hier Beispiel mit leeren Array)
