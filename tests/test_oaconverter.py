@@ -48,7 +48,29 @@ class ConverterTests(unittest.TestCase):
         for filename, expected in fixture["outputs"].items():
             for enhanced in (False, True):
                 with self.subTest(filename=filename, enhanced=enhanced):
-                    self.assertEqual(digest(legacy_output(oa, filename, operations, enhanced)), expected[str(enhanced)])
+                    output = legacy_output(oa, filename, operations, enhanced)
+                    exception = fixture.get("conditional_update_exceptions", {}).get(filename)
+                    if exception:
+                        # Only the explicitly requested conditional-update change is excluded.
+                        baseline = exception[str(enhanced)]
+                        for old_path in baseline["legacy_paths"]:
+                            self.assertNotIn(old_path, output["paths"])
+                            path = old_path.rstrip("/")
+                            conditional = output["paths"][path].pop("put")
+                            self.assertEqual(
+                                [p["name"] for p in conditional["parameters"] if p["in"] == "query"],
+                                (["_format"] if enhanced else []) + [
+                                    p["name"]
+                                    for rest in json.loads((ROOT / "data" / filename).read_text())["rest"]
+                                    for resource in rest.get("resource", [])
+                                    if resource.get("conditionalUpdate")
+                                    for p in resource.get("searchParam", [])
+                                ])
+                            if not output["paths"][path]:
+                                del output["paths"][path]
+                        self.assertEqual(digest(output), baseline["unaffected_digest"])
+                    else:
+                        self.assertEqual(digest(output), expected[str(enhanced)])
 
     def interaction(self, code, parameters):
         paths = oa.interaction_to_paths(

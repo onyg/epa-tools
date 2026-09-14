@@ -55,5 +55,35 @@
       "False": "eda2b2eaf4bfa4027ac8719a63ebdb36a486a582ca215640804b9895b26cf17e",
       "True": "dc379a023b7fb93f455839642aae5e86056d1db3659d8a961f4417c1d3d4b6ea"
     }
+  },
+  "conditional_update_exceptions": {
+    "CapabilityStatement-epa-patient-server-merged.json": {
+      "False": {
+        "legacy_paths": [
+          "/epa/patient/api/v1/fhir/Patient/"
+        ],
+        "unaffected_digest": "cb613ca2cd6af8d83b2cb0587eeb9b0f11a17ec31b8544d16b7e7ca592ae4295"
+      },
+      "True": {
+        "legacy_paths": [
+          "/epa/patient/api/v1/fhir/Patient/"
+        ],
+        "unaffected_digest": "1cd318e8d55e74eefc9efc9c7caab9835bc242cb3cf1db5b88ce5dd7f15ddf38"
+      }
+    },
+    "CapabilityStatement-epa-patient-server.json": {
+      "False": {
+        "legacy_paths": [
+          "/epa/patient/api/v1/fhir/Patient/"
+        ],
+        "unaffected_digest": "cb613ca2cd6af8d83b2cb0587eeb9b0f11a17ec31b8544d16b7e7ca592ae4295"
+      },
+      "True": {
+        "legacy_paths": [
+          "/epa/patient/api/v1/fhir/Patient/"
+        ],
+        "unaffected_digest": "1cd318e8d55e74eefc9efc9c7caab9835bc242cb3cf1db5b88ce5dd7f15ddf38"
+      }
+    }
   }
 }

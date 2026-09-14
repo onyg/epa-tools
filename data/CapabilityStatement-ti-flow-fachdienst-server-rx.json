@@ -108,6 +108,12 @@
       "mode": "server",
       "resource": [
         {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+              "valueCode": "SHALL"
+            }
+          ],
           "interaction": [
             {
               "extension": [
@@ -2683,12 +2689,6 @@
           "type": "Task",
           "versioning": "versioned-update",
           "readHistory": true,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-              "valueCode": "SHALL"
-            }
-          ],
           "supportedProfile": [
             "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Task"
           ],
@@ -2704,6 +2704,12 @@
           ]
         },
         {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+              "valueCode": "SHALL"
+            }
+          ],
           "interaction": [
             {
               "extension": [
@@ -3342,12 +3348,6 @@
           "type": "Communication",
           "versioning": "versioned-update",
           "readHistory": true,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-              "valueCode": "SHALL"
-            }
-          ],
           "supportedProfile": [
             "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_DispReq",
             "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_Communication_Reply"
@@ -3372,6 +3372,12 @@
           ]
         },
         {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+              "valueCode": "SHALL"
+            }
+          ],
           "interaction": [
             {
               "extension": [
@@ -3744,12 +3750,6 @@
           "type": "MedicationDispense",
           "versioning": "versioned-update",
           "readHistory": true,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-              "valueCode": "SHALL"
-            }
-          ],
           "supportedProfile": [
             "https://gematik.de/fhir/erp/StructureDefinition/GEM_ERP_PR_MedicationDispense"
           ],
@@ -3765,6 +3765,12 @@
           ]
         },
         {
+          "extension": [
+            {
+              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+              "valueCode": "SHALL"
+            }
+          ],
           "interaction": [
             {
               "extension": [
@@ -4023,15 +4029,32 @@
           ],
           "type": "Subscription",
           "versioning": "versioned-update",
-          "readHistory": true,
+          "readHistory": true
+        },
+        {
           "extension": [
             {
               "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
               "valueCode": "SHALL"
+            },
+            {
+              "extension": [
+                {
+                  "url": "statusCode",
+                  "valueString": "204"
+                },
+                {
+                  "url": "description",
+                  "valueString": "Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten."
+                },
+                {
+                  "url": "interaction",
+                  "valueCode": "conditional-delete"
+                }
+              ],
+              "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-response-info"
             }
-          ]
-        },
-        {
+          ],
           "interaction": [
             {
               "extension": [
@@ -4294,6 +4317,14 @@
                 {
                   "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
                   "valueCode": "SHALL"
+                },
+                {
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/search-parameter-interaction",
+                  "valueCode": "conditional-delete"
+                },
+                {
+                  "url": "https://gematik.de/fhir/ti/StructureDefinition/search-parameter-interaction",
+                  "valueCode": "delete"
                 }
               ],
               "name": "category",
@@ -4305,12 +4336,7 @@
           "type": "Consent",
           "versioning": "versioned-update",
           "readHistory": true,
-          "extension": [
-            {
-              "url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
-              "valueCode": "SHALL"
-            }
-          ]
+          "conditionalDelete": "multiple"
         }
       ],
       "operation": [

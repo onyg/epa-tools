@@ -1378,15 +1378,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "category",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "description": "Consent.category - Unterstützt die Suche nach der Art der Einwilligung"
           }
         ],
         "responses": {
@@ -1497,6 +1488,71 @@
             "application/fhir+xml": {
               "schema": {
                 "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "conditional-delete Consent",
+        "tags": [
+          "Consent"
+        ],
+        "parameters": [
+          {
+            "name": "content-type",
+            "in": "header",
+            "required": true,
+            "description": "INNERER REQUEST: Content-Type des HTTP-Body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "INNERER REQUEST: Bearer Token zur Authentifizierung gegenüber dem TI-Flow-Fachdienst",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Consent.category - Unterstützt die Suche nach der Art der Einwilligung"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Die Anfrage wurde erfolgreich bearbeitet. Die Response enthält jedoch keine Daten.",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
               }
             }
           }
