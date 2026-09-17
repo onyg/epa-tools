@@ -2821,11 +2821,572 @@
           }
         }
       }
+    },
+    "/pushers/v1": {
+      "get": {
+        "summary": "Gets the current pushers",
+        "description": "Gets all currently active pushers for the authenticated user.",
+        "operationId": "getPushers",
+        "x-allowed-requester": [
+          "FdV"
+        ],
+        "parameters": [
+          {
+            "name": "content-type",
+            "in": "header",
+            "required": true,
+            "description": "INNERER REQUEST: Content-Type des HTTP-Body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "INNERER REQUEST: Bearer Token zur Authentifizierung gegenüber dem TI-Flow-Fachdienst",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ACCESS_TOKEN, ausgestellt vom IDP"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The pushers for this user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/pusher_get.yaml#/schema"
+                },
+                "examples": {
+                  "response": {
+                    "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/pusher_get.yaml#/examples/response"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/ErrorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/ErrorResponse403"
+          },
+          "405": {
+            "$ref": "#/components/responses/ErrorResponse405"
+          },
+          "406": {
+            "$ref": "#/components/responses/ErrorResponse406"
+          },
+          "408": {
+            "$ref": "#/components/responses/ErrorResponse408"
+          },
+          "429": {
+            "$ref": "#/components/responses/ErrorResponse429"
+          }
+        },
+        "tags": [
+          "Setup"
+        ]
+      }
+    },
+    "/pushers/v1/set": {
+      "post": {
+        "summary": "Modify a pusher",
+        "description": "This endpoint allows the creation, modification and deletion of [pushers](/client-server-api/#push-notifications)\nfor the authenticated user. The behaviour of this endpoint varies depending on the\nvalues in the JSON body.\n\nIf `kind` is not `null`, the pusher with this `app_id` and `pushkey`\nfor this user is updated, or it is created if it doesn't exist. If\n`kind` is `null`, the pusher with this `app_id` and `pushkey` for this\nuser is deleted.",
+        "operationId": "postPusher",
+        "x-allowed-requester": [
+          "FdV"
+        ],
+        "parameters": [
+          {
+            "name": "content-type",
+            "in": "header",
+            "required": true,
+            "description": "INNERER REQUEST: Content-Type des HTTP-Body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "INNERER REQUEST: Bearer Token zur Authentifizierung gegenüber dem TI-Flow-Fachdienst",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ACCESS_TOKEN, ausgestellt vom IDP"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/pusher_post_put_delete.yaml#/schema"
+              },
+              "examples": {
+                "registration": {
+                  "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/pusher_post_put_delete.yaml#/examples/registration"
+                },
+                "deletion": {
+                  "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/pusher_post_put_delete.yaml#/examples/deletion"
+                }
+              }
+            }
+          },
+          "description": "The pusher information.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The pusher was set.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "An empty object."
+                },
+                "examples": {
+                  "response": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/ErrorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/ErrorResponse403"
+          },
+          "405": {
+            "$ref": "#/components/responses/ErrorResponse405"
+          },
+          "406": {
+            "$ref": "#/components/responses/ErrorResponse406"
+          },
+          "408": {
+            "$ref": "#/components/responses/ErrorResponse408"
+          },
+          "429": {
+            "$ref": "#/components/responses/ErrorResponse429"
+          }
+        },
+        "tags": [
+          "Setup"
+        ]
+      }
+    },
+    "/channels/v1/{pushkey}": {
+      "get": {
+        "summary": "Gets channels for a specific device",
+        "description": "Gets all channels and their configuration state of the authenticated user's device identified by the\n`pushkey`.",
+        "operationId": "getChannelsOfDevice",
+        "x-allowed-requester": [
+          "FdV"
+        ],
+        "parameters": [
+          {
+            "name": "content-type",
+            "in": "header",
+            "required": true,
+            "description": "INNERER REQUEST: Content-Type des HTTP-Body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "INNERER REQUEST: Bearer Token zur Authentifizierung gegenüber dem TI-Flow-Fachdienst",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pushkey",
+            "in": "path",
+            "required": true,
+            "description": "The pushkey of the device.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1234567890"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ACCESS_TOKEN, ausgestellt vom IDP"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The channels for this user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/channels_get.yaml#/schema"
+                },
+                "examples": {
+                  "response": {
+                    "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/channels_get.yaml#/examples/response"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/ErrorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/ErrorResponse403"
+          },
+          "405": {
+            "$ref": "#/components/responses/ErrorResponse405"
+          },
+          "406": {
+            "$ref": "#/components/responses/ErrorResponse406"
+          },
+          "408": {
+            "$ref": "#/components/responses/ErrorResponse408"
+          },
+          "429": {
+            "$ref": "#/components/responses/ErrorResponse429"
+          }
+        },
+        "tags": [
+          "Channel"
+        ]
+      },
+      "post": {
+        "summary": "Modify the channels for a specific device",
+        "description": "This endpoint allows the creation, modification and deletion of channel subscriptions\nfor a specific device identified by `pushkey` of the authenticated user. If a channel is not present in the POST\nrequest, the state of the channel on the server is not changed.\nAn unset channel is treated as disabled and thus no pushes will be triggerd that correspond\nto the channel.",
+        "operationId": "postChannelsOfDevice",
+        "x-allowed-requester": [
+          "FdV"
+        ],
+        "parameters": [
+          {
+            "name": "content-type",
+            "in": "header",
+            "required": true,
+            "description": "INNERER REQUEST: Content-Type des HTTP-Body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "INNERER REQUEST: Bearer Token zur Authentifizierung gegenüber dem TI-Flow-Fachdienst",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pushkey",
+            "in": "path",
+            "required": true,
+            "description": "The pushkey of the device.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "1234567890"
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ACCESS_TOKEN, ausgestellt vom IDP"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/channels_post.yaml#/schema"
+              },
+              "examples": {
+                "update": {
+                  "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/channels_post.yaml#/examples/update"
+                }
+              }
+            }
+          },
+          "description": "The channel information.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The channel was set.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "description": "An empty object."
+                },
+                "examples": {
+                  "response": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/ErrorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/ErrorResponse403"
+          },
+          "405": {
+            "$ref": "#/components/responses/ErrorResponse405"
+          },
+          "406": {
+            "$ref": "#/components/responses/ErrorResponse406"
+          },
+          "408": {
+            "$ref": "#/components/responses/ErrorResponse408"
+          },
+          "429": {
+            "$ref": "#/components/responses/ErrorResponse429"
+          }
+        },
+        "tags": [
+          "Channel"
+        ]
+      }
+    },
+    "/channels/v1": {
+      "get": {
+        "summary": "Gets the available channels",
+        "description": "Gets all available channels for the authenticated user along with the default configuration state. This endpoint can be used to retrieve the channels for a user that has no active pushers or devices. The status returned for each channel is the default status for new pushers and devices; in this case, it is always \"disabled\". If a user has active pushers or devices, the endpoint /channels/v1/{pushkey} should be used to retrieve the actual channel configuration for the specific device.",
+        "operationId": "getChannels",
+        "x-allowed-requester": [
+          "FdV"
+        ],
+        "parameters": [
+          {
+            "name": "content-type",
+            "in": "header",
+            "required": true,
+            "description": "INNERER REQUEST: Content-Type des HTTP-Body",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "description": "INNERER REQUEST: Bearer Token zur Authentifizierung gegenüber dem TI-Flow-Fachdienst",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ACCESS_TOKEN, ausgestellt vom IDP"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The channels available for this user.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/channels_get.yaml#/schema"
+                },
+                "examples": {
+                  "response": {
+                    "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/channels_get.yaml#/examples/response"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/ErrorResponse400"
+          },
+          "401": {
+            "$ref": "#/components/responses/ErrorResponse401"
+          },
+          "403": {
+            "$ref": "#/components/responses/ErrorResponse403"
+          },
+          "405": {
+            "$ref": "#/components/responses/ErrorResponse405"
+          },
+          "406": {
+            "$ref": "#/components/responses/ErrorResponse406"
+          },
+          "408": {
+            "$ref": "#/components/responses/ErrorResponse408"
+          },
+          "429": {
+            "$ref": "#/components/responses/ErrorResponse429"
+          }
+        },
+        "tags": [
+          "Channel"
+        ]
+      }
     }
   },
   "components": {
-    "responses": {},
-    "headers": {}
+    "responses": {
+      "ErrorResponse400": {
+        "description": "Ungültiger http-Request.",
+        "content": {
+          "application/json": {
+            "example": {
+              "errorCode": "malformedRequest",
+              "errorDetail": "Ungültiger http-Request"
+            },
+            "schema": {
+              "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
+            }
+          }
+        }
+      },
+      "ErrorResponse401": {
+        "description": "Ungültiges/Abgelaufenes AccessToken.",
+        "content": {
+          "application/json": {
+            "example": {
+              "errorCode": "invalidAccessToken",
+              "errorDetail": "Ungültiges/Abgelaufenes AccessToken"
+            },
+            "schema": {
+              "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
+            }
+          }
+        }
+      },
+      "ErrorResponse403": {
+        "description": "Unzulässige fachliche Rolle.",
+        "content": {
+          "application/json": {
+            "example": {
+              "errorCode": "invalidOid",
+              "errorDetail": "Unzulässige fachliche Rolle"
+            },
+            "schema": {
+              "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
+            }
+          }
+        }
+      },
+      "ErrorResponse405": {
+        "description": "Methode nicht erlaubt.",
+        "content": {
+          "application/json": {
+            "example": {
+              "errorCode": "methodNotAllowed",
+              "errorDetail": "Die verwendete HTTP-Methode ist für diese Ressource nicht zulässig"
+            },
+            "schema": {
+              "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
+            }
+          }
+        }
+      },
+      "ErrorResponse406": {
+        "description": "Angefragter Mime-Type im Accept-Header kann nicht bedient werden.",
+        "content": {
+          "application/json": {
+            "example": {
+              "errorCode": "notAcceptable",
+              "errorDetail": "Angefragter Mime-Type im Accept-Header kann nicht bedient werden"
+            },
+            "schema": {
+              "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
+            }
+          }
+        }
+      },
+      "ErrorResponse408": {
+        "description": "Timeout.",
+        "content": {
+          "application/json": {
+            "example": {
+              "errorCode": "timeout",
+              "errorDetail": "Timeout"
+            },
+            "schema": {
+              "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
+            }
+          }
+        }
+      },
+      "ErrorResponse429": {
+        "description": "Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer.",
+        "content": {
+          "application/json": {
+            "example": {
+              "errorCode": "rateLimitExceeded",
+              "errorDetail": "Zuviele Anfragen pro Zeiteinheit durch diesen Nutzer"
+            },
+            "schema": {
+              "$ref": "https://raw.githubusercontent.com/gematik/gem-push-notifications-concept/refs/tags/1.2.0/docs_sources/definitions/error.yaml"
+            }
+          }
+        }
+      }
+    },
+    "headers": {},
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
   },
   "servers": [
     {

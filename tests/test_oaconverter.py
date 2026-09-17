@@ -5,7 +5,7 @@ import io
 import json
 from pathlib import Path
 import unittest
-from unittest.mock import patch
+from unittest.mock import mock_open, patch
 
 from epatools import oaconverter as oa
 
@@ -33,6 +33,79 @@ def legacy_output(module, filename, operations, enhanced):
 
 def extension(url, code):
     return {"url": url, "valueCode": code}
+
+
+class CustomOpenAPIMergeTests(unittest.TestCase):
+    def merge(self, target, custom):
+        with patch.object(oa.os.path, "exists", return_value=True), \
+                patch("builtins.open", mock_open(read_data=json.dumps(custom))), \
+                contextlib.redirect_stdout(io.StringIO()) as output:
+            result = oa.merge_custom_openapi(target, "custom.yaml")
+        self.assertIs(result, target)
+        return output.getvalue()
+
+    def test_components_added_without_existing_components(self):
+        components = {
+            "responses": {"ErrorResponse400": {"description": "Bad request"}},
+            "securitySchemes": {"bearerAuth": {"type": "http", "scheme": "bearer"}},
+        }
+        operation = {"responses": {"400": {"$ref": "#/components/responses/ErrorResponse400"}}}
+        target = {"paths": {}}
+        self.merge(target, {"paths": {"/pushers/v1": {"get": operation}}, "components": components})
+        self.assertEqual(target["components"], components)
+        self.assertEqual(target["paths"]["/pushers/v1"]["get"], operation)
+
+    def test_existing_definitions_are_preserved_in_every_category(self):
+        for category in ("schemas", "responses", "parameters", "examples", "requestBodies",
+                         "headers", "securitySchemes", "links", "callbacks", "pathItems"):
+            with self.subTest(category=category):
+                original = {"description": "Original", "nested": {"keep": True}}
+                target = {"paths": {}, "components": {
+                    category: {"Shared": copy.deepcopy(original), "Existing": {}},
+                    "x-origin": "generated",
+                }}
+                output = self.merge(target, {"components": {category: {
+                    "Shared": {"description": "Replacement", "new": True},
+                    "Added": {"description": "New"},
+                }}})
+                self.assertEqual(target["components"], {
+                    category: {"Shared": original, "Existing": {}, "Added": {"description": "New"}},
+                    "x-origin": "generated",
+                })
+                self.assertIn(f"{category}/Shared", output)
+
+    def test_identical_components_merge_without_warning(self):
+        target = {"paths": {}, "components": {"schemas": {"Shared": {"type": "string"}}}}
+        original = copy.deepcopy(target)
+        output = self.merge(target, original)
+        self.assertEqual(target, original)
+        self.assertNotIn("⚠️", output)
+
+    def test_new_category_and_same_name_in_different_categories(self):
+        target = {"paths": {}, "components": {"schemas": {"Shared": {"type": "string"}}}}
+        self.merge(target, {"components": {"responses": {"Shared": {"description": "OK"}}}})
+        self.assertEqual(target["components"], {
+            "schemas": {"Shared": {"type": "string"}},
+            "responses": {"Shared": {"description": "OK"}},
+        })
+
+    def test_component_extensions_are_preserved_as_opaque_values(self):
+        target = {"paths": {}, "components": {"x-origin": "generated"}}
+        self.merge(target, {"components": {"x-origin": "custom", "x-meta": ["value"]}})
+        self.assertEqual(target["components"], {"x-origin": "generated", "x-meta": ["value"]})
+
+    def test_paths_only_keeps_existing_merge_behavior(self):
+        target = {"paths": {"/example": {"get": {"summary": "Old"}, "post": {}}}}
+        self.merge(target, {"paths": {"/example": {"get": {"summary": "New"}}}})
+        self.assertEqual(target, {"paths": {"/example": {"get": {"summary": "New"}, "post": {}}}})
+
+    def test_missing_file_leaves_document_unchanged(self):
+        target = {"paths": {}, "components": {"schemas": {"Existing": {}}}}
+        original = copy.deepcopy(target)
+        with patch.object(oa.os.path, "exists", return_value=False), \
+                contextlib.redirect_stdout(io.StringIO()):
+            self.assertIs(oa.merge_custom_openapi(target, "missing.yaml"), target)
+        self.assertEqual(target, original)
 
 
 class ConverterTests(unittest.TestCase):
