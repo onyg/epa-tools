@@ -706,6 +706,20 @@ def merge_custom_openapi(openapi, openapi_path):
             openapi["paths"][path] = {}
         openapi["paths"][path].update(methods)
 
+    for category, definitions in manual.get("components", {}).items():
+        components = openapi.setdefault("components", {})
+        # Specification extensions are opaque values, not component maps.
+        if category.startswith("x-"):
+            components.setdefault(category, definitions)
+            continue
+        existing = components.setdefault(category, {})
+        for name, definition in definitions.items():
+            if name not in existing:
+                existing[name] = definition
+            elif existing[name] != definition:
+                print(f"⚠️ Keeping existing component {category}/{name}; "
+                      f"conflicting definition in {openapi_path} skipped.")
+
     print(f"✅ Added custom OpenAPI {openapi_path}.")
     return openapi
 
