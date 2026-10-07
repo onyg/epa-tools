@@ -46,3 +46,5 @@ openapi:
       output: epa-mhd-document-responder.openapi.yaml
       additional-openapi: openapis/manual-operations.yaml
       post-search: true
+    - input: CapabilityStatement/epa-mhd-update-responder
+      output: epa-mhd-update-responder.openapi.json

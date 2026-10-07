@@ -1,0 +1,236 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ePA MHD Service (Update Responder - Server)",
+    "version": "1.2.0",
+    "description": "CapabilityStatement für den ePA MHD Service (Update Responder - Server)"
+  },
+  "paths": {
+    "/epa/mhd/api/v1/fhir/metadata": {
+      "get": {
+        "summary": "Get CapabilityStatement",
+        "tags": [
+          "metadata"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": false,
+            "description": "The Accept header indicates the format in which the client wishes to receive the FHIR response.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Device registration does not exist (if requestor role is oid_versicherter only)"
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "409": {
+            "description": "Request conflicts with the current state of the health record"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        }
+      }
+    },
+    "/epa/mhd/api/v1/fhir/DocumentReference/{id}": {
+      "put": {
+        "summary": "Update DocumentReference by ID",
+        "tags": [
+          "DocumentReference"
+        ],
+        "parameters": [
+          {
+            "name": "X-Request-ID",
+            "in": "header",
+            "required": true,
+            "description": "UUID of the request message",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "x-insurantid",
+            "in": "header",
+            "required": true,
+            "description": "Health Record Identifier",
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z]{1}\\d{9}$"
+            }
+          },
+          {
+            "name": "x-useragent",
+            "in": "header",
+            "required": true,
+            "description": "user agent information",
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9]{20}\\/[a-zA-Z0-9\\-\\.]{1,15}$"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Resource ID"
+          },
+          {
+            "name": "_format",
+            "in": "query",
+            "required": false,
+            "description": "Specify alternative response formats by their MIME-types (when a client is unable access Accept: header)",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "application/fhir+json",
+                "application/fhir+xml"
+              ]
+            }
+          },
+          {
+            "name": "X-Requesting-Organization",
+            "in": "header",
+            "required": true,
+            "description": "Base64 encoded FHIR Organization resource in JSON format used to identify the originator of the request",
+            "schema": {
+              "type": "string",
+              "format": "base64(fhir+json:Organization)"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resource updated",
+            "content": {
+              "application/fhir+json": {
+                "schema": {
+                  "type": "object"
+                }
+              },
+              "application/fhir+xml": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Health record is in state UNKNOWN or INITIALIZED"
+          },
+          "400": {
+            "description": "Incomplete request - not all documents of the collection were included"
+          },
+          "431": {
+            "description": "Requesting Organization Header exceeds maximum size"
+          },
+          "403": {
+            "description": "Device registration does not exist (if requestor role is oid_versicherter only)"
+          },
+          "409": {
+            "description": "Request conflicts with the current state of the health record"
+          },
+          "500": {
+            "description": "Any other error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/fhir+json": {
+              "schema": {
+                "type": "object"
+              }
+            },
+            "application/fhir+xml": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {},
+    "headers": {}
+  },
+  "servers": [
+    {
+      "url": "http://epa4all"
+    }
+  ]
+}

@@ -901,6 +901,7 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
         params = []
         if format_param:
             params += [format_param]
+        params += base_parameters
         paths[path] = path_obj("post", f"Create a new {resource_type}", params, responses, request_body)
 
     ###
@@ -916,6 +917,7 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
         if format_param:
             params += [format_param]
         request_body = build_request_body(fhir_formats or [])
+        params += base_parameters
         paths[path] = path_obj("put", f"Update {resource_type} by ID", params, responses, request_body)
 
 
@@ -941,6 +943,7 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
             if param_format:
                 param["schema"]["format"] = param_format
             params.append(param)
+        params += base_parameters
         paths[path] = path_obj("put", f"Conditional update: Create or Update a {resource_type} depending on search criteria", params, responses, request_body)
 
     ###
@@ -955,6 +958,7 @@ def interaction_to_paths(config, resource_type, interaction_code, search_params,
         }]
         if format_param:
             params += [format_param]
+        params += base_parameters
         request_body = build_request_body(fhir_formats or [])
         paths[path] = path_obj("patch", f"Patch {resource_type} by ID", params, responses, request_body)
 
