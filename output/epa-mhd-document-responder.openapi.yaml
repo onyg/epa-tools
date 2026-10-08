@@ -1,36 +1,15 @@
 openapi: 3.0.3
 info:
-  title: ePA MHD Service (Document Responder)
-  version: 1.0.0
-  description: CapabilityStatement für den ePA MHD Service (Document Responder)
+  title: EPA MHD Service (Document Responder - Server)
+  version: 1.2.0
+  description: CapabilityStatement für den ePA MHD Service (Document Responder - Server)
 paths:
-  /metadata:
+  /epa/mhd/api/v1/fhir/metadata:
     get:
       summary: Get CapabilityStatement
       tags:
       - metadata
       parameters:
-      - name: X-Request-ID
-        in: header
-        required: true
-        description: UUID of the request message
-        schema:
-          type: string
-          format: uuid
-      - name: x-insurantid
-        in: header
-        required: true
-        description: Health Record Identifier
-        schema:
-          type: string
-          pattern: ^[A-Z]{1}\d{9}$
-      - name: x-useragent
-        in: header
-        required: true
-        description: user agent information
-        schema:
-          type: string
-          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: X-Request-ID
         in: header
         required: true
@@ -83,16 +62,17 @@ paths:
               schema:
                 type: object
         '403':
-          description: Device registration does not exist
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
         '409':
-          description: Health record is in state SUSPENDED
+          description: Request conflicts with the current state of the health record
         '500':
           description: Any other error
-  /DocumentReference/{id}:
+  /epa/mhd/api/v1/fhir/DocumentReference:
     get:
-      summary: Read a specific DocumentReference
+      summary: Search for DocumentReference
       tags:
       - DocumentReference
       parameters:
@@ -117,6 +97,262 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response.
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable access Accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the FHIR Data Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Aktenweit eindeutige Kennung des Dokuments auf Basis von DocumentReference.entryUUID
+      - name: _content
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Angaben für inhaltsbasierte Volltextsuche in von DocumentReference
+          referenzierten Dokumenten
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Änderungszeitpunkt der DocumentReference
+      - name: author.given
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Vorname der dokumenterstellenden Person auf Basis von DocumentReference.author,
+          welcher dem authorPerson-Slot der DocumentEntry.author-Classification entspricht
+      - name: author.family
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Nachname der dokumenterstellenden Person auf Basis von DocumentReference.author,
+          welcher dem authorPerson-Slot der DocumentEntry.author-Classification entspricht
+      - name: author.organization.name
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Name der dokumenterstellenden Leistungserbringerinstitution auf
+          Basis von DocumentReference.author, welcher dem authorInstitution-Slot der
+          DocumentEntry.author-Classification entspricht
+      - name: category
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Grobe Klassifizierung des Dokuments auf Basis von DocumentReference.category
+      - name: contenttype
+        in: query
+        required: false
+        schema:
+          type: string
+        description: MimeType des Dokuments auf Basis von DocumentReference.content.attachment.contentType
+      - name: creation
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Erstellungszeitpunkt des Dokuments auf Basis von DocumentReference.content.attachment.creation
+      - name: date
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Erstellungszeitpunkt der DocumentReference
+      - name: description
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Ergänzende Hinweise in Freitext auf Basis von DocumentReference.description
+      - name: event
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Die zur Erstellung des Dokuments geführten Ereignisse auf Basis
+          von DocumentReference.context.event
+      - name: facility
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Die auf Basis von DocumentReference.context.facilityTypeArt benannte
+          Art der Einrichtung des dokumentierenden Ereignisses
+      - name: format
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Global eindeutiger Code für das Dokumentenformat  auf Basis von
+          DocumentReference.content.format
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Aktenweit eindeutige Kennung des Dokuments auf Basis von DocumentReference.entryUUID
+      - name: language
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Sprache in der ein Dokument verfasst ist
+      - name: patient
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: Aktenkontoinhaber
+      - name: patient.identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Identifikator des Aktenkontoinhabers
+      - name: period
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Zeitraum des dokumentierenden Ereignisses auf Basis von DocumentReference.context.period
+      - name: related
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: ID-Liste mit assoziierten Dokumenten auf Basis von DocumentReference.context.related
+      - name: relatesto
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: Zieldokument einer Dokumentbeziehung auf Basis von DocumentReference.relatesTo.target
+      - name: relation
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Art der Dokumentbeziehung wie replaces oder appends auf Basis
+          von DocumentReference.relatesTo.code
+      - name: relationship
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Kombination aus relation und relatesto auf Basis von DocumentReference.relatesTo
+      - name: security-label
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Vertraulichkeitskennzeichnung/Datenkategorie des Dokuments auf
+          Basis von DocumentReference.securityLabel
+      - name: setting
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Art der Fachrichtung der erstellenden Einrichtung auf Basis von
+          DocumentReference.context.practiceSetting
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Status des Dokuments auf Basis von DocumentReference.status
+      - name: title
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Titel des Dokuments auf Basis von DocumentReference.content.attachment.title
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Art des Dokuments auf Basis von DocumentReference.type
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Search Too Complex
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
+        '409':
+          description: Request conflicts with the current state of the health record
+        '500':
+          description: Any other error
+  /epa/mhd/api/v1/fhir/DocumentReference/{id}:
+    get:
+      summary: Read a specific DocumentReference
+      tags:
+      - DocumentReference
+      parameters:
       - name: X-Request-ID
         in: header
         required: true
@@ -174,290 +410,18 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
-        '403':
-          description: Device registration does not exist
+        '400':
+          description: Invalid request
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
-        '409':
-          description: Health record is in state SUSPENDED
-        '500':
-          description: Any other error
-  /DocumentReference:
-    get:
-      summary: Search for DocumentReference
-      tags:
-      - DocumentReference
-      parameters:
-      - name: X-Request-ID
-        in: header
-        required: true
-        description: UUID of the request message
-        schema:
-          type: string
-          format: uuid
-      - name: x-insurantid
-        in: header
-        required: true
-        description: Health Record Identifier
-        schema:
-          type: string
-          pattern: ^[A-Z]{1}\d{9}$
-      - name: x-useragent
-        in: header
-        required: true
-        description: user agent information
-        schema:
-          type: string
-          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
-      - name: X-Request-ID
-        in: header
-        required: true
-        description: UUID of the request message
-        schema:
-          type: string
-          format: uuid
-      - name: x-insurantid
-        in: header
-        required: true
-        description: Health Record Identifier
-        schema:
-          type: string
-          pattern: ^[A-Z]{1}\d{9}$
-      - name: x-useragent
-        in: header
-        required: true
-        description: user agent information
-        schema:
-          type: string
-          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
-      - name: Accept
-        in: header
-        required: false
-        description: The Accept header indicates the format in which the client wishes
-          to receive the FHIR response.
-        schema:
-          type: string
-          enum:
-          - application/fhir+json
-          - application/fhir+xml
-      - name: _format
-        in: query
-        required: false
-        description: 'Specify alternative response formats by their MIME-types (when
-          a client is unable access Accept: header)'
-        schema:
-          type: string
-          enum:
-          - application/fhir+json
-          - application/fhir+xml
-      - name: _count
-        in: query
-        required: false
-        description: With _count, the client can specify the maximum number of elements
-          to be included on one page of the response. If no value for _count is provided,
-          the default value set is 25.
-        schema:
-          type: string
-      - name: _offset
-        in: query
-        required: false
-        description: This URL parameter indicates the (zero-based) offset of the first
-          returned element in the collection. If no value for _offset is provided,
-          the default value set is 0.
-        schema:
-          type: integer
-      - name: _total
-        in: query
-        required: false
-        description: This parameter controls whether and how the FHIR Data Service
-          returns the total number of search results.
-        schema:
-          type: string
-      - name: _id
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Aktenweit eindeutige Kennung des Dokuments auf Basis von DocumentReference.entryUUID
-      - name: _content
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Angaben für inhaltsbasierte Volltextsuche in von DocumentReference
-          referenzierten Dokumenten
-      - name: _lastUpdated
-        in: query
-        required: false
-        schema:
-          type: string
-          format: date
-        description: Änderungszeitpunkt der DocumentReference
-      - name: author.given
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Vorname der dokumenterstellenden Person auf Basis von DocumentReference.author,
-          welcher dem authorPerson-Slot der DocumentEntry.author-Classification entspricht
-      - name: author.family
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Nachname der dokumenterstellenden Person auf Basis von DocumentReference.author,
-          welcher dem authorPerson-Slot der DocumentEntry.author-Classification entspricht
-      - name: author.organization.name
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Name der dokumenterstellenden Leistungserbringerinstitution auf
-          Basis von DocumentReference.author, welcher dem authorInstitution-Slot der
-          DocumentEntry.author-Classification entspricht
-      - name: category
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Grobe Klassifizierung des Dokuments auf Basis von DocumentReference.category
-      - name: contenttype
-        in: query
-        required: false
-        schema:
-          type: string
-        description: MimeType des Dokuments auf Basis von DocumentReference.content.attachment.contentType
-      - name: creation
-        in: query
-        required: false
-        schema:
-          type: string
-          format: date
-        description: Erstellungszeitpunkt des Dokuments auf Basis von DocumentReference.content.attachment.creation
-      - name: date
-        in: query
-        required: false
-        schema:
-          type: string
-          format: date
-        description: Erstellungszeitpunkt der DocumentReference
-      - name: description
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Ergänzende Hinweise in Freitext auf Basis von DocumentReference.description
-      - name: event
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Die zur Erstellung des Dokuments geführten Ereignisse auf Basis
-          von DocumentReference.context.event
-      - name: facility
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Die auf Basis von DocumentReference.context.facilityTypeArt benannte
-          Art der Einrichtung des dokumentierenden Ereignisses
-      - name: format
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Global eindeutiger Code für das Dokumentenformat  auf Basis von
-          DocumentReference.content.format
-      - name: identifier
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Aktenweit eindeutige Kennung des Dokuments auf Basis von DocumentReference.entryUUID
-      - name: language
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Sprache in der ein Dokument verfasst ist
-      - name: patient
-        in: query
-        required: false
-        schema:
-          type: string
-          format: uri
-        description: Aktenkontoinhaber
-      - name: patient.identifier
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Identifikator des Aktenkontoinhabers
-      - name: period
-        in: query
-        required: false
-        schema:
-          type: string
-          format: date
-        description: Zeitraum des dokumentierenden Ereignisses auf Basis von DocumentReference.context.period
-      - name: related
-        in: query
-        required: false
-        schema:
-          type: string
-          format: uri
-        description: ID-Liste mit assoziierten Dokumenten auf Basis von DocumentReference.context.related
-      - name: security-label
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Vertraulichkeitskennzeichnung/Datenkategorie des Dokuments auf
-          Basis von DocumentReference.securityLabel
-      - name: setting
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Art der Fachrichtung der erstellenden Einrichtung auf Basis von
-          DocumentReference.context.practiceSetting
-      - name: status
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Status des Dokuments auf Basis von DocumentReference.status
-      - name: title
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Titel des Dokuments auf Basis von DocumentReference.content.attachment.title
-      - name: type
-        in: query
-        required: false
-        schema:
-          type: string
-        description: Art des Dokuments auf Basis von DocumentReference.type
-      responses:
-        '200':
-          description: Search successful
-          content:
-            application/fhir+json:
-              schema:
-                type: object
-            application/fhir+xml:
-              schema:
-                type: object
         '403':
-          description: Device registration does not exist
-        '404':
-          description: Health record is in state UNKNOWN or INITIALIZED
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
         '409':
-          description: Health record is in state SUSPENDED
+          description: Request conflicts with the current state of the health record
         '500':
           description: Any other error
-  /DocumentReference/_search:
+  /epa/mhd/api/v1/fhir/DocumentReference/_search:
     post:
       summary: Search for DocumentReference
       tags:
@@ -484,27 +448,6 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
-      - name: X-Request-ID
-        in: header
-        required: true
-        description: UUID of the request message
-        schema:
-          type: string
-          format: uuid
-      - name: x-insurantid
-        in: header
-        required: true
-        description: Health Record Identifier
-        schema:
-          type: string
-          pattern: ^[A-Z]{1}\d{9}$
-      - name: x-useragent
-        in: header
-        required: true
-        description: user agent information
-        schema:
-          type: string
-          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: Accept
         in: header
         required: false
@@ -682,6 +625,26 @@ paths:
           type: string
           format: uri
         description: ID-Liste mit assoziierten Dokumenten auf Basis von DocumentReference.context.related
+      - name: relatesto
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: Zieldokument einer Dokumentbeziehung auf Basis von DocumentReference.relatesTo.target
+      - name: relation
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Art der Dokumentbeziehung wie replaces oder appends auf Basis
+          von DocumentReference.relatesTo.code
+      - name: relationship
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Kombination aus relation und relatesto auf Basis von DocumentReference.relatesTo
       - name: security-label
         in: query
         required: false
@@ -724,16 +687,22 @@ paths:
             application/fhir+xml:
               schema:
                 type: object
-        '403':
-          description: Device registration does not exist
+        '400':
+          description: Search Too Complex
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
         '409':
-          description: Health record is in state SUSPENDED
+          description: Request conflicts with the current state of the health record
         '500':
           description: Any other error
-  /epa/medication/api/v1/fhir/metadawwwta:
+  /epa/mhd/api/v1/fhir/List:
     get:
+      summary: Search for List
+      tags:
+      - List
       parameters:
       - name: X-Request-ID
         in: header
@@ -756,6 +725,864 @@ paths:
         schema:
           type: string
           pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response.
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable access Accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the FHIR Data Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Aktenweit eindeutige Kennung der Liste auf Basis von List.entryUUID
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Änderungszeitpunkt der Liste
+      - name: code
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Entspricht code.coding Wert. Kennzeichnung ob es sich um einen
+          Folder oder ein SubmissionSet handelt.
+      - name: date
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Erstellungszeitpunkt der Liste
+      - name: designationType
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Klinische Aktivität die zum Einstellen der Liste geführt hat.
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Aktenweit eindeutige Kennung der Liste auf Basis von List.identifier
+      - name: item
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: Referenz auf einen Listeneintrag zum Auffinden der List zu einer
+          bestimmten DocumentReference
+      - name: patient
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: Referenz auf den Aktenkontoinhaber
+      - name: patient.identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Identifikator des Aktenkontoinhabers
+      - name: source.given
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Vorname der Person, die die Liste erstellt hat.
+      - name: source.family
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Nachname der Person, die die Liste erstellt hat.
+      - name: sourceId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Identifier von source als Ersteller der Liste
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Status der Liste auf Basis von List.status
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Search Too Complex
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
+        '409':
+          description: Request conflicts with the current state of the health record
+        '500':
+          description: Any other error
+  /epa/mhd/api/v1/fhir/List/{id}:
+    get:
+      summary: Read a specific List
+      tags:
+      - List
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response.
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable access Accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: List successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Invalid request
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
+        '409':
+          description: Request conflicts with the current state of the health record
+        '500':
+          description: Any other error
+  /epa/mhd/api/v1/fhir/List/_search:
+    post:
+      summary: Search for List
+      tags:
+      - List
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response.
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable access Accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _count
+        in: query
+        required: false
+        description: With _count, the client can specify the maximum number of elements
+          to be included on one page of the response. If no value for _count is provided,
+          the default value set is 25.
+        schema:
+          type: string
+      - name: _offset
+        in: query
+        required: false
+        description: This URL parameter indicates the (zero-based) offset of the first
+          returned element in the collection. If no value for _offset is provided,
+          the default value set is 0.
+        schema:
+          type: integer
+      - name: _total
+        in: query
+        required: false
+        description: This parameter controls whether and how the FHIR Data Service
+          returns the total number of search results.
+        schema:
+          type: string
+      - name: _id
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Aktenweit eindeutige Kennung der Liste auf Basis von List.entryUUID
+      - name: _lastUpdated
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Änderungszeitpunkt der Liste
+      - name: code
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Entspricht code.coding Wert. Kennzeichnung ob es sich um einen
+          Folder oder ein SubmissionSet handelt.
+      - name: date
+        in: query
+        required: false
+        schema:
+          type: string
+          format: date
+        description: Erstellungszeitpunkt der Liste
+      - name: designationType
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Klinische Aktivität die zum Einstellen der Liste geführt hat.
+      - name: identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Aktenweit eindeutige Kennung der Liste auf Basis von List.identifier
+      - name: item
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: Referenz auf einen Listeneintrag zum Auffinden der List zu einer
+          bestimmten DocumentReference
+      - name: patient
+        in: query
+        required: false
+        schema:
+          type: string
+          format: uri
+        description: Referenz auf den Aktenkontoinhaber
+      - name: patient.identifier
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Identifikator des Aktenkontoinhabers
+      - name: source.given
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Vorname der Person, die die Liste erstellt hat.
+      - name: source.family
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Nachname der Person, die die Liste erstellt hat.
+      - name: sourceId
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Identifier von source als Ersteller der Liste
+      - name: status
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Status der Liste auf Basis von List.status
+      responses:
+        '200':
+          description: Search successful
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Search Too Complex
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
+        '409':
+          description: Request conflicts with the current state of the health record
+        '500':
+          description: Any other error
+  /epa/mhd/api/v1/fhir/Patient/{id}:
+    get:
+      summary: Read a specific Patient
+      tags:
+      - Patient
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response.
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable access Accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: Patient successfully read
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Request conflicts with the current state of the health record
+        '500':
+          description: Any other error
+  /epa/mhd/api/v1/fhir/DocumentReference/{id}/$find-replace-head:
+    get:
+      summary: Instance-level FHIR Operation $find-replace-head
+      tags:
+      - DocumentReference
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response.
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable access Accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '400':
+          description: Search Too Complex
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '403':
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
+        '409':
+          description: Request conflicts with the current state of the health record
+        '500':
+          description: Any other error
+  /epa/mhd/api/v1/fhir/Patient/$summary:
+    get:
+      summary: Type-level FHIR Operation $summary
+      tags:
+      - Patient
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response.
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable access Accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: identifier
+        in: query
+        required: false
+        description: Wenn die logische ID der Patient-Ressource nicht verwendet wird,
+          kann der MHD Service optional die Akteninhaberauswahl auf Grundlage des
+          übergebenen Identifier durchführen. In diesem Fall sollte das anfragende
+          ePA-Client-System bei Verwendung dieses Parameters sowohl das System als
+          auch den Wert angeben (z.B. 'identifier=http://fhir.de/sid/gkv/kvid-10|G995030566').
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Request conflicts with the current state of the health record
+        '500':
+          description: Any other error
+    post:
+      summary: Type-level FHIR Operation $summary
+      tags:
+      - Patient
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response.
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable access Accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Request conflicts with the current state of the health record
+        '500':
+          description: Any other error
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+  /epa/mhd/api/v1/fhir/Patient/{id}/$summary:
+    get:
+      summary: Instance-level FHIR Operation $summary
+      tags:
+      - Patient
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response.
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable access Accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: identifier
+        in: query
+        required: false
+        description: Wenn die logische ID der Patient-Ressource nicht verwendet wird,
+          kann der MHD Service optional die Akteninhaberauswahl auf Grundlage des
+          übergebenen Identifier durchführen. In diesem Fall sollte das anfragende
+          ePA-Client-System bei Verwendung dieses Parameters sowohl das System als
+          auch den Wert angeben (z.B. 'identifier=http://fhir.de/sid/gkv/kvid-10|G995030566').
+        schema:
+          type: string
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Request conflicts with the current state of the health record
+        '500':
+          description: Any other error
+    post:
+      summary: Instance-level FHIR Operation $summary
+      tags:
+      - Patient
+      parameters:
+      - name: X-Request-ID
+        in: header
+        required: true
+        description: UUID of the request message
+        schema:
+          type: string
+          format: uuid
+      - name: x-insurantid
+        in: header
+        required: true
+        description: Health Record Identifier
+        schema:
+          type: string
+          pattern: ^[A-Z]{1}\d{9}$
+      - name: x-useragent
+        in: header
+        required: true
+        description: user agent information
+        schema:
+          type: string
+          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
+      - name: Accept
+        in: header
+        required: false
+        description: The Accept header indicates the format in which the client wishes
+          to receive the FHIR response.
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: _format
+        in: query
+        required: false
+        description: 'Specify alternative response formats by their MIME-types (when
+          a client is unable access Accept: header)'
+        schema:
+          type: string
+          enum:
+          - application/fhir+json
+          - application/fhir+xml
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Resource ID
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+            application/fhir+xml:
+              schema:
+                type: object
+        '403':
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
+        '404':
+          description: Health record is in state UNKNOWN or INITIALIZED
+        '409':
+          description: Request conflicts with the current state of the health record
+        '500':
+          description: Any other error
+      requestBody:
+        required: true
+        content:
+          application/fhir+json:
+            schema:
+              type: object
+          application/fhir+xml:
+            schema:
+              type: object
+  /epa/medication/api/v1/fhir/metadawwwta:
+    get:
+      parameters:
       - name: X-Request-ID
         in: header
         required: true
@@ -799,11 +1626,12 @@ paths:
               schema:
                 type: object
         '403':
-          description: Device registration does not exist
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
         '409':
-          description: Health record is in state SUSPENDED
+          description: Request conflicts with the current state of the health record
         '500':
           description: Any other error
   /epa/medication/render/v1/eml/xhtml:
@@ -812,27 +1640,6 @@ paths:
       tags:
       - Render
       parameters:
-      - name: X-Request-ID
-        in: header
-        required: true
-        description: UUID of the request message
-        schema:
-          type: string
-          format: uuid
-      - name: x-insurantid
-        in: header
-        required: true
-        description: Health Record Identifier
-        schema:
-          type: string
-          pattern: ^[A-Z]{1}\d{9}$
-      - name: x-useragent
-        in: header
-        required: true
-        description: user agent information
-        schema:
-          type: string
-          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: X-Request-ID
         in: header
         required: true
@@ -871,11 +1678,12 @@ paths:
               schema:
                 type: string
         '403':
-          description: Device registration does not exist
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
         '409':
-          description: Health record is in state SUSPENDED
+          description: Request conflicts with the current state of the health record
         '500':
           description: Any other error
   /epa/medication/render/v1/eml/pdf:
@@ -884,27 +1692,6 @@ paths:
       tags:
       - Render
       parameters:
-      - name: X-Request-ID
-        in: header
-        required: true
-        description: UUID of the request message
-        schema:
-          type: string
-          format: uuid
-      - name: x-insurantid
-        in: header
-        required: true
-        description: Health Record Identifier
-        schema:
-          type: string
-          pattern: ^[A-Z]{1}\d{9}$
-      - name: x-useragent
-        in: header
-        required: true
-        description: user agent information
-        schema:
-          type: string
-          pattern: ^[a-zA-Z0-9]{20}\/[a-zA-Z0-9\-\.]{1,15}$
       - name: X-Request-ID
         in: header
         required: true
@@ -944,13 +1731,16 @@ paths:
                 type: string
                 format: binary
         '403':
-          description: Device registration does not exist
+          description: Device registration does not exist (if requestor role is oid_versicherter
+            only)
         '404':
           description: Health record is in state UNKNOWN or INITIALIZED
         '409':
-          description: Health record is in state SUSPENDED
+          description: Request conflicts with the current state of the health record
         '500':
           description: Any other error
 components:
   responses: {}
   headers: {}
+servers:
+- url: http://epa4all

@@ -1,0 +1,43 @@
+{
+  "resourceType": "OperationDefinition",
+  "id": "find-replace-head-op",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/ti/StructureDefinition/ti-operationdefinition"
+    ]
+  },
+  "url": "https://gematik.de/fhir/epa-mhd/OperationDefinition/find-replace-head-op",
+  "title": "Find Replace Head",
+  "description": "Die Find Replace Head Operation des ePA MHD Service wird verwendet, um die HEAD-Version eines Dokuments zu finden.",
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
+      "valueCode": "GET"
+    }
+  ],
+  "resource": [
+    "DocumentReference"
+  ],
+  "parameter": [
+    {
+      "name": "head",
+      "use": "out",
+      "min": 1,
+      "max": "1",
+      "documentation": "Referenz auf die aktuelle Version (HEAD) des Dokuments, das durch die Operation Find Replace Head ermittelt wurde.",
+      "type": "Reference"
+    }
+  ],
+  "version": "1.2.0",
+  "status": "active",
+  "publisher": "gematik GmbH",
+  "date": "2026-12-08",
+  "kind": "operation",
+  "name": "findReplaceHead_MHDSvc",
+  "affectsState": false,
+  "code": "find-replace-head",
+  "system": false,
+  "type": false,
+  "instance": true,
+  "outputProfile": "https://gematik.de/fhir/epa-mhd/StructureDefinition/epa-mhd-find-replace-head-parameters"
+}

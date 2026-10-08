@@ -1,0 +1,58 @@
+{
+  "resourceType": "OperationDefinition",
+  "id": "get-patient-summary-op",
+  "meta": {
+    "profile": [
+      "https://gematik.de/fhir/ti/StructureDefinition/ti-operationdefinition"
+    ]
+  },
+  "url": "https://gematik.de/fhir/epa-mhd/OperationDefinition/get-patient-summary-op",
+  "title": "Get Patient Summary",
+  "description": "Die Get-Patient-Summary-Operation des ePA MHD Service wird verwendet, um eine Zusammenfassung der Patientendaten als 'ePA EU Patient Summary' auf Type- oder Instance-Level abzurufen.",
+  "extension": [
+    {
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
+      "valueCode": "POST"
+    },
+    {
+      "url": "https://gematik.de/fhir/ti/StructureDefinition/extension-http-method",
+      "valueCode": "GET"
+    }
+  ],
+  "resource": [
+    "Patient"
+  ],
+  "parameter": [
+    {
+      "name": "identifier",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "type": "string",
+      "searchType": "token",
+      "documentation": "Wenn die logische ID der Patient-Ressource nicht verwendet wird, kann der MHD Service optional die Akteninhaberauswahl auf Grundlage des übergebenen Identifier durchführen. In diesem Fall sollte das anfragende ePA-Client-System bei Verwendung dieses Parameters sowohl das System als auch den Wert angeben (z.B. 'identifier=http://fhir.de/sid/gkv/kvid-10|G995030566')."
+    },
+    {
+      "name": "return",
+      "use": "out",
+      "min": 1,
+      "max": "1",
+      "documentation": "Ein FHIR Document Bundle des Profils 'https://gematik.de/fhir/epa-eps/StructureDefinition/epa-eu-patient-summary'",
+      "type": "Bundle"
+    }
+  ],
+  "version": "1.2.0",
+  "status": "active",
+  "publisher": "gematik GmbH",
+  "date": "2026-12-08",
+  "kind": "operation",
+  "name": "getPatientSummary_MHDSvc",
+  "base": "http://hl7.org/fhir/uv/ips/OperationDefinition/summary",
+  "affectsState": false,
+  "code": "summary",
+  "system": false,
+  "type": true,
+  "instance": true,
+  "inputProfile": "https://gematik.de/fhir/epa-mhd/StructureDefinition/epa-mhd-get-patient-summary-in",
+  "purpose": "Abrufen einer Zusammenfassung der Patientendaten als 'ePA EU Patient Summary'."
+}
